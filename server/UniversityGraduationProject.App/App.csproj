@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UniversityGraduationProject.Core\UniversityGraduationProject.Core.csproj" />
-    <ProjectReference Include="..\UniversityGraduationProject.Data\UniversityGraduationProject.Data.csproj" />
+    <ProjectReference Include="..\UniversityGraduationProject.Core\Core.csproj" />
+    <ProjectReference Include="..\UniversityGraduationProject.Data\Data.csproj" />
   </ItemGroup>
 
 </Project>
