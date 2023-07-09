@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "UniversityGraduationProject.App\App.csproj", "{437A619C-2AC8-4AD8-91BA-50B592D29094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{437A619C-2AC8-4AD8-91BA-50B592D29094}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "UniversityGraduationProject.Data\Data.csproj", "{EACE079B-E380-4B21-9B4C-F4BC46D35C60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{EACE079B-E380-4B21-9B4C-F4BC46D35C60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "UniversityGraduationProject.Core\Core.csproj", "{FCE41CED-6949-4633-9CCA-26C2BD4345D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{FCE41CED-6949-4633-9CCA-26C2BD4345D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

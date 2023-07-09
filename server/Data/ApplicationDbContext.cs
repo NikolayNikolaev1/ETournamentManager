@@ -1,4 +1,4 @@
-﻿namespace UniversityGraduationProject.Data
+﻿namespace Data
 {
     using Microsoft.EntityFrameworkCore;
 

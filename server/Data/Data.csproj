@@ -14,8 +14,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\UniversityGraduationProject.Core\Core.csproj" />
-  </ItemGroup>
-
 </Project>

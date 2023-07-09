@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using UniversityGraduationProject.Data;
+using Data;
 
 internal class Program
 {
