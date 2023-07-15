@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Data;
-using Services;
-using Services.Implementations;
+using App.Extensions;
 
 internal class Program
 {
@@ -18,7 +17,7 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddDomainService();
 
         var app = builder.Build();
 
