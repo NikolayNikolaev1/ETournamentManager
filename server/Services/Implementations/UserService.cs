@@ -8,10 +8,12 @@
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IUserManager userManager;
 
-        public UserService(ApplicationDbContext dbContext)
+        public UserService(ApplicationDbContext dbContext, IUserManager userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         public async Task<bool> ContainsEmailAsync(string email)
@@ -20,7 +22,7 @@
 
         public async Task<UserDTO> CreateAsync(string email, string password)
         {
-            UserManager userManager = new UserManager(email, password);
+            this.userManager.Register(email, password);
 
             User user = new User
             {
@@ -36,6 +38,13 @@
                 Id = user.Id,
                 Email = user.Email
             };
+        }
+
+        public async Task<UserDTO> FindIdAsync(int id)
+        {
+            User user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            return new UserDTO { Id = user.Id, Email = user.Email };
         }
     }
 }

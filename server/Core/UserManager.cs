@@ -3,15 +3,18 @@
     using Microsoft.AspNetCore.Cryptography.KeyDerivation;
     using System.Security.Cryptography;
 
-    public class UserManager
+    public class UserManager : IUserManager
     {
+        private bool isAuthenticated = false;
         private string email = string.Empty;
         private string hashedPassword = string.Empty;
 
-        public UserManager(string email, string password)
+        //public UserManager() { }
+
+        public bool IsAuhenticated
         {
-            this.Email = email;
-            this.HashedPassword = password;
+            get => this.isAuthenticated;
+            private set => this.isAuthenticated = value;
         }
 
         public string Email
@@ -52,6 +55,13 @@
 
                 this.hashedPassword = hashedPassword;
             }
+        }
+
+        public void Register(string email, string password)
+        {
+            this.Email = email;
+            this.HashedPassword = password;
+            this.isAuthenticated = true;
         }
     }
 }

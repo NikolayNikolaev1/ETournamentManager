@@ -7,5 +7,7 @@
         Task<bool> ContainsEmailAsync(string email);
 
         Task<UserDTO> CreateAsync(string email, string password);
+
+        Task<UserDTO> FindIdAsync(int id);
     }
 }
