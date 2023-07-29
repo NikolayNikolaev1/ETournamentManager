@@ -1,5 +1,6 @@
 ﻿namespace App.Controllers
 {
+    using App.Authentication;
     using Core;
     using Microsoft.AspNetCore.Mvc;
     using Services;
@@ -9,11 +10,16 @@
     {
         private readonly IUserService userService;
         private readonly IUserManager userManager;
+        private readonly IJwtProvider jwtProvider;
 
-        public UserController(IUserService userService, IUserManager userManager)
+        public UserController(
+            IUserService userService, 
+            IUserManager userManager,
+            IJwtProvider jwtProvider)
         {
             this.userService = userService;
             this.userManager = userManager;
+            this.jwtProvider = jwtProvider;
         }
 
         [HttpGet("~/api/Profile/{id:int}")]
@@ -37,7 +43,7 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Register([FromBody] UserCreateDTO userDTO)
         {
-            if (userDTO == null) return BadRequest(userDTO);
+            if (userDTO == null) return BadRequest(userDTO); // TODO: Add prop validations.
 
 
             if (await this.userService.ContainsEmailAsync(userDTO.Email))
@@ -48,7 +54,9 @@
 
             UserDTO user = await this.userService.CreateAsync(userDTO.Email, userDTO.Password);
 
-            return Ok(user);
+            string token = this.jwtProvider.Generate(user);
+
+            return Ok(token);
         }
     }
 }

@@ -22,7 +22,7 @@
             get => this.email;
             private set
             {
-                if (value.Length == 0 || value == null)
+                if (value is null || value.Length == 0)
                 {
                     throw new ArgumentNullException("Email can not be null or empty.");
                 }
@@ -36,7 +36,7 @@
             get => this.hashedPassword;
             private set
             {
-                if (value.Length == 0 || value == null)
+                if (value is null || value.Length == 0)
                 {
                     throw new ArgumentNullException("Password can not be null or empty.");
                 }

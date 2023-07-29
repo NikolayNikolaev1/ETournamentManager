@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using App.Extensions;
 using Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using App.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 internal class Program
 {
@@ -19,7 +23,23 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddScoped<IUserManager, UserManager>();
+        builder.Services.AddScoped<IJwtProvider, JwtProvider>();
         builder.Services.AddDomainService();
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+            o => o.TokenValidationParameters = new()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "issuer",
+                ValidAudience = "audience",
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes("secret-key"))
+            });
+        //builder.Services.ConfigureOptions<JwtOptionsExtensions>();
+        //builder.Services.ConfigureOptions<JwtBearerOptionsExtensions>();
 
         var app = builder.Build();
 
@@ -37,6 +57,8 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 
