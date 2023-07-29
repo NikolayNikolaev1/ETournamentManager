@@ -4,8 +4,6 @@ using App.Extensions;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using App.Authentication;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 internal class Program
 {
@@ -26,20 +24,9 @@ internal class Program
         builder.Services.AddScoped<IJwtProvider, JwtProvider>();
         builder.Services.AddDomainService();
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
-            o => o.TokenValidationParameters = new()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = "issuer",
-                ValidAudience = "audience",
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes("secret-key"))
-            });
-        //builder.Services.ConfigureOptions<JwtOptionsExtensions>();
-        //builder.Services.ConfigureOptions<JwtBearerOptionsExtensions>();
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+        builder.Services.ConfigureOptions<JwtOptionsExtensions>();
+        builder.Services.ConfigureOptions<JwtBearerOptionsExtensions>();
 
         var app = builder.Build();
 
