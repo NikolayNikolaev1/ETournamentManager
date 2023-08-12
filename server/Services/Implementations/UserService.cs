@@ -19,6 +19,8 @@
         public async Task<bool> ContainsEmailAsync(string email)
             => await this.dbContext.Users.AnyAsync(u => u.Email.Equals(email));
 
+        public async Task<bool> ContainsIdAsync(int id)
+            => await this.dbContext.Users.AnyAsync(u => u.Id.Equals(id));
 
         public async Task<UserDTO> CreateAsync(string email, string password)
         {
@@ -42,7 +44,7 @@
 
         public async Task<UserDTO> FindIdAsync(int id)
         {
-            User user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            User user = await this.dbContext.Users.FirstAsync(u => u.Id == id);
 
             return new UserDTO { Id = user.Id, Email = user.Email };
         }

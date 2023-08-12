@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using Data;
 using App.Extensions;
+using App.Extensions.Authentication;
 using Core;
+using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using App.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 internal class Program
 {
@@ -21,7 +21,7 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddScoped<IUserManager, UserManager>();
-        builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+        //builder.Services.AddScoped<IJwtProvider, JwtProvider>();
         builder.Services.AddDomainService();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();

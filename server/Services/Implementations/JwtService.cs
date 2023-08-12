@@ -1,37 +1,38 @@
-﻿namespace App.Authentication
+﻿namespace Services.Implementations
 {
+    using DTO;
+    using DTO.User;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
-    using Services.DTO.User;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Text;
 
-    public sealed class JwtProvider : IJwtProvider 
+    public sealed class JwtService : IJwtService
     {
         private readonly JwtOptions options;
 
-        public JwtProvider(IOptions<JwtOptions> options)
+        public JwtService(IOptions<JwtOptions> options)
         {
             this.options = options.Value;
         }
 
         public string Generate(UserDTO user)
         {
-            var claims = new Claim[] 
-            { 
+            var claims = new Claim[]
+            {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email)
             };
 
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes("secretkey_secretkey123!")),
+                    Encoding.UTF8.GetBytes(this.options.SecretKey)),
                 SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                "issuer",
-                "audience",
+                options.Issuer,
+                options.Audience,
                 claims,
                 null,
                 DateTime.UtcNow.AddHours(1),

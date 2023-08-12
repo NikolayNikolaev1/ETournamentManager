@@ -1,4 +1,4 @@
-﻿namespace App.Authentication
+﻿namespace Services.DTO.User
 {
     public class JwtOptions
     {

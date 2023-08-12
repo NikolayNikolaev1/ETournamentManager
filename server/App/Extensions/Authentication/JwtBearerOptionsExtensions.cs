@@ -1,12 +1,12 @@
-﻿namespace App.Extensions
+﻿namespace App.Extensions.Authentication
 {
-    using Authentication;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
+    using Services.DTO.User;
     using System.Text;
 
-    public class JwtBearerOptionsExtensions : IConfigureOptions<JwtBearerOptions>
+    public class JwtBearerOptionsExtensions : IConfigureNamedOptions<JwtBearerOptions>
     {
         private readonly JwtOptions jwtOptions;
 
@@ -15,7 +15,8 @@
             this.jwtOptions = jwtOptions.Value;
         }
 
-        public void Configure(JwtBearerOptions options)
+
+        public void Configure(string? name, JwtBearerOptions options)
         {
             options.TokenValidationParameters = new()
             {
@@ -23,11 +24,16 @@
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = this.jwtOptions.Issuer,
-                ValidAudience = this.jwtOptions.Audience,
+                ValidIssuer = jwtOptions.Issuer,
+                ValidAudience = jwtOptions.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(this.jwtOptions.SecretKey))
+                    Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
             };
+        }
+
+        public void Configure(JwtBearerOptions options)
+        {
+            throw new NotImplementedException();
         }
     }
 }
