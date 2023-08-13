@@ -10,6 +10,10 @@
 
         Task<UserDTO> CreateAsync(string email, string password);
 
+        Task<UserDTO> FindEmailAsync(string email);
+
         Task<UserDTO> FindIdAsync(int id);
+
+        Task<UserHashDTO> GetHashAsync(int id);
     }
 }

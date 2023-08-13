@@ -1,6 +1,5 @@
 using App.Extensions;
 using App.Extensions.Authentication;
-using Core;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +19,6 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddScoped<IUserManager, UserManager>();
-        //builder.Services.AddScoped<IJwtProvider, JwtProvider>();
         builder.Services.AddDomainService();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
@@ -46,7 +43,6 @@ internal class Program
         app.UseHttpsRedirection();
 
         app.UseAuthentication();
-
         app.UseAuthorization();
 
         app.MapControllers();

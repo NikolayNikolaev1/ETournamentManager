@@ -1,6 +1,6 @@
-﻿namespace Services.DTO.User
+﻿namespace App.Models.User
 {
-    public class UserCreateDTO
+    public class UserRegisterModel
     {
         public string Email { get; set; } = null!;
 

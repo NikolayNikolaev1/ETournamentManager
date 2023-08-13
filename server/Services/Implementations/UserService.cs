@@ -8,12 +8,10 @@
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IUserManager userManager;
 
-        public UserService(ApplicationDbContext dbContext, IUserManager userManager)
+        public UserService(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.userManager = userManager;
         }
 
         public async Task<bool> ContainsEmailAsync(string email)
@@ -24,12 +22,11 @@
 
         public async Task<UserDTO> CreateAsync(string email, string password)
         {
-            this.userManager.Register(email, password);
-
             User user = new User
             {
                 Email = email,
-                Password = userManager.HashedPassword
+                PasswordHash = PasswordManager.HashPassword(password, out byte[] salt),
+                HashSalt = salt
             };
 
             await this.dbContext.Users.AddAsync(user);
@@ -42,11 +39,25 @@
             };
         }
 
+        public async Task<UserDTO> FindEmailAsync(string email)
+        {
+            User user = await this.dbContext.Users.FirstAsync(u => u.Email == email);
+
+            return new UserDTO { Id = user.Id, Email = user.Email };
+        }
+
         public async Task<UserDTO> FindIdAsync(int id)
         {
             User user = await this.dbContext.Users.FirstAsync(u => u.Id == id);
 
             return new UserDTO { Id = user.Id, Email = user.Email };
+        }
+
+        public async Task<UserHashDTO> GetHashAsync(int id)
+        {
+            User user = await this.dbContext.Users.FirstAsync(u => u.Id == id);
+
+            return new UserHashDTO { Password = user.PasswordHash, Salt = user.HashSalt };
         }
     }
 }

@@ -3,6 +3,7 @@
     using Core;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models.User;
     using Services;
     using Services.DTO.User;
 
@@ -10,15 +11,12 @@
     {
         private readonly IJwtService jwtService;
         private readonly IUserService userService;
-        private readonly IUserManager userManager;
 
         public UserController(
-            IUserService userService, 
-            IUserManager userManager,
+            IUserService userService,
             IJwtService jwtService)
         {
             this.userService = userService;
-            this.userManager = userManager;
             this.jwtService = jwtService;
         }
 
@@ -42,28 +40,58 @@
             return Ok(user);
         }
 
-        [HttpPost("~/api/Register")]
+        [HttpPost("~/api/Login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserAuthDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Register([FromBody] UserCreateDTO userDTO)
+        public async Task<ActionResult> Login([FromBody] UserLoginModel userFormModel)
         {
-            if (userDTO == null) return BadRequest(userDTO); // TODO: Add prop validations.
+            if (userFormModel == null) return BadRequest(userFormModel); // TODO: Add prop validations.
 
-
-            if (await this.userService.ContainsEmailAsync(userDTO.Email))
+            if (!await this.userService.ContainsEmailAsync(userFormModel.Email))
             {
-                ModelState.AddModelError("CustomError", $"User with email {userDTO.Email} already exist!");
+                ModelState.AddModelError("CustomError", "User with given email and/or password was not found");
                 return BadRequest(ModelState);
             }
 
-            UserDTO user = await this.userService.CreateAsync(userDTO.Email, userDTO.Password);
+            UserDTO user = await this.userService.FindEmailAsync(userFormModel.Email);
+            UserHashDTO userHash = await this.userService.GetHashAsync(user.Id);
 
+            if (!PasswordManager.VerifyPassword(userFormModel.Password, userHash.Password, userHash.Salt))
+            {
+                ModelState.AddModelError("CustomError", "User with given email and/or password was not found");
+                return BadRequest(ModelState);
+            }
 
-            return Ok(new UserAuthDTO 
+            return Ok(new UserAuthDTO
             {
                 Id = user.Id,
-                Email = user.Email, 
-                Token = this.jwtService.Generate(user) 
+                Email = user.Email,
+                Token = this.jwtService.Generate(user)
+            });
+        }
+
+        [HttpPost("~/api/Register")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserAuthDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Register([FromBody] UserRegisterModel userFormModel)
+        {
+            if (userFormModel == null) return BadRequest(userFormModel); // TODO: Add prop validations.
+
+            if (await this.userService.ContainsEmailAsync(userFormModel.Email))
+            {
+                ModelState.AddModelError(
+                    "CustomError",
+                    $"User with email {userFormModel.Email} already exist!");
+                return BadRequest(ModelState);
+            }
+
+            UserDTO user = await this.userService.CreateAsync(userFormModel.Email, userFormModel.Password);
+
+            return Ok(new UserAuthDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Token = this.jwtService.Generate(user)
             });
         }
     }
