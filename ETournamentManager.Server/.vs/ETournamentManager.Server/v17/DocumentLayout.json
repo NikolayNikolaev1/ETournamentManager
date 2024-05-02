@@ -1,0 +1,207 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\data\\models\\team.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|solutionrelative:data\\models\\team.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\data\\models\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|solutionrelative:data\\models\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\data\\models\\tournament.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|solutionrelative:data\\models\\tournament.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\data\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|solutionrelative:data\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F238A9E-56A5-4D86-B945-AFA0F0741C0F}|Core\\Core.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\core\\extensions\\applicationbuilderextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F238A9E-56A5-4D86-B945-AFA0F0741C0F}|Core\\Core.csproj|solutionrelative:core\\extensions\\applicationbuilderextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F238A9E-56A5-4D86-B945-AFA0F0741C0F}|Core\\Core.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\core\\common\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F238A9E-56A5-4D86-B945-AFA0F0741C0F}|Core\\Core.csproj|solutionrelative:core\\common\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CB00A53-ADA6-449E-B6DC-98521B6CE8D2}|API\\API.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CB00A53-ADA6-449E-B6DC-98521B6CE8D2}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\data\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|solutionrelative:data\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Migrations\\20240502081031_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Data\\Migrations\\20240502081031_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CB00A53-ADA6-449E-B6DC-98521B6CE8D2}|API\\API.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1CB00A53-ADA6-449E-B6DC-98521B6CE8D2}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|c:\\code\\repos\\university-graduation-project\\etournamentmanager.server\\data\\etournamentmanagerdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D69FF2A-CFD7-40B6-B077-9B885F04CE1B}|Data\\Data.csproj|solutionrelative:data\\etournamentmanagerdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Team.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Team.cs",
+              "RelativeDocumentMoniker": "Data\\Models\\Team.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Team.cs",
+              "RelativeToolTip": "Data\\Models\\Team.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T10:45:27.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Tournament.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Tournament.cs",
+              "RelativeDocumentMoniker": "Data\\Models\\Tournament.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Tournament.cs",
+              "RelativeToolTip": "Data\\Models\\Tournament.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAgwBUAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T10:40:21.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\API\\appsettings.json",
+              "RelativeDocumentMoniker": "API\\appsettings.json",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\API\\appsettings.json",
+              "RelativeToolTip": "API\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-02T07:43:43.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Constants.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Core\\Common\\Constants.cs",
+              "RelativeDocumentMoniker": "Core\\Common\\Constants.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Core\\Common\\Constants.cs",
+              "RelativeToolTip": "Core\\Common\\Constants.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T07:10:20.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApplicationBuilderExtension.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Core\\Extensions\\ApplicationBuilderExtension.cs",
+              "RelativeDocumentMoniker": "Core\\Extensions\\ApplicationBuilderExtension.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Core\\Extensions\\ApplicationBuilderExtension.cs",
+              "RelativeToolTip": "Core\\Extensions\\ApplicationBuilderExtension.cs",
+              "ViewState": "AQIAADkAAAAAAAAAAAAowEYAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T07:04:41.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "Data\\Models\\Role.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Role.cs",
+              "RelativeToolTip": "Data\\Models\\Role.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T18:22:11.201Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Game.cs",
+              "RelativeDocumentMoniker": "Data\\Models\\Game.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\Game.cs",
+              "RelativeToolTip": "Data\\Models\\Game.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T18:19:32.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Data\\Models\\User.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Models\\User.cs",
+              "RelativeToolTip": "Data\\Models\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T18:14:03.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\API\\Program.cs",
+              "RelativeDocumentMoniker": "API\\Program.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\API\\Program.cs",
+              "RelativeToolTip": "API\\Program.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T18:08:57.672Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20240502081031_InitialCreate.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Migrations\\20240502081031_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Data\\Migrations\\20240502081031_InitialCreate.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\Migrations\\20240502081031_InitialCreate.cs",
+              "RelativeToolTip": "Data\\Migrations\\20240502081031_InitialCreate.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T08:10:31.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ETournamentManagerDbContext.cs",
+              "DocumentMoniker": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\ETournamentManagerDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ETournamentManagerDbContext.cs",
+              "ToolTip": "C:\\code\\repos\\university-graduation-project\\ETournamentManager.Server\\Data\\ETournamentManagerDbContext.cs",
+              "RelativeToolTip": "Data\\ETournamentManagerDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-01T18:10:24.967Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
