@@ -9,8 +9,15 @@
         [Required]
         public string Name { get; set; } = null!;
 
-        public User Captain { get; set; } = null!;
+        [Required]
+        public string Tag { get; set; } = null!;
 
-        public int CaptainId { get; set; }
+        public string? Description { get; set; }
+
+        public ICollection<TeamMember> Members { get; set; } = new List<TeamMember>();
+
+        public ICollection<TournamentTeam> Tournaments { get; set; } = new List<TournamentTeam>();
+
+        public ICollection<RoundTeam> Rounds { get; set; } = new List<RoundTeam>();
     }
 }

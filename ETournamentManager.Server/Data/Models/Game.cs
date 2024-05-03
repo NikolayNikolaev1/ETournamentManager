@@ -8,5 +8,7 @@
 
         [Required]
         public string Name { get; set; } = null!;
+
+        public ICollection<Tournament> Tournaments { get; set; } = new List<Tournament>();
     }
 }

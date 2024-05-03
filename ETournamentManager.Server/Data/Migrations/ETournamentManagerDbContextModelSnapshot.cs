@@ -22,12 +22,26 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Data.Models.Game", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Games");
+                });
+
             modelBuilder.Entity("Data.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newsequentialid()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -51,12 +65,186 @@ namespace Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Models.Round", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("NextRoundId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NextRoundId")
+                        .IsUnique()
+                        .HasFilter("[NextRoundId] IS NOT NULL");
+
+                    b.HasIndex("TournamentId");
+
+                    b.ToTable("Rounds");
+                });
+
+            modelBuilder.Entity("Data.Models.RoundPlayer", b =>
+                {
+                    b.Property<Guid>("RoundId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsWinner")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RoundId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("RoundPlayers");
+                });
+
+            modelBuilder.Entity("Data.Models.RoundTeam", b =>
+                {
+                    b.Property<Guid>("RoundId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsWinner")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RoundId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("RoundTeams");
+                });
+
+            modelBuilder.Entity("Data.Models.Team", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tag")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("Data.Models.TeamMember", b =>
+                {
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCaptain")
+                        .HasColumnType("bit");
+
+                    b.HasKey("TeamId", "MemberId");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("TeamMembers");
+                });
+
+            modelBuilder.Entity("Data.Models.Tournament", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("MinTeamMembers")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Tournaments");
+                });
+
+            modelBuilder.Entity("Data.Models.TournamentPlayer", b =>
+                {
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsWinner")
+                        .HasColumnType("bit");
+
+                    b.HasKey("TournamentId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("TournamentPlayers");
+                });
+
+            modelBuilder.Entity("Data.Models.TournamentTeam", b =>
+                {
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsWinner")
+                        .HasColumnType("bit");
+
+                    b.HasKey("TournamentId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("TournamentTeams");
+                });
+
             modelBuilder.Entity("Data.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newsequentialid()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -221,6 +409,138 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Models.Round", b =>
+                {
+                    b.HasOne("Data.Models.Round", "NextRound")
+                        .WithOne()
+                        .HasForeignKey("Data.Models.Round", "NextRoundId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Data.Models.Tournament", "Tournament")
+                        .WithMany("Rounds")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("NextRound");
+
+                    b.Navigation("Tournament");
+                });
+
+            modelBuilder.Entity("Data.Models.RoundPlayer", b =>
+                {
+                    b.HasOne("Data.Models.User", "Player")
+                        .WithMany("Rounds")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Round", "Round")
+                        .WithMany("Players")
+                        .HasForeignKey("RoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+
+                    b.Navigation("Round");
+                });
+
+            modelBuilder.Entity("Data.Models.RoundTeam", b =>
+                {
+                    b.HasOne("Data.Models.Round", "Round")
+                        .WithMany("Teams")
+                        .HasForeignKey("RoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Team", "Team")
+                        .WithMany("Rounds")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Round");
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("Data.Models.TeamMember", b =>
+                {
+                    b.HasOne("Data.Models.User", "Member")
+                        .WithMany("Teams")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Team", "Team")
+                        .WithMany("Members")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("Data.Models.Tournament", b =>
+                {
+                    b.HasOne("Data.Models.User", "Creator")
+                        .WithMany("CreatedTournaments")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Game", "Game")
+                        .WithMany("Tournaments")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("Data.Models.TournamentPlayer", b =>
+                {
+                    b.HasOne("Data.Models.User", "Player")
+                        .WithMany("Tournaments")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Tournament", "Tournament")
+                        .WithMany("Players")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+
+                    b.Navigation("Tournament");
+                });
+
+            modelBuilder.Entity("Data.Models.TournamentTeam", b =>
+                {
+                    b.HasOne("Data.Models.Team", "Team")
+                        .WithMany("Tournaments")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Tournament", "Tournament")
+                        .WithMany("Teams")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("Tournament");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Data.Models.Role", null)
@@ -270,6 +590,47 @@ namespace Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Data.Models.Game", b =>
+                {
+                    b.Navigation("Tournaments");
+                });
+
+            modelBuilder.Entity("Data.Models.Round", b =>
+                {
+                    b.Navigation("Players");
+
+                    b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("Data.Models.Team", b =>
+                {
+                    b.Navigation("Members");
+
+                    b.Navigation("Rounds");
+
+                    b.Navigation("Tournaments");
+                });
+
+            modelBuilder.Entity("Data.Models.Tournament", b =>
+                {
+                    b.Navigation("Players");
+
+                    b.Navigation("Rounds");
+
+                    b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("Data.Models.User", b =>
+                {
+                    b.Navigation("CreatedTournaments");
+
+                    b.Navigation("Rounds");
+
+                    b.Navigation("Teams");
+
+                    b.Navigation("Tournaments");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,6 +15,8 @@
         [Required]
         public string Name { get; set; } = null!;
 
+        public string? Description { get; set; }
+
         public TournamentType Type { get; set; }
 
         public int? MinTeamMembers { get; set; }
@@ -22,12 +24,18 @@
         [Required]
         public bool Active { get; set; } = false;
 
+        public Guid GameId { get; set; }
+
         public Game Game { get; set; } = null!;
 
-        public int GameId { get; set; }
+        public Guid CreatorId { get; set; }
 
-        public User? Winner { get; set; }
+        public User Creator { get; set; } = null!;
 
-        public int? WinnerId { get; set; }
+        public ICollection<Round> Rounds { get; set; } = new List<Round>();
+
+        public ICollection<TournamentTeam> Teams { get; set; } = new List<TournamentTeam>();
+
+        public ICollection<TournamentPlayer> Players { get; set; } = new List<TournamentPlayer>();
     }
 }
