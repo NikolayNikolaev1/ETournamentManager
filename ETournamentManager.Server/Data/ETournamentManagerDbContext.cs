@@ -1,9 +1,8 @@
 ﻿namespace Data
 {
-    using Data.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Models;
     using System.Reflection;
 
     public class ETournamentManagerDbContext(DbContextOptions<ETournamentManagerDbContext> options) 

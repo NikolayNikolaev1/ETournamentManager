@@ -1,4 +1,5 @@
 using Core.Extensions;
+using Core.Mapper;
 using Data;
 using Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +14,7 @@ builder.Services
     .AddDbContext<ETournamentManagerDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")))
     .AddDomainService()
+    .AddAutoMapper(typeof(AutoMapperProfile))
 // Add services to the container.
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));

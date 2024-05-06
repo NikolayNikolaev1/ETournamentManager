@@ -1,5 +1,6 @@
 ﻿namespace Core.Extensions
 {
+    using Core.Common.Data.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ServiceCollectionExtension
