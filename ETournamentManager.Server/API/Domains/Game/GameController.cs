@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Game
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
@@ -8,7 +9,9 @@
     {
         [HttpPost]
         [Route("Game/Create")]
+        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameListingViewModel))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] GameCreationViewModel gameModel)
         {
             var game = await gameService.Create(gameModel);

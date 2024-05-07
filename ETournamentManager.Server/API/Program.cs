@@ -32,6 +32,7 @@ builder.Services
         options.Password.RequireUppercase = false;
         options.Password.RequireNonAlphanumeric = false;
     })
+    .AddRoles<Role>()
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ETournamentManagerDbContext>();
 
