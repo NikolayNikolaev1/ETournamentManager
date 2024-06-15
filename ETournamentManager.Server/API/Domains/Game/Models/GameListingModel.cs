@@ -3,7 +3,7 @@
     using Core.Mapper;
     using Data.Models;
 
-    public class GameListingViewModel : IMapFrom<Game>
+    public class GameListingModel : IMapFrom<Game>
     {
         public string Id { get; set; } = null!;
 

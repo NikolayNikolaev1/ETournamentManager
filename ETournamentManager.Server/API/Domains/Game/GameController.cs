@@ -5,12 +5,12 @@
     using Models;
     using Services;
 
+    [Route("api/[controller]")]
     public class GameController(IGameService gameService) : ControllerBase
     {
         [HttpPost]
-        [Route("Game/Create")]
-        [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameListingViewModel))]
+        //[Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameListingModel))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] GameCreationViewModel gameModel)
         {
@@ -19,7 +19,6 @@
         }
 
         [HttpGet]
-        [Route("Game/Get")]
         public async Task<IActionResult> Get()
         {
             return Ok(await gameService.GetAll());

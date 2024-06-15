@@ -11,7 +11,7 @@
 
     public class GameService(ETournamentManagerDbContext dbContext, IMapper mapper) : IGameService
     {
-        public async Task<GameListingViewModel> Create(GameCreationViewModel game)
+        public async Task<GameListingModel> Create(GameCreationViewModel game)
         {
             var newGame = await dbContext.Games.AddAsync(new Game
             {
@@ -19,7 +19,7 @@
             });
             await dbContext.SaveChangesAsync();
 
-            return new GameListingViewModel 
+            return new GameListingModel 
             {
                 Id = newGame.Entity.Id.ToString(),
                 Name = newGame.Entity.Name,
@@ -31,13 +31,13 @@
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<GameListingViewModel>> GetAll()
+        public async Task<ICollection<GameListingModel>> GetAll()
             => await dbContext
             .Games
-            .ProjectTo<GameListingViewModel>(mapper.ConfigurationProvider)
+            .ProjectTo<GameListingModel>(mapper.ConfigurationProvider)
             .ToListAsync();
 
-        public Task<GameListingViewModel> GetById(string id)
+        public Task<GameListingModel> GetById(string id)
         {
             throw new NotImplementedException();
         }

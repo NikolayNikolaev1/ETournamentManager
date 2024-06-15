@@ -5,14 +5,14 @@
 
     public interface IGameService : IService
     {
-        Task<GameListingViewModel> Create(GameCreationViewModel game);
+        Task<GameListingModel> Create(GameCreationViewModel game);
 
         Task Delete(string id);
 
         Task Update(string id, GameCreationViewModel game);
 
-        Task<ICollection<GameListingViewModel>> GetAll();
+        Task<ICollection<GameListingModel>> GetAll();
 
-        Task<GameListingViewModel> GetById(string id);
+        Task<GameListingModel> GetById(string id);
     }
 }
