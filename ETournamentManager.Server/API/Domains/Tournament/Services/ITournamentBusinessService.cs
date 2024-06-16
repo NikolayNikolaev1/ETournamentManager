@@ -3,7 +3,7 @@
     using Core.Common.Data.Interfaces;
     using Models;
 
-    public interface ITournamentService : IService
+    public interface ITournamentBusinessService : IService
     {
         Task Create(TournamentCreateModel model);
 

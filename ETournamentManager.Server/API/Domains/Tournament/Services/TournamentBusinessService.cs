@@ -9,7 +9,10 @@
     using System.Collections.Generic;
     using static Data.Models.Tournament;
 
-    public class TournamentService(ETournamentManagerDbContext dbContext, IMapper mapper, ITournamentDataService tournamentDataService) : ITournamentService
+    public class TournamentBusinessService(
+        ETournamentManagerDbContext dbContext,
+        IMapper mapper,
+        ITournamentDataService tournamentDataService) : ITournamentBusinessService
     {
         public async Task Create(TournamentCreateModel model)
         {
@@ -23,18 +26,20 @@
                 CreatorId = Guid.Parse("8108d0b2-42bb-4b84-8f06-3aca8d112873") // TODO: Change with userManager.CurrentUserId
             };
 
-            await dbContext.AddAsync(tournament);
+            await dbContext.Tournaments.AddAsync(tournament);
             await dbContext.SaveChangesAsync();
         }
 
         public async Task Delete(string id)
         {
-            Tournament? tournament = await dbContext.Tournaments.FirstOrDefaultAsync(t => t.Id == Guid.Parse(id));
+            Tournament? tournament = await tournamentDataService.GetById(id);
 
             if (tournament == null)
             {
                 return;
             }
+            // TODO: Check if tournament.creatorId == userManager.CurrentUserId
+
 
             dbContext.Tournaments.Remove(tournament);
             await dbContext.SaveChangesAsync();
@@ -42,12 +47,14 @@
 
         public async Task Edit(TournamentCreateModel model)
         {
-            Tournament? tournament = await dbContext.Tournaments.FirstOrDefaultAsync(t => t.Id == Guid.Parse(model.Id));
+            Tournament? tournament = await tournamentDataService.GetById(model.Id);
 
             if (tournament == null)
             {
                 return;
             }
+
+            // TODO: Check if tournament.creatorId == userManager.CurrentUserId
 
             tournament.Name = model.Name;
             tournament.Description = model.Description;
@@ -70,10 +77,8 @@
             switch (model.ParticipantType)
             {
                 case TournamentType.SinglePlayer:
-                    TournamentPlayer? tournamentPlayer = await dbContext
-                        .TournamentPlayers
-                        .FirstOrDefaultAsync(tp => tp.TournamentId == Guid.Parse(model.TournamentId)
-                            && tp.PlayerId == Guid.Parse(model.ParticipantId));
+                    TournamentPlayer? tournamentPlayer = await tournamentDataService
+                        .GetTournamentPlayer(model.TournamentId, model.ParticipantId);
 
                     if (tournamentPlayer != null) return;
 
@@ -84,13 +89,41 @@
                     });
                     break;
                 case TournamentType.Team:
+                    TournamentTeam? tournamentTeam = await tournamentDataService
+                        .GetTournamentTeam(model.TournamentId, model.ParticipantId);
+
+                    if (tournamentTeam != null) return;
+
+                    dbContext.TournamentTeams.Add(new TournamentTeam
+                    {
+                        TournamentId = Guid.Parse(model.TournamentId),
+                        TeamId = Guid.Parse(model.ParticipantId)
+                    });
                     break;
             }
         }
 
-        public Task Leave(TournamentParticipantModel model)
+        public async Task Leave(TournamentParticipantModel model)
         {
-            throw new NotImplementedException();
+            switch (model.ParticipantType)
+            {
+                case TournamentType.SinglePlayer:
+                    TournamentPlayer? tournamentPlayer = await tournamentDataService
+                        .GetTournamentPlayer(model.TournamentId, model.ParticipantId);
+
+                    if (tournamentPlayer == null) return;
+
+                    dbContext.TournamentPlayers.Remove(tournamentPlayer);
+                    break;
+                case TournamentType.Team:
+                    TournamentTeam? tournamentTeam = await tournamentDataService
+                        .GetTournamentTeam(model.TournamentId, model.ParticipantId);
+
+                    if (tournamentTeam == null) return;
+
+                    dbContext.TournamentTeams.Remove(tournamentTeam);
+                    break;
+            }
         }
     }
 }

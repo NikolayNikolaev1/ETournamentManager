@@ -1,56 +1,55 @@
-﻿namespace API.Domains.Tournament
+﻿namespace API.Domains.Team
 {
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
 
     [Route("api/[controller]")]
     [ApiController]
-    public class TournamentController(ITournamentBusinessService tournamentService) : ControllerBase
+    public class TeamController(ITeamBusinessService teamService) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok(await tournamentService.GetById(id));
+            return Ok(await teamService.GetById(id));
         }
 
         [HttpPost]
         //[Authorize(Roles = "TeamCreater")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Create([FromBody] TournamentCreateModel model)
+        public async Task<IActionResult> Create([FromBody] TeamManagementModel model)
         {
-            await tournamentService.Create(model);
+            await teamService.Create(model);
             return Ok();
         }
 
         [HttpPatch]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update([FromBody] TournamentCreateModel model)
+        public async Task<IActionResult> Update(string id, [FromBody] TeamManagementModel model)
         {
-            await tournamentService.Edit(model);
+            await teamService.Edit(id, model);
             return Ok();
         }
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember")]
-        [Route("api/AddParticipant")]
+        [Route("api/AddMember")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddParticipant([FromBody] TournamentParticipantModel model)
+        public async Task<IActionResult> AddMember([FromBody] TeamMemberModel model)
         {
-            await tournamentService.Join(model);
+            await teamService.AddMember(model);
             return Ok();
         }
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember", "TeamCreator", "Admin")]
-        [Route("api/RemoveParticipant")]
+        [Route("api/RemoveMember")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> RemoveParticipant([FromBody] TournamentParticipantModel model)
+        public async Task<IActionResult> RemoveMember([FromBody] TeamMemberModel model)
         {
-            await tournamentService.Leave(model);
+            await teamService.RemoveMember(model);
             return Ok();
         }
 
@@ -60,7 +59,7 @@
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(string id)
         {
-            await tournamentService.Delete(id);
+            await teamService.Delete(id);
             return Ok();
         }
     }

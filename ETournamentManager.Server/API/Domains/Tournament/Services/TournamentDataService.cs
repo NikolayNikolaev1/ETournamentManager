@@ -15,12 +15,11 @@
         public async Task<TournamentPlayer?> GetTournamentPlayer(string tournamentId, string playerId)
             => await dbContext
             .TournamentPlayers
-            .FirstOrDefaultAsync(tp => tp.TournamentId == Guid.Parse(tournamentId)
-                && tp.PlayerId == Guid.Parse(playerId));
+            .FirstOrDefaultAsync(tp => tp.TournamentId.ToString() == tournamentId && tp.PlayerId.ToString() == playerId);
 
-        public Task<TournamentTeam?> GetTournamentTeam(string tournamentId, string teamId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<TournamentTeam?> GetTournamentTeam(string tournamentId, string teamId)
+            => await dbContext
+            .TournamentTeams
+            .FirstOrDefaultAsync(tp => tp.TournamentId.ToString() == tournamentId && tp.TeamId.ToString() == teamId);
     }
 }
