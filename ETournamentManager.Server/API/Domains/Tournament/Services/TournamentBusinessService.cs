@@ -21,7 +21,7 @@
                 Name = model.Name,
                 Description = model.Description,
                 Type = model.Type,
-                MinTeamMembers = model.MinTeamMembers,
+                MinTeamMembers = model.Type == TournamentType.Team ? model.MinTeamMembers : 1,
                 GameId = Guid.Parse(model.GameId),
                 CreatorId = Guid.Parse("8108d0b2-42bb-4b84-8f06-3aca8d112873") // TODO: Change with userManager.CurrentUserId
             };
