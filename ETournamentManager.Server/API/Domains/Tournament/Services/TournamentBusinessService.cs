@@ -72,58 +72,30 @@
         public async Task<TournamentListingModel> GetById(string id)
             => mapper.Map<TournamentListingModel>(await tournamentDataService.GetById(id));
 
-        public async Task Join(TournamentParticipantModel model)
+        public async Task Join(TournamentTeamModel model)
         {
-            switch (model.ParticipantType)
+            TournamentTeam? tournamentTeam = await tournamentDataService
+                .GetTournamentTeam(model.TournamentId, model.TeamId);
+
+            if (tournamentTeam != null) return; // TODO: Add error msg - team already in tournament
+
+            dbContext.TournamentTeams.Add(new TournamentTeam
             {
-                case TournamentType.SinglePlayer:
-                    TournamentPlayer? tournamentPlayer = await tournamentDataService
-                        .GetTournamentPlayer(model.TournamentId, model.ParticipantId);
-
-                    if (tournamentPlayer != null) return;
-
-                    dbContext.TournamentPlayers.Add(new TournamentPlayer
-                    {
-                        TournamentId = Guid.Parse(model.TournamentId),
-                        PlayerId = Guid.Parse(model.ParticipantId)
-                    });
-                    break;
-                case TournamentType.Team:
-                    TournamentTeam? tournamentTeam = await tournamentDataService
-                        .GetTournamentTeam(model.TournamentId, model.ParticipantId);
-
-                    if (tournamentTeam != null) return;
-
-                    dbContext.TournamentTeams.Add(new TournamentTeam
-                    {
-                        TournamentId = Guid.Parse(model.TournamentId),
-                        TeamId = Guid.Parse(model.ParticipantId)
-                    });
-                    break;
-            }
+                TournamentId = Guid.Parse(model.TournamentId),
+                TeamId = Guid.Parse(model.TeamId)
+            });
+            await dbContext.SaveChangesAsync();
         }
 
-        public async Task Leave(TournamentParticipantModel model)
+        public async Task Leave(TournamentTeamModel model)
         {
-            switch (model.ParticipantType)
-            {
-                case TournamentType.SinglePlayer:
-                    TournamentPlayer? tournamentPlayer = await tournamentDataService
-                        .GetTournamentPlayer(model.TournamentId, model.ParticipantId);
+            TournamentTeam? tournamentTeam = await tournamentDataService
+                        .GetTournamentTeam(model.TournamentId, model.TeamId);
 
-                    if (tournamentPlayer == null) return;
+            if (tournamentTeam == null) return;
 
-                    dbContext.TournamentPlayers.Remove(tournamentPlayer);
-                    break;
-                case TournamentType.Team:
-                    TournamentTeam? tournamentTeam = await tournamentDataService
-                        .GetTournamentTeam(model.TournamentId, model.ParticipantId);
-
-                    if (tournamentTeam == null) return;
-
-                    dbContext.TournamentTeams.Remove(tournamentTeam);
-                    break;
-            }
+            dbContext.TournamentTeams.Remove(tournamentTeam);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -14,6 +14,72 @@
         IMapper mapper,
         ITournamentDataService tournamentDataService) : IRoundBusinessService
     {
+        public async Task End(string roundId, string winnerId)
+        {
+            Round? round = await dbContext.Rounds.FirstOrDefaultAsync(r => r.Id.ToString() == roundId);
+
+            if (round == null)
+            {
+                // TODO: Add error
+                return;
+            }
+
+            switch (round.Tournament.Type)
+            {
+                case TournamentType.SinglePlayer:
+                    RoundPlayer? roundPlayer = await dbContext
+                        .RoundPlayers
+                        .FirstOrDefaultAsync(rp => rp.RoundId == round.Id && rp.PlayerId.ToString() == winnerId);
+
+                    if (roundPlayer == null)
+                    {
+                        // TODO: Add error message
+                        return;
+                    }
+
+                    roundPlayer.IsWinner = true;
+
+                    if (round.Stage != RoundStage.Finals)
+                    {
+                        RoundPlayer nextRoundPlayer = new RoundPlayer
+                        {
+                            Round = round.NextRound!,
+                            Player = roundPlayer.Player
+                        };
+                    }
+                    break;
+                case TournamentType.Team:
+                    RoundTeam? roundTeam = await dbContext
+                        .RoundTeams
+                        .FirstOrDefaultAsync(rp => rp.RoundId == round.Id && rp.TeamId.ToString() == winnerId);
+
+                    if (roundTeam == null)
+                    {
+                        // TODO: Add error message
+                        return;
+                    }
+
+                    roundTeam.IsWinner = true;
+
+                    if (round.Stage != RoundStage.Finals)
+                    {
+                        RoundTeam nextRoundPlayer = new RoundTeam
+                        {
+                            Round = round.NextRound!,
+                            Team = roundTeam.Team
+                        };
+                    }
+                    break;
+            }
+
+            if (round.Stage == RoundStage.Finals)
+            {
+                round.Tournament.Active = false;
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task<ICollection<RoundListingModel>> Generate(string tournamentId)
         {
             Tournament? tournament = await tournamentDataService.GetById(tournamentId);
@@ -51,6 +117,7 @@
             ICollection<RoundTeam> roundTeams = new HashSet<RoundTeam>();
 
 
+            Guid nextRoundId = Guid.Empty;
             switch (tournament.Type)
             {
                 case TournamentType.SinglePlayer:
@@ -58,9 +125,32 @@
                     {
                         Round round = new Round
                         {
-                            Type = RoundType.Quarterfinals,
+                            Stage = RoundStage.Quarterfinals,
                             Tournament = tournament,
                         };
+
+                        Round nextRound = new Round
+                        {
+                            Stage = RoundStage.Semifinals,
+                            Tournament = tournament,
+                        };
+
+                        /* For the first round of bracket creates new ID for next round.
+                         * Then reuse it for the second round of bracket's next round,
+                         *  after which deletes it to create another one for the next bracket pari of rounds. */
+                        if (nextRoundId == Guid.Empty)
+                        {
+                            nextRoundId = Guid.NewGuid();
+                            nextRound.Id = nextRoundId;
+
+                        }
+                        else
+                        {
+                            nextRound.Id = nextRoundId;
+                            nextRoundId = Guid.Empty;
+                        }
+
+                        round.NextRound = nextRound;
 
                         await dbContext.Rounds.AddAsync(round);
 
@@ -87,9 +177,29 @@
 
                         Round round = new Round
                         {
-                            Type = RoundType.Quarterfinals,
+                            Stage = RoundStage.Quarterfinals,
                             Tournament = tournament,
                         };
+                        Round nextRound = new Round
+                        {
+                            Stage = RoundStage.Semifinals,
+                            Tournament = tournament,
+                        };
+
+                        /* For the first round of bracket creates new ID for next round.
+                         * Then reuse it for the second round of bracket's next round,
+                         *  after which deletes it to create another one for the next bracket pari of rounds. */
+                        if (nextRoundId == Guid.Empty)
+                        {
+                            nextRoundId = Guid.NewGuid();
+                            nextRound.Id = nextRoundId;
+
+                        }
+                        else
+                        {
+                            nextRound.Id = nextRoundId;
+                            nextRoundId = Guid.Empty;
+                        }
 
                         await dbContext.Rounds.AddAsync(round);
 

@@ -35,7 +35,5 @@
         public ICollection<Round> Rounds { get; set; } = new List<Round>();
 
         public ICollection<TournamentTeam> Teams { get; set; } = new List<TournamentTeam>();
-
-        public ICollection<TournamentPlayer> Players { get; set; } = new List<TournamentPlayer>();
     }
 }

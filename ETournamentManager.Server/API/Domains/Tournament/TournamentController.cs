@@ -38,7 +38,7 @@
         //[Authorize(Roles = "TeamMember")]
         [Route("api/AddParticipant")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddParticipant([FromBody] TournamentParticipantModel model)
+        public async Task<IActionResult> AddParticipant([FromBody] TournamentTeamModel model)
         {
             await tournamentService.Join(model);
             return Ok();
@@ -48,7 +48,7 @@
         //[Authorize(Roles = "TeamMember", "TeamCreator", "Admin")]
         [Route("api/RemoveParticipant")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> RemoveParticipant([FromBody] TournamentParticipantModel model)
+        public async Task<IActionResult> RemoveParticipant([FromBody] TournamentTeamModel model)
         {
             await tournamentService.Leave(model);
             return Ok();

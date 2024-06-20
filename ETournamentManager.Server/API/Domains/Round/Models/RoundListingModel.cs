@@ -10,7 +10,7 @@
     {
         public string Id { get; set; } = null!;
 
-        public RoundType Type { get; set; }
+        public RoundStage Type { get; set; }
 
         public string TournamentId { get; set; } = null!;
 
@@ -23,10 +23,7 @@
         public void ConfigureMapping(Profile mapper)
             => mapper.CreateMap<Round, RoundListingModel>()
             .ForMember(r => r.WinnerId,
-                opt => opt.MapFrom(
-                    r => r.Tournament.Type == Tournament.TournamentType.Team 
-                    ? r.Teams.First(t => t.IsWinner).TeamId 
-                    : r.Players.First(t => t.IsWinner).PlayerId))
+                opt => opt.MapFrom(r => r.Teams.First(t => t.IsWinner).TeamId))
             .ForMember(r => r.Teams,
                 opt => opt.MapFrom(r => r.Teams.Select(t => t.Team)));
     }

@@ -15,8 +15,8 @@
 
         Task<TournamentListingModel> GetById(string id);
 
-        Task Join(TournamentParticipantModel model);
+        Task Join(TournamentTeamModel model);
 
-        Task Leave(TournamentParticipantModel model);
+        Task Leave(TournamentTeamModel model);
     }
 }

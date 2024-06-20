@@ -2,7 +2,7 @@
 {
     public class Round
     {
-        public enum RoundType
+        public enum RoundStage
         {
             Finals = 0,
             Semifinals = 1,
@@ -11,7 +11,7 @@
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public RoundType Type { get; set; }
+        public RoundStage Stage { get; set; }
 
         public Guid TournamentId { get; set; }
 
@@ -22,7 +22,5 @@
         public Round? NextRound { get; set; }
 
         public ICollection<RoundTeam> Teams { get; set; } = new List<RoundTeam>();
-
-        public ICollection<RoundPlayer> Players { get; set; } = new List<RoundPlayer>();
     }
 }
