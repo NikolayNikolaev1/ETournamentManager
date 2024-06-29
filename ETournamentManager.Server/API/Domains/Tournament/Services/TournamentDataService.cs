@@ -12,11 +12,6 @@
             .Include(t => t.Game)
             .FirstOrDefaultAsync(t => t.Id == Guid.Parse(id));
 
-        public async Task<TournamentPlayer?> GetTournamentPlayer(string tournamentId, string playerId)
-            => await dbContext
-            .TournamentPlayers
-            .FirstOrDefaultAsync(tp => tp.TournamentId.ToString() == tournamentId && tp.PlayerId.ToString() == playerId);
-
         public async Task<TournamentTeam?> GetTournamentTeam(string tournamentId, string teamId)
             => await dbContext
             .TournamentTeams

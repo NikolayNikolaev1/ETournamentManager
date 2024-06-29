@@ -7,8 +7,6 @@
     {
         Task<Tournament?> GetById(string id);
 
-        Task<TournamentPlayer?> GetTournamentPlayer(string tournamentId, string playerId);
-
         Task<TournamentTeam?> GetTournamentTeam(string tournamentId, string teamId);
     }
 }

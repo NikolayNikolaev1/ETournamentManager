@@ -4,7 +4,7 @@
 
     public interface IRoundBusinessService
     {
-        Task End(string roundId, string winnerId);
+        Task End(RoundWinnerModel model);
 
         Task<ICollection<RoundListingModel>> Generate(string tournamentId);
 

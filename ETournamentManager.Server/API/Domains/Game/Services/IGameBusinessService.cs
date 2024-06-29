@@ -3,13 +3,13 @@
     using Core.Common.Data.Interfaces;
     using Models;
 
-    public interface IGameService : IService
+    public interface IGameBusinessService : IService
     {
-        Task<GameListingModel> Create(GameCreationViewModel game);
+        Task Create(GameManagementModel model);
 
         Task Delete(string id);
 
-        Task Update(string id, GameCreationViewModel game);
+        Task Update(string id, GameManagementModel nidek);
 
         Task<ICollection<GameListingModel>> GetAll();
 

@@ -92,7 +92,7 @@
             TournamentTeam? tournamentTeam = await tournamentDataService
                         .GetTournamentTeam(model.TournamentId, model.TeamId);
 
-            if (tournamentTeam == null) return;
+            if (tournamentTeam == null) return; //TODO: add error msg - team not in tournament
 
             dbContext.TournamentTeams.Remove(tournamentTeam);
             await dbContext.SaveChangesAsync();

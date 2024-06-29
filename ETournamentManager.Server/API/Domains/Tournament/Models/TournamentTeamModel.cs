@@ -1,6 +1,5 @@
 ﻿namespace API.Domains.Tournament.Models
 {
-
     public class TournamentTeamModel
     {
         public string TournamentId { get; set; } = null!;
