@@ -1,0 +1,22 @@
+#nav-container ul {
+  display: flex;
+  gap: 15px;
+  position: fixed;
+  width: 100%;
+  background-color: aqua;
+
+  #nav-logo {
+    color: black;
+    background-color: aqua;
+  }
+
+  .nav-item {
+    padding: 15px 5px;
+    border-radius: 2px;
+  }
+
+  .nav-item:hover {
+    color: white;
+    background-color: blue;
+  }
+}

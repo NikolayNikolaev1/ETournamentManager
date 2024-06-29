@@ -1,0 +1,25 @@
+#footer-container {
+  // Use for showing footer always.
+  // position: fixed;
+  // bottom: 0;
+  // width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  background-color: aqua;
+
+  #project-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-left: auto;
+    align-items: center;
+  }
+
+  #developer-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: end;
+  }
+}

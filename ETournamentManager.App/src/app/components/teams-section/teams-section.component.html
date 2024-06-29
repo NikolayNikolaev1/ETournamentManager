@@ -1,0 +1,39 @@
+<div class="section-container">
+  <div class="title-wrapper">
+    <div class="title">{{ sectionTitle }}</div>
+    <hr />
+  </div>
+
+  <div class="teams-container">
+    @for (teamData of teamsList; track $index) {
+    <div
+      class="team-card"
+      [style.background-image]="'linear-gradient(0deg, rgba(80, 50, 145, 1) 0%, rgba(2, 0, 36, 0) 100%), url(' + teamData.imgUrl + ')'"
+      [style.background-size]="'cover'"
+    >
+      <div class="card-wrapper">
+        <div class="logo-holder">
+          <img src="assets/images/trophy-logo.svg" alt="Tyophy Logo" />
+        </div>
+        <div class="information-holder">
+          <div class="title">{{ teamData.name }}</div>
+          <div class="subtitle-row">
+            <div class="subtitle">{{ teamData.tag }}</div>
+            <div class="stats-info">
+              <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+              <div class="subtitle">
+                {{ teamData.tournamentsWon }}
+              </div>
+
+              <img src="assets/images/people-icon.svg" alt="People Icon" />
+              <div class="subtitle">
+                {{ teamData.playersCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
