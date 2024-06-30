@@ -1,39 +1,71 @@
+using Core.Configuration;
 using Core.Extensions;
+using Core.Extensions.Authentication;
 using Core.Mapper;
 using Data;
 using Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddScoped<DbContext, ETournamentManagerDbContext>()
+    .AddScoped<JwtConfig, JwtConfig>()
     .AddDbContext<ETournamentManagerDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")))
     .AddDomainService()
     .AddAutoMapper(typeof(AutoMapperProfile))
-// Add services to the container.
+    //.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"))
+    .ConfigureOptions<JwtOptionsExtensions>().ConfigureOptions<JwtBearerOptionsExtensions>()
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+    .AddJwtBearer();
+//.AddJwtBearer(jwt =>
+//{
+//    byte[] key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value ?? "");
+//    jwt.SaveToken = true;
+//    jwt.TokenValidationParameters = new TokenValidationParameters()
+//    {
+//        ValidateIssuer = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(key),
+//        ValidateIssuerSigningKey = true,
+//        ValidateAudience = false,
+//        RequireExpirationTime = false,
+//        ValidateLifetime = false,
+//    };
+//});
+//.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
+    .AddCors(options => options.AddPolicy("Client", 
+        policy => policy
+        .WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader()))
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
     .AddControllers();
 
 builder.Services
-    .AddIdentity<User, Role>(options => 
+    .AddCors(options => options.AddPolicy("Client", policy => policy
+        .WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader()));
+
+//builder.Services
+
+
+builder.Services
+    .AddIdentity<User, Role>(options =>
     {
         options.Password.RequireDigit = false;
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
         options.Password.RequireNonAlphanumeric = false;
+        options.SignIn.RequireConfirmedAccount = false;
     })
     .AddRoles<Role>()
-    .AddDefaultTokenProviders()
+    //.AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ETournamentManagerDbContext>();
 
 var app = builder.Build();
@@ -50,7 +82,8 @@ app
     .UseDatabaseMigration()
     .UseHttpsRedirection()
     .UseAuthentication()
-    .UseAuthorization();
+    .UseAuthorization()
+    .UseCors("Client");
 
 app.MapControllers();
 

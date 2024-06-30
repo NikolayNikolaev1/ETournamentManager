@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Game
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
@@ -19,6 +20,8 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
+
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameListingModel))]
         public async Task<IActionResult> Get()
         {
