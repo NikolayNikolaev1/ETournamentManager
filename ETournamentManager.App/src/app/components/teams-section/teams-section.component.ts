@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import Team from 'models/team.model';
+import Team from 'app/models/team.model';
 
 @Component({
   selector: 'app-teams-section',

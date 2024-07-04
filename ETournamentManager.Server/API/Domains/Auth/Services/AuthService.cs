@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Auth.Services
 {
+    using AutoMapper;
     using Core.Common.Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
@@ -14,8 +15,17 @@
     public class AuthService(
         UserManager<User> userManager,
         RoleManager<Role> roleManager,
+        ClaimsPrincipal claimsPrincipal,
         IOptions<JwtOptions> options) : IAuthService
     {
+        public UserProfileModel GetCurrentUser()
+            => userInfo ??= mapper.Map<UserInfoModel>(claimsPrincipal);
+
+        public Task<UserProfileModel> GetProfile()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<AuthResponseModel> Login(LoginModel model)
         {
             User? user = await userManager.FindByNameAsync(model.UserName);
@@ -84,8 +94,11 @@
         {
             ICollection<Claim> claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email!)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.Name, user.UserName!),
+                //new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                //new Claim(JwtRegisteredClaimNames.Email, user.Email!)
             };
 
 

@@ -1,7 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { environment } from '../../assets/environments/environment.development';
+import { environment } from 'environments/environment.development';
+
+interface ApiRequestData<TBody> {
+  url: string;
+  method: 'get' | 'post' | 'patch' | 'delete';
+  body?: TBody;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +15,6 @@ import { environment } from '../../assets/environments/environment.development';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  login(userName: string, password: string) {
-    return this.http.post<{ token: string }>(`${environment.apiUrl}/Auth/Login`, { userName, password });
-  }
+  request = <TResponse, TRquestBody = undefined>({ url, method, body }: ApiRequestData<TRquestBody>) =>
+    this.http.request<TResponse>(method, `${environment.apiUrl}/${url}`, { body });
 }

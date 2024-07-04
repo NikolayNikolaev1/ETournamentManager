@@ -1,5 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ApiService } from 'services/api.service';
+import { Component } from '@angular/core';
+
+import { ApiService } from 'app/services/api.service';
+
+import { LOGIN_REQUEST_BODY, LOGIN_RESPONSE_TYPE, LOGIN_ROUTE } from './login.configuraiton';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +16,15 @@ export class LoginComponent {
   constructor(private apiService: ApiService) {}
 
   onLogin() {
-    console.log(this.username, this.password);
-    this.apiService.login(this.username, this.password).subscribe((response) => {
-      localStorage.setItem('token', response.token);
-    });
+    this.apiService
+      .request<
+        LOGIN_RESPONSE_TYPE,
+        LOGIN_REQUEST_BODY
+      >({ url: LOGIN_ROUTE, method: 'post', body: { username: this.username, password: this.password } })
+      .subscribe((response) => localStorage.setItem('jwt_token', response.token));
+  }
+
+  onLogout() {
+    localStorage.removeItem('jwt_token');
   }
 }
