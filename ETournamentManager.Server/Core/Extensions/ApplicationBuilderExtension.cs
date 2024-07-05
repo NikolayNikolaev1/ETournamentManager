@@ -1,15 +1,42 @@
 ﻿namespace Core.Extensions
 {
+    using Core.Common.Data.Interfaces;
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Security.Claims;
     using static Common.Constants;
 
     public static class ApplicationBuilderExtension
     {
+        public static IServiceCollection AddDomainService(this IServiceCollection services)
+        {
+            AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .SelectMany(a => a.GetExportedTypes()
+                    .Where(t => t.IsClass && !t.IsAbstract)
+                    .Where(t => typeof(IService).IsAssignableFrom(t))
+                    .Select(t => new
+                    {
+                        Interface = t.GetInterface($"I{t.Name}")!,
+                        Implementation = t
+                    }))
+                .ToList()
+                .ForEach(s => services.AddTransient(s.Interface, s.Implementation));
+
+            return services;
+        }
+
+        public static IServiceCollection AddHttpContextService(this IServiceCollection services)
+            => services.AddHttpContextAccessor()
+            .AddTransient(s =>
+                s.GetRequiredService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
+
         public static IApplicationBuilder UseDatabaseMigration(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();

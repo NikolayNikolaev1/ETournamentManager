@@ -14,17 +14,14 @@
 
     public class AuthService(
         UserManager<User> userManager,
-        RoleManager<Role> roleManager,
         ClaimsPrincipal claimsPrincipal,
-        IOptions<JwtOptions> options) : IAuthService
+        IMapper mapper,
+        IOptions<JwtOptions> options) : IAuthService  
     {
-        public UserProfileModel GetCurrentUser()
-            => userInfo ??= mapper.Map<UserInfoModel>(claimsPrincipal);
+        private CurrentUserModel currentUser = null!;
 
-        public Task<UserProfileModel> GetProfile()
-        {
-            throw new NotImplementedException();
-        }
+        public CurrentUserModel GetCurrentUser()
+            => currentUser ??= mapper.Map<CurrentUserModel>(claimsPrincipal);
 
         public async Task<AuthResponseModel> Login(LoginModel model)
         {
@@ -94,11 +91,12 @@
         {
             ICollection<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email!),
-                new Claim(ClaimTypes.Name, user.UserName!),
-                //new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                //new Claim(JwtRegisteredClaimNames.Email, user.Email!)
+                //new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                //new Claim(ClaimTypes.Email, user.Email!),
+                //new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName!),
             };
 
 
@@ -119,13 +117,11 @@
                 options.Value.Audience,
                 claims,
                 null,
-                DateTime.UtcNow.AddHours(1),
+                DateTime.UtcNow.AddHours(12),
                 signingCredentials);
 
-            string tokenValue = new JwtSecurityTokenHandler()
-                .WriteToken(token);
 
-            return tokenValue;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

@@ -6,8 +6,10 @@ using Data;
 using Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services
     .AddScoped<DbContext, ETournamentManagerDbContext>()
@@ -15,9 +17,11 @@ builder.Services
     .AddDbContext<ETournamentManagerDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")))
     .AddDomainService()
+    .AddHttpContextService()
     .AddAutoMapper(typeof(AutoMapperProfile))
     //.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"))
     .ConfigureOptions<JwtOptionsExtensions>().ConfigureOptions<JwtBearerOptionsExtensions>()
+    .AddAuthorization()
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
 //.AddJwtBearer(jwt =>
@@ -36,8 +40,13 @@ builder.Services
 //});
 //.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+//builder.Services.AddHttpContextAccessor()
+//                .AddTransient(s =>
+//                    s.GetRequiredService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
+
 builder.Services
-    .AddCors(options => options.AddPolicy("Client", 
+    .AddCors(options => options.AddPolicy("Client",
         policy => policy
         .WithOrigins("http://localhost:4200")
         .AllowAnyMethod()
@@ -81,9 +90,9 @@ if (app.Environment.IsDevelopment())
 app
     .UseDatabaseMigration()
     .UseHttpsRedirection()
+    .UseCors("Client")
     .UseAuthentication()
-    .UseAuthorization()
-    .UseCors("Client");
+    .UseAuthorization();
 
 app.MapControllers();
 

@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import Team from 'app/models/team.model';
+import UserProfile from 'app/models/user-profile.model';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-player-profile',
   templateUrl: './player-profile.component.html',
   styleUrl: './player-profile.component.scss',
 })
-export class PlayerProfileComponent {
+export class PlayerProfileComponent implements OnInit {
+  currentUserProfile!: UserProfile;
   teamsData: Team[] = [
     {
       id: '1',
@@ -36,4 +39,10 @@ export class PlayerProfileComponent {
       tournamentsWon: 3,
     },
   ];
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.currentUserProfile = this.authService.getCurrentUser();
+  }
 }

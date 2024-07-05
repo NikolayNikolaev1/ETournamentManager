@@ -1,5 +1,7 @@
 ﻿namespace API.Domains.Auth
 {
+    using Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
@@ -7,7 +9,9 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService) : ControllerBase
+    public class AuthController(
+        IAuthService authService,
+        SignInManager<User> signInManager) : ControllerBase
     {
         [HttpPost]
         [Route("Register")]
