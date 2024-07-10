@@ -43,6 +43,6 @@ export class PlayerProfileComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.currentUserProfile = this.authService.getCurrentUser();
+    // this.currentUserProfile = this.authService.getCurrentUser()!;
   }
 }

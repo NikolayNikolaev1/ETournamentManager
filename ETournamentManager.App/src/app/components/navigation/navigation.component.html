@@ -5,8 +5,13 @@
       {{ constants.WEBSITE_NAME }}
     </li>
     <li class="nav-item hover-transition">Current tournaments</li>
-    <li class="nav-item hover-transition">My teams</li>
-    <li class="nav-item hover-transition flex-right">Profile</li>
-    <li class="nav-item hover-transition">Logout</li>
+    @if (username !== null) {
+      <li class="nav-item hover-transition">My teams</li>
+      <li class="nav-item hover-transition flex-right">{{ username | uppercase }}</li>
+      <li class="nav-item hover-transition" (click)="onLogout()">Logout</li>
+    } @else {
+      <li class="nav-item hover-transition flex-right">Login</li>
+      <li class="nav-item hover-transition">Register</li>
+    }
   </ul>
 </div>

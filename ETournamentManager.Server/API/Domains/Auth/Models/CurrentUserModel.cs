@@ -16,8 +16,8 @@
         public void ConfigureMapping(Profile mapper)
             => mapper
             .CreateMap<ClaimsPrincipal, CurrentUserModel>()
-            .ForMember(u => u.Id, opt => opt.MapFrom(cp => cp.FindFirstValue(JwtRegisteredClaimNames.Sub)))
-            .ForMember(u => u.Email, opt => opt.MapFrom(cp => cp.FindFirstValue(JwtRegisteredClaimNames.Email)))
-            .ForMember(u => u.Username, opt => opt.MapFrom(cp => cp.FindFirstValue(JwtRegisteredClaimNames.Name)));
+            .ForMember(u => u.Id, opt => opt.MapFrom(cp => cp.FindFirstValue(ClaimTypes.NameIdentifier)))
+            .ForMember(u => u.Username, opt => opt.MapFrom(cp => cp.FindFirstValue(JwtRegisteredClaimNames.Name)))
+            .ForMember(u => u.Email, opt => opt.MapFrom(cp => cp.FindFirstValue(ClaimTypes.Email)));
     }
 }

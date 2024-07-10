@@ -7,11 +7,11 @@
     using Services;
 
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class UserController(IUserBusinessService userService) : ControllerBase
     {
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "ADMIN")]
         [Route("~/api/User/GetProfile")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserProfileModel))]
         public async Task<IActionResult> GetProfile()
