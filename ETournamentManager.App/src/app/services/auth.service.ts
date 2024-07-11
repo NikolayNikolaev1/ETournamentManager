@@ -25,12 +25,7 @@ export class AuthService {
 
   getUserProfile() {
     const token = localStorage.getItem(TOKEN_KEY_NAME);
-    console.log('test');
-    console.log(this.currentUser);
-    console.log(token);
     if (token !== null && this.currentUser === null) {
-      console.log('ing');
-
       this.apiService.request<UserProfile>({ url: 'User/GetProfile', method: 'get' }).subscribe((response) => this.setCurrentUser(response));
     }
   }
