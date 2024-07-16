@@ -1,0 +1,39 @@
+@use '../../../../assets/styles/fonts';
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  gap: 15px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid pink;
+
+  button {
+    cursor: pointer;
+    padding: 10px;
+    width: 60%;
+    color: blue;
+    background-color: aqua;
+    border-radius: 10px;
+  }
+
+  button:active {
+    color: green;
+    background-color: lightgreen;
+  }
+
+  button:disabled {
+    cursor: default;
+    color: black;
+    background-color: grey;
+  }
+
+  .title {
+    font-family: fonts.$global;
+    font-weight: 700;
+    color: gray;
+  }
+}

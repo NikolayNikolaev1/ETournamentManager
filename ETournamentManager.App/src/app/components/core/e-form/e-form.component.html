@@ -1,0 +1,10 @@
+<div class="form-wrapper">
+  <div class="title">{{ title }}</div>
+  @for (item of inputComponetData; track $index) {
+    <app-e-input [label]="item.label" [value]="item.value" [type]="item.type ?? 'text'" (inputChanged)="onInputChanged($index, $event)" />
+  }
+
+  <button [disabled]="isSubmitBtnDisabled()" (click)="onSubmitClick()">
+    {{ btnLabel }}
+  </button>
+</div>

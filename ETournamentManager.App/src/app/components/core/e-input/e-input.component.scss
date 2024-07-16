@@ -1,0 +1,18 @@
+input {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+input.filled {
+  background-color: lightgreen;
+}
+
+input:focus {
+  background-color: lightblue;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
