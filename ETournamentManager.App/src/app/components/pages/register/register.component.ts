@@ -11,8 +11,21 @@ export class RegisterComponent {
   password: string = '';
   repeatPassword: string = '';
   roleName: 'TOURNAMENT_CREATOR' | 'TOURNAMENT_PARTICIPANT' = 'TOURNAMENT_PARTICIPANT';
+  errorMessage: string = '';
 
-  onRegisterClick(registerModel: { email: string; username: string; passowrd: string; repeatPassword: string }) {
-    console.log(registerModel)
+  onFormChanged({ email, username, password, repeatPassword }: { email: string; username: string; password: string; repeatPassword: string }) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+    this.repeatPassword = repeatPassword;
+  }
+
+  onRegisterClick() {
+    this.errorMessage = '';
+
+    if (this.password !== this.repeatPassword) {
+      this.errorMessage = 'Password missmatch!';
+      return;
+    }
   }
 }

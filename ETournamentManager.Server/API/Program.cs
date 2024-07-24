@@ -88,6 +88,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app
+    .UseCustomExceptionHandling()
     .UseDatabaseMigration()
     .UseHttpsRedirection()
     .UseCors("Client")

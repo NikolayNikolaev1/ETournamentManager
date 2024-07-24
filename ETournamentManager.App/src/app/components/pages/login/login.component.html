@@ -1,8 +1,23 @@
 <div id="page-container">
-  Username
-  <input [(ngModel)]="username" type="text" />
-  Password
-  <input [(ngModel)]="password" type="password" />
-
-  <button (click)="onLogin()">Login</button>
+  <app-e-form
+    title="Login"
+    [inputFields]="[
+      {
+        name: 'username',
+        value: username,
+        label: 'Username',
+        required: true,
+      },
+      {
+        name: 'password',
+        value: password,
+        label: 'Password',
+        type: 'password',
+        required: true,
+      },
+    ]"
+    [error]="errorMessage"
+    (submitted)="onLogin()"
+    (formInputsChanged)="onFormChange($event)"
+  />
 </div>

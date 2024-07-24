@@ -1,6 +1,7 @@
 ﻿namespace Core.Extensions
 {
     using Core.Common.Data.Interfaces;
+    using Core.Middlewares;
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using System.Security.Claims;
     using static Common.Constants;
 
@@ -31,6 +33,17 @@
 
             return services;
         }
+
+        public static WebApplication UseCustomExceptionHandling(this WebApplication app)
+        {
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler(errorApp => errorApp.Run(new DevelopmentExceptionMiddleware().Get));
+            }
+
+            return app;
+        }
+        
 
         public static IServiceCollection AddHttpContextService(this IServiceCollection services)
             => services.AddHttpContextAccessor()

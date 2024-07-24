@@ -31,13 +31,7 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    this.apiService
-      .request<LOGIN_RESPONSE_TYPE, LOGIN_REQUEST_BODY>({ url: LOGIN_ROUTE, method: 'post', body: { username, password } })
-      .subscribe((response) => {
-        localStorage.setItem(TOKEN_KEY_NAME, response.token);
-
-        this.getUserProfile();
-      });
+    return this.apiService.request<LOGIN_RESPONSE_TYPE, LOGIN_REQUEST_BODY>({ url: LOGIN_ROUTE, method: 'post', body: { username, password } });
   }
 
   logout() {

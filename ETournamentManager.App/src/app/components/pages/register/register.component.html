@@ -30,6 +30,8 @@
         required: true,
       },
     ]"
-    (submitted)="onRegisterClick($event)"
+    [error]="errorMessage"
+    (submitted)="onRegisterClick()"
+    (formInputsChanged)="onFormChanged($event)"
   />
 </div>

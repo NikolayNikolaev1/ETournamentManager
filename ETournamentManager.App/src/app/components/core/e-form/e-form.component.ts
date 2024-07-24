@@ -19,18 +19,23 @@ export class EFormComponent {
   @Input({ required: true }) title: string = '';
   @Input({ alias: 'buttonLabel' }) btnLabel: string = 'Submit';
   @Input({ alias: 'inputFields', required: true }) inputComponetData: InputField[] = [];
-  @Output() submitted = new EventEmitter<any>();
+  @Input('error') errorMessage: string = '';
+  @Output() formInputsChanged = new EventEmitter<any>();
+  @Output() submitted = new EventEmitter();
 
   isSubmitBtnDisabled = () => this.inputComponetData.some((i: InputField) => i.required && i.value.length === 0);
 
-  onSubmitClick() {
+  onInputChanged(index: number, newValue: string) {
+    this.inputComponetData[index].value = newValue;
     let obj: any = {};
 
     this.inputComponetData.forEach((i) => (obj[i.name] = i.value));
-    this.submitted.emit(obj);
+
+    this.formInputsChanged.emit(obj);
   }
 
-  onInputChanged(index: number, newValue: string) {
-    this.inputComponetData[index].value = newValue;
+  onSubmitClick() {
+    this.errorMessage = '';
+    this.submitted.emit();
   }
 }

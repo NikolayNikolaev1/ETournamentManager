@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using Core.Common.Data;
+    using Core.Exceptions;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Options;
@@ -29,11 +30,7 @@
 
             if (user == null)
             {
-                //TODO: Add user not found
-                return new AuthResponseModel
-                {
-                    Errors = ["User Email not found"]
-                };
+                throw new BusinessServiceException("User email not found");
             }
 
             if (!await userManager.CheckPasswordAsync(user, model.Password))
