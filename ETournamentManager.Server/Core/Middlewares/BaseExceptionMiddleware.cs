@@ -67,7 +67,7 @@
         {
             problemDetails.Title = "Invalid Request!";
             problemDetails.Detail = businessException.Message;
-            problemDetails.Status = StatusCodes.Status400BadRequest;
+            problemDetails.Status = businessException.StatusCode;
             problemDetails.Extensions["Data"] = businessException.ParameterName;
         }
     }

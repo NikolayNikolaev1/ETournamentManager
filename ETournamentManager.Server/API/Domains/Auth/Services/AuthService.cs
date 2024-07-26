@@ -30,7 +30,7 @@
 
             if (user == null)
             {
-                throw new BusinessServiceException("User email not found");
+                throw new BusinessServiceException("User email not found", StatusCodes.Status404NotFound);
             }
 
             if (!await userManager.CheckPasswordAsync(user, model.Password))
