@@ -13,11 +13,14 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using static Core.Common.Constants.ErrorMessages;
+    using static Core.Common.Constants.ErrorMessages.Auth;
+
     public class AuthService(
         UserManager<User> userManager,
         ClaimsPrincipal claimsPrincipal,
         IMapper mapper,
-        IOptions<JwtOptions> options) : IAuthService  
+        IOptions<JwtOptions> options) : IAuthService
     {
         private CurrentUserModel currentUser = null!;
 
@@ -30,16 +33,18 @@
 
             if (user == null)
             {
-                throw new BusinessServiceException("User email not found", StatusCodes.Status404NotFound);
+                throw new BusinessServiceException(
+                    INVALID_LOGIN_CREDENTIALS,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "Email",
+                    StatusCodes.Status404NotFound);
             }
 
             if (!await userManager.CheckPasswordAsync(user, model.Password))
             {
-
-                return new AuthResponseModel
-                {
-                    Errors = ["Password not correct"]
-                };
+                throw new BusinessServiceException(
+                    INVALID_LOGIN_CREDENTIALS,
+                    StatusCodes.Status404NotFound);
             }
 
             return new AuthResponseModel

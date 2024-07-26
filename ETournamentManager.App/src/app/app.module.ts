@@ -16,6 +16,8 @@ import { NotFoundComponent } from 'app/components/pages/not-found/not-found.comp
 import { RegisterComponent } from 'app/components/pages/register/register.component';
 import { EInputComponent } from './components/core/e-input/e-input.component';
 import { EFormComponent } from './components/core/e-form/e-form.component';
+import { ESwitchComponent } from './components/core/e-switch/e-switch.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,9 @@ import { EFormComponent } from './components/core/e-form/e-form.component';
     RegisterComponent,
     EInputComponent,
     EFormComponent,
+    ESwitchComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })

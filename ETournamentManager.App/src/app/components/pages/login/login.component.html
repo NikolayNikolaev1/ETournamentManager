@@ -19,5 +19,10 @@
     [error]="errorMessage"
     (submitted)="onLogin()"
     (formInputsChanged)="onFormChange($event)"
-  />
+  >
+    <p class="register-link">
+      Don't have an account? Register
+      <a routerLink="/register">here</a>
+    </p>
+  </app-e-form>
 </div>

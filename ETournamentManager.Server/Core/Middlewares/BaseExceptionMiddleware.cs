@@ -65,7 +65,7 @@
             ProblemDetails problemDetails,
             BusinessServiceException businessException)
         {
-            problemDetails.Title = "Invalid Request!";
+            problemDetails.Title = businessException.Title;
             problemDetails.Detail = businessException.Message;
             problemDetails.Status = businessException.StatusCode;
             problemDetails.Extensions["Data"] = businessException.ParameterName;

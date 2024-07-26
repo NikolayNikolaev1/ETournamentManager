@@ -1,0 +1,45 @@
+.input-label {
+  margin-bottom: 5px;
+  margin-right: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.switch-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  .switch {
+    display: inline-block;
+    position: relative;
+    height: 25px;
+    width: 50px;
+    border-radius: 3px;
+
+    &.on {
+      background-color: black;
+    }
+
+    &.off {
+      background-color: gray;
+    }
+
+    .toggle {
+      width: 50%;
+      display: inline-block;
+      background-color: white;
+      position: absolute;
+      left: 1px;
+      top: 0;
+      bottom: 0;
+      margin: 1px;
+      border-radius: 100px;
+      box-shadow: 2px 2px 12px #00000050;
+    }
+  }
+
+  .label {
+    font-weight: 700;
+  }
+}

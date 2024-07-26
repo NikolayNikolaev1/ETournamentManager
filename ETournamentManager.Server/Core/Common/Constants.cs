@@ -22,5 +22,16 @@
             public const int HASH_NUM_BYTES_REQUESTED = 256 / 8;
             public const string JWT_SECTION_NAME = "JwtCredentials";
         }
+
+        public static class ErrorMessages
+        {
+            public const string DEFAULT_BUSSINESS_ERROR_TITLE = "Invalid Request!";
+            public const string CLIENT_VALIDATION_ERROR_TITLE = "Invalid User Action!";
+
+            public static class Auth
+            {
+                public const string INVALID_LOGIN_CREDENTIALS = "User does not exist!";
+            }
+        }
     }
 }

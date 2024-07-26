@@ -1,22 +1,27 @@
 ﻿namespace Core.Exceptions
 {
+    using static Core.Common.Constants.ErrorMessages;
+
     public class BusinessServiceException : Exception
     {
         public BusinessServiceException(string message)
-            : this(message, string.Empty, 400) { }
-
-        public BusinessServiceException(string message, string parameterName)
-            : this(message, parameterName, 400) { }
+            : this(DEFAULT_BUSSINESS_ERROR_TITLE, message, string.Empty, 400) { }
 
         public BusinessServiceException(string message, int statusCode)
-            : this(message, string.Empty, statusCode) { }
+            : this(DEFAULT_BUSSINESS_ERROR_TITLE, message, string.Empty, statusCode) { }
 
-        public BusinessServiceException(string message, string parameterName, int statusCode)
+        public BusinessServiceException(string message, string title, string parameterName)
+            : this(message, title, parameterName, 400) { }
+
+        public BusinessServiceException(string message, string title, string parameterName, int statusCode)
             : base(message)
         {
+            Title = title;
             ParameterName = parameterName;
             StatusCode = statusCode;
         }
+
+        public string Title { get; set; }
 
         public string ParameterName { get; set; }
 
