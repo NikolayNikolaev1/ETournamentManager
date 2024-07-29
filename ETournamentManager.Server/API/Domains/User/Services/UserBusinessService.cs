@@ -3,10 +3,13 @@
     using Auth.Models;
     using Auth.Services;
     using AutoMapper;
+    using Core.Exceptions;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
+
+    using static Core.Common.Constants.ErrorMessages.Auth;
 
     public class UserBusinessService(
         ETournamentManagerDbContext dbContext,
@@ -21,11 +24,13 @@
 
             if (user == null)
             {
-                // TODO: Error
-                //return;
+                throw new BusinessServiceException(NOT_AUTHENTICATED, StatusCodes.Status404NotFound);
             }
 
-            return mapper.Map<UserProfileModel>(user);
+            UserProfileModel profile = mapper.Map<UserProfileModel>(user);
+            profile.RoleName = currentUser.RoleName;
+
+            return profile;
         }
     }
 }

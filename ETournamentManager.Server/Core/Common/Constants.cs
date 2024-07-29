@@ -31,6 +31,9 @@
             public static class Auth
             {
                 public const string INVALID_LOGIN_CREDENTIALS = "User does not exist!";
+                public const string NOT_AUTHENTICATED = "User not authenticated!";
+                public const string USER_EMAIL_EXISTS = "User with that email already exists!";
+                public const string USER_NAME_EXISTS = "User with that username already exists!";
             }
         }
     }

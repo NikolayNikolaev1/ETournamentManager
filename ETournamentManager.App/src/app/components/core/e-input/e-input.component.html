@@ -1,1 +1,8 @@
-<input [(ngModel)]="value" [ngClass]="{ filled: value.length > 0 }" [type]="type" [placeholder]="label" (change)="onInputChange()" />
+<input
+  [(ngModel)]="value"
+  [ngClass]="{ filled: value.length > 0, invalid }"
+  [type]="type"
+  [placeholder]="label"
+  (change)="onInputChange()"
+  (blur)="onInputBlur()"
+/>

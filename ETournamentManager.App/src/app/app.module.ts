@@ -10,14 +10,15 @@ import { HomeComponent } from 'app/components/pages/home/home.component';
 import { FooterComponent } from 'app/components/footer/footer.component';
 import { PlayerProfileComponent } from 'app/components/pages/player-profile/player-profile.component';
 import { TeamsSectionComponent } from 'app/components/teams-section/teams-section.component';
-import { LoginComponent } from 'app/components/pages/login/login.component';
+import { LoginComponent } from 'app/components/pages/auth/login/login.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
 import { NotFoundComponent } from 'app/components/pages/not-found/not-found.component';
-import { RegisterComponent } from 'app/components/pages/register/register.component';
+import { RegisterComponent } from 'app/components/pages/auth/register/register.component';
 import { EInputComponent } from './components/core/e-input/e-input.component';
 import { EFormComponent } from './components/core/e-form/e-form.component';
 import { ESwitchComponent } from './components/core/e-switch/e-switch.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TeamCreateComponent } from './components/pages/team/team-create/team-create.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EInputComponent,
     EFormComponent,
     ESwitchComponent,
+    TeamCreateComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],

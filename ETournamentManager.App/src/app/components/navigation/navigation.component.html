@@ -1,8 +1,10 @@
 <div id="nav-container">
   <ul>
-    <li id="nav-logo" class="nav-item hover-transition image-text">
-      <img src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
-      {{ constants.WEBSITE_NAME }}
+    <li id="nav-logo" class="nav-item hover-transition">
+      <a class="image-text" routerLink="/">
+        <img src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
+        {{ constants.WEBSITE_NAME }}
+      </a>
     </li>
     <li class="nav-item hover-transition">Current tournaments</li>
     @if (username !== null) {

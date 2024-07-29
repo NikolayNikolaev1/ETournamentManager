@@ -1,0 +1,25 @@
+<app-e-form
+  title="Register"
+  [inputFields]="[
+    {
+      name: 'name',
+      value: name,
+      label: 'Name',
+      required: true,
+    },
+    {
+      name: 'tag',
+      value: tag,
+      label: 'Tag',
+      required: true,
+    },
+    {
+      name: 'description',
+      value: description,
+      label: 'Description',
+    },
+  ]"
+  [error]="errorMessage"
+  (submitted)="onCreateClick()"
+  (formInputsChanged)="onFormChanged($event)"
+/>

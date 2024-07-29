@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { ApiService } from 'app/services/api.service';
-import { TOKEN_KEY_NAME } from 'app/utils/constants';
-
-import { LOGIN_REQUEST_BODY, LOGIN_RESPONSE_TYPE, LOGIN_ROUTE } from './login.configuraiton';
 import { AuthService } from 'app/services/auth.service';
+import { TOKEN_KEY_NAME } from 'app/utils/constants';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +14,10 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   onFormChange({ username, password }: any) {
     this.username = username;
@@ -29,6 +30,7 @@ export class LoginComponent {
       next: (response) => {
         localStorage.setItem(TOKEN_KEY_NAME, response.token);
         this.authService.getUserProfile();
+        this.router.navigate(['/']);
       },
       error: (error) => (this.errorMessage = error),
     });

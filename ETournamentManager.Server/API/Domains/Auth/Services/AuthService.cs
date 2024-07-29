@@ -44,6 +44,8 @@
             {
                 throw new BusinessServiceException(
                     INVALID_LOGIN_CREDENTIALS,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "Password",
                     StatusCodes.Status404NotFound);
             }
 
@@ -57,11 +59,12 @@
         {
             if (await userManager.FindByEmailAsync(model.Email) != null)
             {
-                //TODO: add error
-                return new AuthResponseModel
-                {
-                    Errors = ["User already exists"]
-                };
+                throw new BusinessServiceException(USER_EMAIL_EXISTS, CLIENT_VALIDATION_ERROR_TITLE, "Email");
+            }
+
+            if (await userManager.FindByNameAsync(model.UserName) != null)
+            {
+                throw new BusinessServiceException(USER_NAME_EXISTS, CLIENT_VALIDATION_ERROR_TITLE, "UserName");
             }
 
             User user = new User
@@ -75,10 +78,7 @@
 
             if (!userCreated.Succeeded)
             {
-                return new AuthResponseModel
-                {
-                    Errors = userCreated.Errors.Select(e => e.Description).ToList()
-                };
+                throw new BusinessServiceException(string.Join(", ", userCreated.Errors.Select(e => e.Description)));
             }
 
             await userManager.AddToRoleAsync(user, model.RoleName);

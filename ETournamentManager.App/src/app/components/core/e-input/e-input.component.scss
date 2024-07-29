@@ -16,3 +16,7 @@ input:focus {
 input:focus::placeholder {
   color: transparent;
 }
+
+.invalid {
+  border: 1px solid red;
+}

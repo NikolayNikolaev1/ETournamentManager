@@ -11,6 +11,6 @@
 
         public string Email { get; set; } = null!;
 
-        public ICollection<Role> Roles { get; set; } = new HashSet<Role>();
+        public string RoleName { get; set; } = null!;
     }
 }

@@ -1,8 +1,11 @@
 ﻿namespace API.Domains.Team
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
+
+    using static Core.Common.Constants.Roles;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -15,7 +18,7 @@
         }
 
         [HttpPost]
-        //[Authorize(Roles = "TeamCreater")]
+        [Authorize(Roles = TOURNAMENT_PARTICIPANT)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] TeamManagementModel model)
