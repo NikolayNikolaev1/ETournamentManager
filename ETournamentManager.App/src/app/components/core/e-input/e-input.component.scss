@@ -18,5 +18,9 @@ input:focus::placeholder {
 }
 
 .invalid {
-  border: 1px solid red;
+  border: 2px solid red;
+}
+
+.invalid::placeholder {
+  color: red;
 }

@@ -35,6 +35,14 @@
                 public const string USER_EMAIL_EXISTS = "User with that email already exists!";
                 public const string USER_NAME_EXISTS = "User with that username already exists!";
             }
+
+            public static class Team
+            {
+                public const string TEAM_NAME_EMPTY = "Team name can not be empty.";
+                public const string TEAM_NAME_EXISTS = "Team with that name already exists.";
+                public const string TEAM_TAG_EXISTS = "Team with that tag already exists.";
+                public const string TEAM_TAG_EMPTY = "Team tag can not be empty.";
+            }
         }
     }
 }

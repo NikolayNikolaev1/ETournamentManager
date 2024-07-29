@@ -20,9 +20,6 @@ export class EInputComponent {
   }
 
   onInputBlur() {
-    
     if (this.required) this.invalid = this.value.length === 0;
-    console.log(this.value.length);
-    console.log(this.required);
   }
 }

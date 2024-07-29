@@ -1,5 +1,7 @@
 ﻿namespace API.Domains.Team
 {
+    using Core.Extensions;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
@@ -7,25 +9,23 @@
 
     using static Core.Common.Constants.Roles;
 
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class TeamController(ITeamBusinessService teamService) : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TeamListingModel))]
         public async Task<IActionResult> Get(string id)
-        {
-            return Ok(await teamService.GetById(id));
-        }
+            => await teamService.GetById(id).ReturnOkResult();
 
         [HttpPost]
-        [Authorize(Roles = TOURNAMENT_PARTICIPANT)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        //[Authorize(Roles = TOURNAMENT_PARTICIPANT)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_PARTICIPANT)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] TeamManagementModel model)
-        {
-            await teamService.Create(model);
-            return Ok();
-        }
+            => await teamService.Create(model).ReturnOkResult();
 
         [HttpPatch]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
@@ -38,7 +38,6 @@
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember")]
-        [Route("api/AddMember")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> AddMember([FromBody] TeamMemberModel model)
         {
@@ -48,7 +47,6 @@
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember", "TeamCreator", "Admin")]
-        [Route("api/RemoveMember")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> RemoveMember([FromBody] TeamMemberModel model)
         {

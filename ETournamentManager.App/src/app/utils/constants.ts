@@ -15,4 +15,7 @@ export const SERVER_ROUTES = {
     LOGIN: 'Auth/Login',
     REGISTER: 'Auth/Register',
   },
+  TEAM: {
+    CREATE: 'Team/Create',
+  },
 };

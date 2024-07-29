@@ -23,7 +23,8 @@ export class EFormComponent {
   @Output() formInputsChanged = new EventEmitter<any>();
   @Output() submitted = new EventEmitter();
 
-  isSubmitBtnDisabled = () => this.inputComponetData.some((i: InputField) => i.required && i.value.length === 0);
+  isSubmitBtnDisabled = () =>
+    this.inputComponetData.some((i: InputField) => i.required && i.value.length === 0);
 
   onInputChanged(index: number, newValue: string) {
     this.inputComponetData[index].value = newValue;

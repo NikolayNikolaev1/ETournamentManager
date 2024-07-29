@@ -1,17 +1,28 @@
 ﻿namespace API.Domains.Team.Services
 {
+    using Auth.Models;
+    using Auth.Services;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Core.Exceptions;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
+    using static Core.Common.Constants.ErrorMessages;
+    using static Core.Common.Constants.ErrorMessages.Team;
+
+    using Team = Data.Models.Team;
+
     public class TeamBusinessService(
         ETournamentManagerDbContext dbContext,
+        IAuthService authService,
         IMapper mapper,
         ITeamDataService teamDataService) : ITeamBusinessService
     {
+        private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
+
         public async Task AddMember(TeamMemberModel model)
         {
             //TODO: Check if userManager.currentUserId == team.captainid
@@ -26,21 +37,28 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Create(TeamManagementModel model)
+        public async Task<string> Create(TeamManagementModel model)
         {
             Team team = new Team
             {
                 Name = model.Name,
-                Tag = model.Tag,
+                Tag = model.Tag.ToUpper(),
                 Description = model.Description,
             };
 
-            if (!await ValidationsCheck(model)) return;
+            await ValidationsCheck(model);
 
-            //TODO: Add captain to team
+            team.Members.Add(new TeamMember
+            {
+                TeamId = team.Id,
+                MemberId = Guid.Parse(currentUser.Id),
+                IsCaptain = true
+            });
 
             await dbContext.AddAsync(team);
             await dbContext.SaveChangesAsync();
+
+            return team.Id.ToString();
         }
 
         public async Task Delete(string id)
@@ -67,12 +85,12 @@
                 return;
             }
 
-            if (!await ValidationsCheck(model)) return;
+            await ValidationsCheck(model);
 
             // TODO: Check if team.captainId == userManager.CurrentUserId
 
             team.Name = model.Name;
-            team.Tag = model.Tag;
+            team.Tag = model.Tag.ToUpper();
             team.Description = model.Description;
 
             dbContext.Teams.Update(team);
@@ -100,14 +118,39 @@
         }
 
         // TODO: Add validation message
-        private async Task<bool> ValidationsCheck(TeamManagementModel model)
+        private async Task ValidationsCheck(TeamManagementModel model)
         {
+            if (model.Name == string.Empty)
+            {
+                throw new BusinessServiceException(
+                    TEAM_NAME_EXISTS,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    nameof(model.Name));
+            }
 
-            if (await teamDataService.ContainsName(model.Name)) return false;
+            if (model.Tag == string.Empty)
+            {
+                throw new BusinessServiceException(
+                    TEAM_NAME_EXISTS,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    nameof(model.Name));
+            }
 
-            if (await teamDataService.ContainsTag(model.Tag)) return false;
+            if (await teamDataService.ContainsName(model.Name))
+            {
+                throw new BusinessServiceException(
+                    TEAM_NAME_EXISTS,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    nameof(model.Name));
+            }
 
-            return true;
+            if (await teamDataService.ContainsTag(model.Tag))
+            {
+                throw new BusinessServiceException(
+                    TEAM_TAG_EXISTS,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    nameof(model.Tag));
+            }
         }
     }
 }

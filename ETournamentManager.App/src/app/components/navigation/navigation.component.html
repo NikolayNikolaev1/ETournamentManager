@@ -1,25 +1,19 @@
 <div id="nav-container">
   <ul>
-    <li id="nav-logo" class="nav-item hover-transition">
-      <a class="image-text" routerLink="/">
-        <img src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
-        {{ constants.WEBSITE_NAME }}
-      </a>
+    <li id="nav-logo" class="nav-item hover-transition image-text" routerLink="/">
+      <img src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
+      {{ constants.WEBSITE_NAME }}
     </li>
     <li class="nav-item hover-transition">Current tournaments</li>
     @if (username !== null) {
       <li class="nav-item hover-transition">My teams</li>
-      <li class="nav-item hover-transition flex-right">
-        <a routerLink="/profile">{{ username | uppercase }}</a>
+      <li class="nav-item hover-transition flex-right" routerLink="/profile">
+        {{ username | uppercase }}
       </li>
       <li class="nav-item hover-transition" (click)="onLogout()">Logout</li>
     } @else {
-      <li class="nav-item hover-transition flex-right">
-        <a routerLink="/login">Login</a>
-      </li>
-      <li class="nav-item hover-transition">
-        <a routerLink="/register">Register</a>
-      </li>
+      <li class="nav-item hover-transition flex-right" routerLink="/login">Login</li>
+      <li class="nav-item hover-transition" routerLink="/register">Register</li>
     }
   </ul>
 </div>

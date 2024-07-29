@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import { ApiService } from 'app/services/api.service';
+import { SERVER_ROUTES } from 'app/utils/constants';
+
 import { TEAM_CREATE_FORM_MODEL } from './team-create.configuration';
 
 @Component({
@@ -13,11 +16,27 @@ export class TeamCreateComponent {
   description: string = '';
   errorMessage: string = '';
 
-  onFormChanged({ name, tag, desciption }: TEAM_CREATE_FORM_MODEL) {
+  constructor(private apiService: ApiService) {}
+
+  onFormChanged({ name, tag, description }: TEAM_CREATE_FORM_MODEL) {
     this.name = name;
     this.tag = tag;
-    this.description = desciption;
+    this.description = description;
   }
 
-  onCreateClick() {}
+  onCreateClick() {
+    this.apiService
+      .request<string, TEAM_CREATE_FORM_MODEL>({
+        url: SERVER_ROUTES.TEAM.CREATE,
+        method: 'post',
+        body: {
+          name: this.name,
+          tag: this.tag,
+          description: this.description,
+        },
+      })
+      .subscribe({
+        error: (error) => (this.errorMessage = error),
+      });
+  }
 }

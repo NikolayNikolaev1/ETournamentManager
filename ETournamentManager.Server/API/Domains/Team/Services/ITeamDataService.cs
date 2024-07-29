@@ -1,8 +1,9 @@
 ﻿namespace API.Domains.Team.Services
 {
+    using Core.Common.Data.Interfaces;
     using Data.Models;
 
-    public interface ITeamDataService
+    public interface ITeamDataService : IService
     {
         Task<bool> ContainsName(string name);
 

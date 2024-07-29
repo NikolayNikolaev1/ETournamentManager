@@ -1,8 +1,10 @@
 ﻿namespace API.Domains.Auth.Services
 {
+    using API.Domains.Team.Services;
     using AutoMapper;
     using Core.Common.Data;
     using Core.Exceptions;
+    using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Options;
@@ -15,9 +17,12 @@
 
     using static Core.Common.Constants.ErrorMessages;
     using static Core.Common.Constants.ErrorMessages.Auth;
+    using static Core.Common.Constants.Roles;
 
+    using Team = Data.Models.Team;
     public class AuthService(
         UserManager<User> userManager,
+        ETournamentManagerDbContext dbContext,
         ClaimsPrincipal claimsPrincipal,
         IMapper mapper,
         IOptions<JwtOptions> options) : IAuthService
@@ -82,6 +87,17 @@
             }
 
             await userManager.AddToRoleAsync(user, model.RoleName);
+
+            if (model.RoleName == TOURNAMENT_PARTICIPANT)
+            {
+                await dbContext.Teams.AddAsync(new Team
+                {
+                    Name = user.UserName,
+                    Tag = string.Empty,
+                    IsPrivate = true
+                });
+                await dbContext.SaveChangesAsync();
+            }
 
             return new AuthResponseModel
             {

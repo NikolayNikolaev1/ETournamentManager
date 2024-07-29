@@ -1,22 +1,20 @@
 ﻿namespace API.Domains.User
 {
+    using Core.Extensions;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
 
-    [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Route("api/[controller]/[action]")]
     public class UserController(IUserBusinessService userService) : ControllerBase
     {
         [HttpGet]
-        [Route("~/api/User/GetProfile")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserProfileModel))]
+        [ProducesResponseType(typeof(UserProfileModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProfile()
-        {
-            return Ok(await userService.GetProfile());
-        }
+            => await userService.GetProfile().ReturnOkResult();
     }
 }

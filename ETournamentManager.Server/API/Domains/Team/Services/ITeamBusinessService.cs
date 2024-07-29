@@ -1,10 +1,11 @@
 ﻿namespace API.Domains.Team.Services
 {
+    using Core.Common.Data.Interfaces;
     using Models;
 
-    public interface ITeamBusinessService
+    public interface ITeamBusinessService : IService
     {
-        Task Create(TeamManagementModel model);
+        Task<string> Create(TeamManagementModel model);
 
         Task Delete(string id);
 

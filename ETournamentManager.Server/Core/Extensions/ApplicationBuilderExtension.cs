@@ -1,7 +1,6 @@
 ﻿namespace Core.Extensions
 {
-    using Core.Common.Data.Interfaces;
-    using Core.Middlewares;
+    using Common.Data.Interfaces;
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Builder;
@@ -10,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Middlewares;
     using System.Security.Claims;
     using static Common.Constants;
 
@@ -43,7 +43,7 @@
 
             return app;
         }
-        
+
 
         public static IServiceCollection AddHttpContextService(this IServiceCollection services)
             => services.AddHttpContextAccessor()
@@ -55,7 +55,7 @@
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
             // Checks for database changes and migrates them everytime the program runs.
-            serviceScope.ServiceProvider.GetService<ETournamentManagerDbContext>().Database.Migrate();
+            serviceScope.ServiceProvider.GetService<ETournamentManagerDbContext>()!.Database.Migrate();
 
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<Role>>();

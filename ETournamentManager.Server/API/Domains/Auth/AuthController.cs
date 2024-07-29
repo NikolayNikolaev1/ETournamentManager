@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Auth
 {
+    using Core.Extensions;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -7,14 +8,13 @@
     using Services;
 
 
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController(
         IAuthService authService,
         SignInManager<User> signInManager) : ControllerBase
     {
         [HttpPost]
-        [Route("Register")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponseModel))]
         public async Task<IActionResult> Regsiter([FromBody] RegisterModel model)
         {
@@ -27,11 +27,8 @@
         }
 
         [HttpPost]
-        [Route("Login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponseModel))]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
-        {
-            return Ok(await authService.Login(model));
-        }
+            => await authService.Login(model).ReturnOkResult();
     }
 }
