@@ -7,6 +7,7 @@ import { HomeComponent } from 'app/components/pages/home/home.component';
 import { NotFoundComponent } from 'app/components/pages/not-found/not-found.component';
 import { PlayerProfileComponent } from 'app/components/pages/player-profile/player-profile.component';
 import { TeamCreateComponent } from 'app/components/pages/team/team-create/team-create.component';
+import { TeamDetailsComponent } from 'app/components/pages/team/team-details/team-details.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'profile',
     component: PlayerProfileComponent,
+  },
+  {
+    path: 'team/:id',
+    component: TeamDetailsComponent,
   },
   {
     path: 'team/create',

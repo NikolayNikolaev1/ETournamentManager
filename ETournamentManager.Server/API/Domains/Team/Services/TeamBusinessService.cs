@@ -102,9 +102,18 @@
             .Teams
             .ProjectTo<TeamListingModel>(mapper.ConfigurationProvider)
             .ToListAsync();
-        // TODO: Add NotFound error return
+
         public async Task<TeamListingModel> GetById(string id)
-            => mapper.Map<TeamListingModel>(await teamDataService.GetById(id));
+        {
+            Team? team = await teamDataService.GetById(id);
+
+            if (team == null)
+            {
+                throw new BusinessServiceException(TEAM_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
+
+            return mapper.Map<TeamListingModel>(await teamDataService.GetById(id));
+        }
 
         public async Task RemoveMember(TeamMemberModel model)
         {

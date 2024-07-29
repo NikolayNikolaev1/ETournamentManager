@@ -17,5 +17,8 @@ export const SERVER_ROUTES = {
   },
   TEAM: {
     CREATE: 'Team/Create',
+    GET: 'Team/Get',
+    UPDATE: 'Team/Update',
+    DELETE: 'Team/Delete',
   },
 };

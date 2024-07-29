@@ -42,6 +42,7 @@
                 public const string TEAM_NAME_EXISTS = "Team with that name already exists.";
                 public const string TEAM_TAG_EXISTS = "Team with that tag already exists.";
                 public const string TEAM_TAG_EMPTY = "Team tag can not be empty.";
+                public const string TEAM_NOT_FOUND = "Team not found.";
             }
         }
     }

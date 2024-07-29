@@ -14,7 +14,8 @@
     public class TeamController(ITeamBusinessService teamService) : ControllerBase
     {
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TeamListingModel))]
+        [ProducesResponseType(typeof(TeamListingModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(string id)
             => await teamService.GetById(id).ReturnOkResult();
 

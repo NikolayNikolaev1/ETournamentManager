@@ -19,6 +19,7 @@ import { EFormComponent } from './components/core/e-form/e-form.component';
 import { ESwitchComponent } from './components/core/e-switch/e-switch.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TeamCreateComponent } from './components/pages/team/team-create/team-create.component';
+import { TeamDetailsComponent } from './components/pages/team/team-details/team-details.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TeamCreateComponent } from './components/pages/team/team-create/team-cr
     EFormComponent,
     ESwitchComponent,
     TeamCreateComponent,
+    TeamDetailsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],

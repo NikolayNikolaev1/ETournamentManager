@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
@@ -16,7 +17,10 @@ export class TeamCreateComponent {
   description: string = '';
   errorMessage: string = '';
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private router: Router,
+    private apiService: ApiService
+  ) {}
 
   onFormChanged({ name, tag, description }: TEAM_CREATE_FORM_MODEL) {
     this.name = name;
@@ -36,6 +40,7 @@ export class TeamCreateComponent {
         },
       })
       .subscribe({
+        next: (id) => this.router.navigate(['/team', id]),
         error: (error) => (this.errorMessage = error),
       });
   }
