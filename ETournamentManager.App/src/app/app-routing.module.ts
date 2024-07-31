@@ -27,12 +27,13 @@ const routes: Routes = [
     component: PlayerProfileComponent,
   },
   {
-    path: 'team/:id',
-    component: TeamDetailsComponent,
-  },
-  {
     path: 'team/create',
     component: TeamCreateComponent,
+  },
+  {
+    path: 'team/:id',
+    component: TeamDetailsComponent,
+    pathMatch: 'full',
   },
   {
     path: '**',

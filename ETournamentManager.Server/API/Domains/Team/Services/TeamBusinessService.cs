@@ -67,9 +67,13 @@
 
             if (team == null)
             {
-                return;
+                throw new BusinessServiceException(TEAM_NOT_FOUND, StatusCodes.Status404NotFound);
             }
-            // TODO: Check if tournament.creatorId == userManager.CurrentUserId
+
+            if (!team.Members.First(m => m.IsCaptain).MemberId.Equals(Guid.Parse(currentUser.Id)))
+            {
+                throw new BusinessServiceException(USER_NOT_CAPTAIN, StatusCodes.Status403Forbidden);
+            }
 
 
             dbContext.Teams.Remove(team);
@@ -82,12 +86,15 @@
 
             if (team == null)
             {
-                return;
+                throw new BusinessServiceException(TEAM_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
+
+            if (!team.Members.First(m => m.IsCaptain).MemberId.Equals(Guid.Parse(currentUser.Id)))
+            {
+                throw new BusinessServiceException(USER_NOT_CAPTAIN, StatusCodes.Status403Forbidden);
             }
 
             await ValidationsCheck(model);
-
-            // TODO: Check if team.captainId == userManager.CurrentUserId
 
             team.Name = model.Name;
             team.Tag = model.Tag.ToUpper();

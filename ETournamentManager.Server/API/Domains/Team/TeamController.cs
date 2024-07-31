@@ -20,7 +20,6 @@
             => await teamService.GetById(id).ReturnOkResult();
 
         [HttpPost]
-        //[Authorize(Roles = TOURNAMENT_PARTICIPANT)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_PARTICIPANT)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -29,13 +28,12 @@
             => await teamService.Create(model).ReturnOkResult();
 
         [HttpPatch]
-        //[Authorize(Roles = "TeamCreater", "Admin"))]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(string id, [FromBody] TeamManagementModel model)
-        {
-            await teamService.Edit(id, model);
-            return Ok();
-        }
+            => await teamService.Edit(id, model).ReturnOkResult();
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember")]

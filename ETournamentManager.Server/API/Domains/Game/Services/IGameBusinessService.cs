@@ -9,7 +9,7 @@
 
         Task Delete(string id);
 
-        Task Update(string id, GameManagementModel nidek);
+        Task Edit(string id, GameManagementModel nidek);
 
         Task<ICollection<GameListingModel>> GetAll();
 

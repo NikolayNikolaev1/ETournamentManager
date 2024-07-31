@@ -2,12 +2,15 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Core.Exceptions;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using static Core.Common.Constants.ErrorMessages.Game;
 
     public class GameBusinessService(
         ETournamentManagerDbContext dbContext,
@@ -16,12 +19,11 @@
     {
         public async Task Create(GameManagementModel model)
         {
-            // TODO: Check if userManager.CurrentUser.Role == ADMIN;
-
             Game game = new Game
             {
                 Name = model.Name
             };
+
             await dbContext.AddAsync(game);
             await dbContext.SaveChangesAsync();
         }
@@ -32,13 +34,25 @@
 
             if (game == null)
             {
-                return;
+                throw new BusinessServiceException(GAME_NOT_FOUND, StatusCodes.Status404NotFound);
             }
 
-            // TODO: Check if userManager.CurrentUser.Role == ADMIN;
-
-
             dbContext.Games.Remove(game);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task Edit(string id, GameManagementModel model)
+        {
+            Game? game = await gameDataService.GetById(id);
+
+            if (game == null)
+            {
+                throw new BusinessServiceException(GAME_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
+
+            game.Name = model.Name;
+
+            dbContext.Games.Update(game);
             await dbContext.SaveChangesAsync();
         }
 
@@ -50,22 +64,5 @@
 
         public async Task<GameListingModel> GetById(string id)
             => mapper.Map<GameListingModel>(await gameDataService.GetById(id));
-
-        public async Task Update(string id, GameManagementModel model)
-        {
-            Game? game = await gameDataService.GetById(id);
-
-            if (game == null)
-            {
-                return;
-            }
-
-            // TODO: Check if userManager.CurrentUser.ROle == ADMIN
-
-            game.Name = model.Name;
-
-            dbContext.Games.Update(game);
-            await dbContext.SaveChangesAsync();
-        }
     }
 }
