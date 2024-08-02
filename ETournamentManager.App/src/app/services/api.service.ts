@@ -40,6 +40,10 @@ export class ApiService {
     return this.http.post(environment.apiUrl + '/Image/Upload', formData);
   }
 
+  getFile(name: string) {
+    return this.http.get( `https://localhost:7136/UploadFiles/${name}`)
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.

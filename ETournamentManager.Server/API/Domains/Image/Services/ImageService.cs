@@ -1,17 +1,17 @@
-﻿namespace API.Domains.Image
+﻿namespace API.Domains.Image.Services
 {
     using Core.Exceptions;
     using Models;
 
     using static Core.Common.Constants.ErrorMessages;
 
-    public class ImageHandler
+    public class ImageService : IImageService
     {
-        private readonly ICollection<string> extensions = new HashSet<string>() { ".jpg", ".jpeg", ".png" };
+        private readonly ICollection<string> extensions = new HashSet<string>() { ".png" };
         private readonly long mbToBitesCalcluation = 5 * 1024 * 1024;
-        private readonly string path = Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages");
+        private readonly string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\Core\Common\UploadImages");
 
-        public async Task UploadImage(ImageUploadModel model)
+        public async Task Upload(ImageUploadModel model)
         {
             IFormFile file = model.File;
 
@@ -29,8 +29,15 @@
                 throw new BusinessServiceException(INVALID_IMAGE_FILE_SIZE);
             }
 
-            using FileStream stream = new FileStream($"{path}{model.EntityId}{fileExtension}", FileMode.Create);
+            using FileStream stream = new FileStream(@$"{path}\{model.EntityId}{fileExtension}", FileMode.Create);
             await file.CopyToAsync(stream);
+        }
+
+        public async Task Delete(string name)
+        {
+            File.Delete(@$"{path}\{name}.png");
+
+            await Task.CompletedTask;
         }
     }
 }

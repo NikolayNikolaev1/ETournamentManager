@@ -6,7 +6,7 @@ using Data;
 using Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,6 +92,12 @@ app
     .UseDatabaseMigration()
     .UseHttpsRedirection()
     .UseCors("Client")
+    .UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(
+            Path.Combine(builder.Environment.ContentRootPath, @"..\Core\Common\UploadImages")),
+        RequestPath = "/UploadImages"
+    })
     .UseAuthentication()
     .UseAuthorization();
 
