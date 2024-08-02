@@ -1,11 +1,16 @@
 ﻿namespace API.Domains.Tournament
 {
+    using Core.Extensions;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
 
-    [Route("api/[controller]")]
+    using static Core.Common.Constants.Roles;
+
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TournamentController(ITournamentBusinessService tournamentService) : ControllerBase
     {
@@ -16,21 +21,18 @@
         }
 
         [HttpPost]
-        //[Authorize(Roles = "TeamCreater")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_CREATOR)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Create([FromBody] TournamentCreateModel model)
-        {
-            await tournamentService.Create(model);
-            return Ok();
-        }
+        public async Task<IActionResult> Create([FromBody] TournamentManagementModel model)
+            => await tournamentService.Create(model).ReturnOkResult();
 
         [HttpPatch]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update([FromBody] TournamentCreateModel model)
+        public async Task<IActionResult> Update(string id, [FromBody] TournamentManagementModel model)
         {
-            await tournamentService.Edit(model);
+            await tournamentService.Edit(id, model);
             return Ok();
         }
 

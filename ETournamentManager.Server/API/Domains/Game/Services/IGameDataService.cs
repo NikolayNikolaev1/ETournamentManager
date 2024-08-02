@@ -5,6 +5,8 @@
 
     public interface IGameDataService : IService
     {
+        Task<bool> ContainsId(string id);
+
         Task<Game?> GetById(string id);
     }
 }

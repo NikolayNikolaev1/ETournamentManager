@@ -1,0 +1,14 @@
+<app-e-form
+  title="Create new name"
+  [inputFields]="[
+    {
+      name: 'name',
+      value: name,
+      label: 'Name',
+      required: true,
+    },
+  ]"
+  [error]="errorMessage"
+  (submitted)="onCreateClick()"
+  (formInputsChanged)="onFormChanged($event)"
+/>

@@ -10,7 +10,7 @@ import {
   TOKEN_KEY_NAME,
 } from 'app/utils/constants';
 
-import { REGISTER_FORM_MODEL, REGISTER_REQUEST_BODY, UserRoles } from './register.config';
+import { REGISTER_FORM_MODEL, REGISTER_REQUEST_BODY, UserRoles } from './register.configuration';
 
 @Component({
   selector: 'app-register',

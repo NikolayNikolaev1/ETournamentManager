@@ -1,1 +1,11 @@
-<p>home works!</p>
+<label for="avatar">Choose a profile picture:</label>
+
+<input
+  type="file"
+  id="avatar"
+  name="avatar"
+  accept="image/png, image/jpeg"
+  (change)="handleFileInput($event)"
+/>
+
+<input type="submit" value="Submit" (click)="Submit()" />

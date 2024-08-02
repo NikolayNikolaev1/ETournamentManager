@@ -10,10 +10,30 @@ export const TOURNAMENT_PARTICIPANT_ROLE = 'TOURNAMENT_PARTICIPANT';
 export const PASSWORD_MISSMATCH_ERROR = 'Password missmatch!';
 export const PASSWORD_LENGTH_ERROR = 'Passwords must be at least 6 characters!';
 
+export const CLIENT_ROUTES = {
+  AUTH: {
+    LOGIN: 'login',
+    REGISTER: 'register',
+  },
+  GAME: {
+    CREATE: 'game/create',
+  },
+  TEAM: {
+    CREATE: 'team/create',
+    GET: 'team/:id',
+  },
+};
+
 export const SERVER_ROUTES = {
   AUTH: {
     LOGIN: 'Auth/Login',
     REGISTER: 'Auth/Register',
+  },
+  GAME: {
+    CREATE: 'Game/Create',
+  },
+  TOURNAMENT: {
+    CREATE: 'Tournament/Create',
   },
   TEAM: {
     CREATE: 'Team/Create',

@@ -1,21 +1,39 @@
 ﻿namespace API.Domains.Tournament.Services
 {
+    using Auth.Models;
+    using Auth.Services;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Core.Exceptions;
     using Data;
     using Data.Models;
+    using Game.Services;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Collections.Generic;
+
+    using static Core.Common.Constants.ErrorMessages.Game;
+    using static Core.Common.Constants.ErrorMessages.Tournament;
     using static Data.Models.Tournament;
+
+    using Tournament = Data.Models.Tournament;
 
     public class TournamentBusinessService(
         ETournamentManagerDbContext dbContext,
         IMapper mapper,
-        ITournamentDataService tournamentDataService) : ITournamentBusinessService
+        IAuthService authService,
+        ITournamentDataService tournamentDataService,
+        IGameDataService gameDataService) : ITournamentBusinessService
     {
-        public async Task Create(TournamentCreateModel model)
+        private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
+
+        public async Task Create(TournamentManagementModel model)
         {
+            if (!await gameDataService.ContainsId(model.GameId))
+            {
+                throw new BusinessServiceException(GAME_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
+
             Tournament tournament = new Tournament
             {
                 Name = model.Name,
@@ -23,7 +41,7 @@
                 Type = model.Type,
                 MinTeamMembers = model.Type == TournamentType.Team ? model.MinTeamMembers : 1,
                 GameId = Guid.Parse(model.GameId),
-                CreatorId = Guid.Parse("8108d0b2-42bb-4b84-8f06-3aca8d112873") // TODO: Change with userManager.CurrentUserId
+                CreatorId = Guid.Parse(currentUser.Id),
             };
 
             await dbContext.Tournaments.AddAsync(tournament);
@@ -45,19 +63,28 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Edit(TournamentCreateModel model)
+        public async Task Edit(string id, TournamentManagementModel model)
         {
-            Tournament? tournament = await tournamentDataService.GetById(model.Id);
+            Tournament? tournament = await tournamentDataService.GetById(id);
 
             if (tournament == null)
             {
-                return;
+                throw new BusinessServiceException(TOURNAMENT_NOT_FOUND, StatusCodes.Status404NotFound);
             }
 
-            // TODO: Check if tournament.creatorId == userManager.CurrentUserId
+            if (!tournament.CreatorId.Equals(Guid.Parse(currentUser.Id)))
+            {
+                throw new BusinessServiceException(USER_NOT_CREATOR, StatusCodes.Status401Unauthorized);
+            }
+
+            if (!await gameDataService.ContainsId(model.GameId))
+            {
+                throw new BusinessServiceException(GAME_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
 
             tournament.Name = model.Name;
             tournament.Description = model.Description;
+            tournament.GameId = Guid.Parse(model.GameId);
 
             dbContext.Tournaments.Update(tournament);
             await dbContext.SaveChangesAsync();

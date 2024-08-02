@@ -27,6 +27,8 @@
         {
             public const string DEFAULT_BUSSINESS_ERROR_TITLE = "Invalid Request!";
             public const string CLIENT_VALIDATION_ERROR_TITLE = "Invalid User Action!";
+            public const string INVALID_IMAGE_FILE_EXTENSION = "Uploaded file has an invalid extension.";
+            public const string INVALID_IMAGE_FILE_SIZE = "Max upload image size is 5 MB.";
 
             public static class Auth
             {
@@ -49,6 +51,13 @@
                 public const string TEAM_TAG_EMPTY = "Team tag can not be empty.";
                 public const string TEAM_NOT_FOUND = "Team not found.";
                 public const string USER_NOT_CAPTAIN = "Current user is not team captain.";
+            }
+
+            public static class Tournament
+            {
+                public const string TOURNAMENT_NOT_FOUND = "Tournament not found.";
+                public const string USER_NOT_CREATOR = "Current user is not tournament creator.";
+
             }
         }
     }

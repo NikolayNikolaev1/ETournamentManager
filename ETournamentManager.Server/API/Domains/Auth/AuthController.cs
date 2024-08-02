@@ -16,15 +16,8 @@
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponseModel))]
-        public async Task<IActionResult> Regsiter([FromBody] RegisterModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid Request Payload");
-            }
-
-            return Ok(await authService.Register(model));
-        }
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+            => await authService.Register(model).ReturnOkResult();
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponseModel))]

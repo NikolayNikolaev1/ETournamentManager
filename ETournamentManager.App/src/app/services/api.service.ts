@@ -1,7 +1,7 @@
 import { environment } from 'environments/environment.development';
 import { catchError, throwError } from 'rxjs';
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -30,6 +30,15 @@ export class ApiService {
     this.http
       .request<TResponse>(method, `${environment.apiUrl}/${url}`, { body })
       .pipe(catchError(this.handleError));
+
+  uploadImage(id: string, file: any) {
+    // const headers = new HttpHeaders().set('Content-Type', 'multipart/form-data');
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('entityId', id);
+
+    return this.http.post(environment.apiUrl + '/Image/Upload', formData);
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
