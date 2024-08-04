@@ -22,6 +22,7 @@ import { TeamDetailsComponent } from 'app/components/pages/team/team-details/tea
 import { TournamentCreateComponent } from 'app/components/pages/tournament-create/tournament-create.component';
 import { TeamsSectionComponent } from 'app/components/teams-section/teams-section.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
+import { EImageUploadComponent } from './components/core/e-image-upload/e-image-upload.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
     TeamDetailsComponent,
     TournamentCreateComponent,
     GameCreateComponent,
+    EImageUploadComponent,
   ],
   imports: [
     BrowserModule,

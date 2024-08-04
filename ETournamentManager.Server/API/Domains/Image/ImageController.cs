@@ -11,6 +11,7 @@
     {
         [HttpPost]
         [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
         public async Task<IActionResult> Upload(ImageUploadModel model)
             => await imageService.Upload(model).ReturnOkResult();
 

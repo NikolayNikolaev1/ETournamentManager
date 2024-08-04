@@ -41,4 +41,8 @@ export const SERVER_ROUTES = {
     UPDATE: 'Team/Update',
     DELETE: 'Team/Delete',
   },
+  IMAGE: {
+    UPLOAD: 'Image/Upload',
+    DELETE: 'Image/Delete',
+  },
 };

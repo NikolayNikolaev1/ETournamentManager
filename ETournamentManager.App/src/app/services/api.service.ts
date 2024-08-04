@@ -11,6 +11,7 @@ interface ApiRequestData<TBody> {
   url: string;
   method: 'get' | 'post' | 'patch' | 'delete';
   body?: TBody;
+  isFile?: boolean;
 }
 
 @Injectable({
@@ -22,17 +23,28 @@ export class ApiService {
     private router: Router
   ) {}
 
-  request = <TResponse, TRquestBody = undefined>({
+  request<TResponse, TRquestBody = undefined>({
     url,
     method,
     body,
-  }: ApiRequestData<TRquestBody>) =>
-    this.http
-      .request<TResponse>(method, `${environment.apiUrl}/${url}`, { body })
+    isFile = false,
+  }: ApiRequestData<TRquestBody>) {
+    const formData = new FormData();
+
+    if (isFile) {
+      const { entityId, file } = body as { entityId: string; file: any };
+      formData.append('file', file);
+      formData.append('entityId', entityId);
+    }
+
+    return this.http
+      .request<TResponse>(method, `${environment.apiUrl}/${url}`, {
+        body: isFile ? formData : body,
+      })
       .pipe(catchError(this.handleError));
+  }
 
   uploadImage(id: string, file: any) {
-    // const headers = new HttpHeaders().set('Content-Type', 'multipart/form-data');
     const formData = new FormData();
     formData.append('file', file);
     formData.append('entityId', id);
@@ -41,7 +53,7 @@ export class ApiService {
   }
 
   getFile(name: string) {
-    return this.http.get( `https://localhost:7136/UploadFiles/${name}`)
+    return this.http.get(`https://localhost:7136/UploadFiles/${name}`);
   }
 
   private handleError(error: HttpErrorResponse) {

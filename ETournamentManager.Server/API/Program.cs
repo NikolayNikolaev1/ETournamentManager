@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
+using static Core.Common.Constants.AuthConfig;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -95,7 +97,7 @@ app
     .UseStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(
-            Path.Combine(builder.Environment.ContentRootPath, @"..\Core\Common\UploadImages")),
+            Path.Combine(builder.Environment.ContentRootPath, STATIC_FILES_PATH)),
         RequestPath = "/UploadImages"
     })
     .UseAuthentication()

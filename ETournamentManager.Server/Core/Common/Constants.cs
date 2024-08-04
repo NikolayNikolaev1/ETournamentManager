@@ -21,6 +21,7 @@
             public const int HASH_KEY_SIZE = 128 / 8;
             public const int HASH_NUM_BYTES_REQUESTED = 256 / 8;
             public const string JWT_SECTION_NAME = "JwtCredentials";
+            public const string STATIC_FILES_PATH = @"..\Core\Common\UploadImages";
         }
 
         public static class ErrorMessages
