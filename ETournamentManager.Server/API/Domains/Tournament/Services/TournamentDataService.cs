@@ -15,6 +15,9 @@
         public async Task<TournamentTeam?> GetTournamentTeam(string tournamentId, string teamId)
             => await dbContext
             .TournamentTeams
+            .Include(tt => tt.Tournament)
+            .Include(tt => tt.Team)
+            .ThenInclude(t => t.Members)
             .FirstOrDefaultAsync(tp => tp.TournamentId.ToString() == tournamentId && tp.TeamId.ToString() == teamId);
     }
 }

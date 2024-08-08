@@ -1,20 +1,18 @@
-<div
-  class="image-upload-wrapper"
-  [ngClass]="{ 'image-selected': imageFile !== null }"
-  (click)="triggerFileChange()"
->
+<div class="image-upload-wrapper" [ngClass]="{ 'image-selected': imageFile !== null }">
   <input #fileInput type="file" accept="image/png" (change)="onFileChange($event)" />
   @if (imageFile === null) {
-    <img
-      class="img-upload-icon"
-      src="assets/images/image-upload-icon.svg"
-      alt="Image Upload Icon"
-      width="52"
-    />
-    <div class="label">
-      <h3>Upload Image</h3>
-      <h6>Recomended images:</h6>
-      <h3>PNG format, 5MB or less</h3>
+    <div class="upload-container" (click)="triggerFileChange()">
+      <img
+        class="img-upload-icon"
+        src="assets/images/image-upload-icon.svg"
+        alt="Image Upload Icon"
+        width="52"
+      />
+      <div class="label">
+        <h3>Upload Image</h3>
+        <h6>Recomended images:</h6>
+        <h3>PNG format, 5MB or less</h3>
+      </div>
     </div>
   } @else {
     <img

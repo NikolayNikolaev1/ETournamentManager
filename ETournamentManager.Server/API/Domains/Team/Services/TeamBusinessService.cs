@@ -12,6 +12,7 @@
 
     using static Core.Common.Constants.ErrorMessages;
     using static Core.Common.Constants.ErrorMessages.Team;
+    using static Microsoft.AspNetCore.Http.StatusCodes;
 
     using Team = Data.Models.Team;
 
@@ -67,14 +68,24 @@
 
             if (team == null)
             {
-                throw new BusinessServiceException(TEAM_NOT_FOUND, StatusCodes.Status404NotFound);
+                throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
             }
 
             if (!team.Members.First(m => m.IsCaptain).MemberId.Equals(Guid.Parse(currentUser.Id)))
             {
-                throw new BusinessServiceException(USER_NOT_CAPTAIN, StatusCodes.Status403Forbidden);
+                throw new BusinessServiceException(USER_NOT_CAPTAIN, Status403Forbidden);
             }
 
+            // TODO 
+            //if (team.Tournaments.Count(t => !t.IsRequest && t.Tournament.HasFinished) > 0)
+            //{
+            //    throw new BusinessServiceException("Can not delete team that is in a tournament");
+            //}
+
+            if (team.Members.Count > 1)
+            {
+                throw new BusinessServiceException("Can not delete team that has members in it");
+            }
 
             dbContext.Teams.Remove(team);
             await dbContext.SaveChangesAsync();
@@ -86,12 +97,12 @@
 
             if (team == null)
             {
-                throw new BusinessServiceException(TEAM_NOT_FOUND, StatusCodes.Status404NotFound);
+                throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
             }
 
             if (!team.Members.First(m => m.IsCaptain).MemberId.Equals(Guid.Parse(currentUser.Id)))
             {
-                throw new BusinessServiceException(USER_NOT_CAPTAIN, StatusCodes.Status403Forbidden);
+                throw new BusinessServiceException(USER_NOT_CAPTAIN, Status403Forbidden);
             }
 
             await ValidationsCheck(model);
@@ -116,7 +127,7 @@
 
             if (team == null)
             {
-                throw new BusinessServiceException(TEAM_NOT_FOUND, StatusCodes.Status404NotFound);
+                throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
             }
 
             return mapper.Map<TeamListingModel>(await teamDataService.GetById(id));
@@ -124,16 +135,23 @@
 
         public async Task RemoveMember(TeamMemberModel model)
         {
-            //TODO: Check if userManager.currentUserId == team.captainid
             TeamMember? teamMember = await teamDataService.GetTeamMember(model.TeamId, model.MemberId);
 
-            if (teamMember == null) return;
+            if (teamMember == null)
+            {
+                throw new BusinessServiceException("Member in team does not exist.", Status404NotFound);
+            }
+
+            if (teamMember.Team.Members.First(m => m.IsCaptain).MemberId != Guid.Parse(currentUser.Id)
+                || teamMember.MemberId != Guid.Parse(currentUser.Id))
+            {
+                throw new BusinessServiceException("Only captain can remove a member, or member can leave the team", Status403Forbidden);
+            }
 
             dbContext.Remove(teamMember);
             await dbContext.SaveChangesAsync();
         }
 
-        // TODO: Add validation message
         private async Task ValidationsCheck(TeamManagementModel model)
         {
             if (model.Name == string.Empty)

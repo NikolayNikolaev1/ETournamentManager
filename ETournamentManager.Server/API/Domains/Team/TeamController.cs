@@ -13,7 +13,7 @@
     [Route("api/[controller]/[action]")]
     public class TeamController(ITeamBusinessService teamService) : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(TeamListingModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(string id)
@@ -27,7 +27,7 @@
         public async Task<IActionResult> Create([FromBody] TeamManagementModel model)
             => await teamService.Create(model).ReturnOkResult();
 
-        [HttpPatch]
+        [HttpPatch("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -54,7 +54,7 @@
         }
 
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(string id)

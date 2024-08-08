@@ -9,7 +9,8 @@ import { NotFoundComponent } from 'app/components/pages/not-found/not-found.comp
 import { PlayerProfileComponent } from 'app/components/pages/player-profile/player-profile.component';
 import { TeamCreateComponent } from 'app/components/pages/team/team-create/team-create.component';
 import { TeamDetailsComponent } from 'app/components/pages/team/team-details/team-details.component';
-import { TournamentCreateComponent } from 'app/components/pages/tournament-create/tournament-create.component';
+import { TournamentCreateComponent } from 'app/components/pages/tournament/tournament-create/tournament-create.component';
+import { TournamentDetailsComponent } from 'app/components/pages/tournament/tournament-details/tournament-details.component';
 import { CLIENT_ROUTES } from 'app/utils/constants';
 
 const routes: Routes = [
@@ -38,8 +39,12 @@ const routes: Routes = [
     component: TournamentCreateComponent,
   },
   {
-    path: 'team/create',
-    component: TeamCreateComponent,
+    path: 'tournament/create',
+    component: TournamentCreateComponent,
+  },
+  {
+    path: 'tournament/:id',
+    component: TournamentDetailsComponent,
   },
   {
     path: 'team/:id',

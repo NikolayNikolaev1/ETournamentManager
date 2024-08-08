@@ -14,7 +14,7 @@
     [ApiController]
     public class TournamentController(ITournamentBusinessService tournamentService) : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
             return Ok(await tournamentService.GetById(id));
@@ -27,7 +27,7 @@
         public async Task<IActionResult> Create([FromBody] TournamentManagementModel model)
             => await tournamentService.Create(model).ReturnOkResult();
 
-        [HttpPatch]
+        [HttpPatch("{id}")]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(string id, [FromBody] TournamentManagementModel model)
@@ -57,7 +57,7 @@
         }
 
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(string id)

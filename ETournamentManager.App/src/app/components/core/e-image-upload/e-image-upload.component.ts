@@ -28,9 +28,7 @@ export class EImageUploadComponent {
   onFileChange(event: Event) {
     this.imageFile = (event.target as HTMLInputElement).files?.item(0) ?? null;
     this.changedImage.emit(this.imageFile);
-  }
 
-  onImageUpload() {
     this.apiServie
       .request<null, { entityId: string; file: any }>({
         method: 'post',

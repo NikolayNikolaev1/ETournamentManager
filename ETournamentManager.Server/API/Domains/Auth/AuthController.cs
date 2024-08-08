@@ -1,8 +1,6 @@
 ﻿namespace API.Domains.Auth
 {
     using Core.Extensions;
-    using Data.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
@@ -10,9 +8,7 @@
 
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthController(
-        IAuthService authService,
-        SignInManager<User> signInManager) : ControllerBase
+    public class AuthController(IAuthService authService) : ControllerBase
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponseModel))]
