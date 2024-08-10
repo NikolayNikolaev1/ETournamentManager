@@ -13,6 +13,11 @@
     public class UserController(IUserBusinessService userService) : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(typeof(ICollection<UserListingModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll([FromQuery] UserQueryParamsModel queryParams)
+            => await userService.GetAll(queryParams).ReturnOkResult();
+
+        [HttpGet]
         [ProducesResponseType(typeof(UserProfileModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProfile()
             => await userService.GetProfile().ReturnOkResult();

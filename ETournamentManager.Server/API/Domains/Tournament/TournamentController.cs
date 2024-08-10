@@ -3,12 +3,13 @@
     using Core.Extensions;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+
     using Models;
     using Services;
 
     using static Core.Common.Constants.Roles;
+    using static Microsoft.AspNetCore.Http.StatusCodes;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -22,14 +23,14 @@
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_CREATOR)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] TournamentManagementModel model)
             => await tournamentService.Create(model).ReturnOkResult();
 
         [HttpPatch("{id}")]
-        //[Authorize(Roles = "TeamCreater", "Admin"))]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_CREATOR)]
+        [ProducesResponseType(Status200OK)]
         public async Task<IActionResult> Update(string id, [FromBody] TournamentManagementModel model)
         {
             await tournamentService.Edit(id, model);
@@ -39,7 +40,7 @@
         [HttpPatch]
         //[Authorize(Roles = "TeamMember")]
         [Route("api/AddParticipant")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(Status200OK)]
         public async Task<IActionResult> AddParticipant([FromBody] TournamentTeamModel model)
         {
             await tournamentService.Join(model);
@@ -48,8 +49,7 @@
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember", "TeamCreator", "Admin")]
-        [Route("api/RemoveParticipant")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(Status200OK)]
         public async Task<IActionResult> RemoveParticipant([FromBody] TournamentTeamModel model)
         {
             await tournamentService.Leave(model);
@@ -59,7 +59,7 @@
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "TeamCreater", "Admin"))]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(Status200OK)]
         public async Task<IActionResult> Delete(string id)
         {
             await tournamentService.Delete(id);

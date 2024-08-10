@@ -24,10 +24,10 @@
             .ForMember(u => u.Username, opt => opt.MapFrom(cp => cp.FindFirstValue(JwtRegisteredClaimNames.Name)))
             .ForMember(u => u.Email, opt => opt.MapFrom(cp => cp.FindFirstValue(ClaimTypes.Email)))
             .ForMember(u => u.RoleName, opt => opt.MapFrom(
-                cp => cp.IsInRole(TOURNAMENT_CREATOR) 
-                    ? TOURNAMENT_CREATOR 
-                    : cp.IsInRole(TOURNAMENT_PARTICIPANT) 
-                    ? TOURNAMENT_PARTICIPANT 
+                cp => cp.IsInRole(TOURNAMENT_CREATOR)
+                    ? TOURNAMENT_CREATOR
+                    : cp.IsInRole(TOURNAMENT_PARTICIPANT)
+                    ? TOURNAMENT_PARTICIPANT
                     : ADMIN));
     }
 }

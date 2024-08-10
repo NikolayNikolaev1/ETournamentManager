@@ -115,11 +115,26 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ICollection<TeamListingModel>> GetAll()
-            => await dbContext
-            .Teams
-            .ProjectTo<TeamListingModel>(mapper.ConfigurationProvider)
-            .ToListAsync();
+        public async Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams)
+        {
+            ICollection<string> userIds = new HashSet<string>();
+
+            if (queryParams.UserIds != null)
+            {
+                userIds = queryParams.UserIds.Split(", ").ToList();
+            }
+
+            IQueryable<Team> teams = dbContext.Teams.AsQueryable();
+
+            if (userIds.Count > 0)
+            {
+                teams.Where(t => t.Members.Any(m => userIds.Contains(m.MemberId.ToString())));
+            }
+
+            return await teams
+                .ProjectTo<TeamListingModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
 
         public async Task<TeamListingModel> GetById(string id)
         {

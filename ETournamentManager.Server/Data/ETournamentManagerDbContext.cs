@@ -1,12 +1,14 @@
 ﻿namespace Data
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Reflection;
 
     public class ETournamentManagerDbContext(DbContextOptions<ETournamentManagerDbContext> options) 
-        : IdentityDbContext<User, Role, Guid>(options)
+        : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,
+        IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
     {
         public DbSet<Game> Games { get; set; }
 

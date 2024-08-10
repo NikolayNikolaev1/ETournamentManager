@@ -11,7 +11,7 @@
 
         Task Edit(string id, TeamManagementModel model);
 
-        Task<ICollection<TeamListingModel>> GetAll();
+        Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams);
 
         Task<TeamListingModel> GetById(string id);
 

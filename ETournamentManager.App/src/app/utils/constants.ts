@@ -39,6 +39,7 @@ export const SERVER_ROUTES = {
   TEAM: {
     CREATE: 'Team/Create',
     GET: 'Team/Get',
+    GetAll: 'Team/GetAll',
     UPDATE: 'Team/Update',
     DELETE: 'Team/Delete',
   },

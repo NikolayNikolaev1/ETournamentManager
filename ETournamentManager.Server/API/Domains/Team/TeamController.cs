@@ -19,6 +19,11 @@
         public async Task<IActionResult> Get(string id)
             => await teamService.GetById(id).ReturnOkResult();
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery]TeamQueryParamsModel queryParams)
+            => await teamService.GetAll(queryParams).ReturnOkResult();
+
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_PARTICIPANT)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]

@@ -2,6 +2,7 @@
 
 .teams-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   width: 100%;
   padding: 30px;
@@ -69,7 +70,8 @@
             gap: 3px;
 
             img {
-              filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(349deg) brightness(100%) contrast(104%);
+              filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%)
+                hue-rotate(349deg) brightness(100%) contrast(104%);
               height: 15px;
               width: 15px;
             }

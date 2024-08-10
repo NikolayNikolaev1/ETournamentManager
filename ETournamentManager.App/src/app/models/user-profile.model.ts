@@ -2,7 +2,7 @@ interface UserProfile {
   id: string;
   username: string;
   email: string;
-  roles: any;
+  roleName: string;
 }
 
 export default UserProfile;

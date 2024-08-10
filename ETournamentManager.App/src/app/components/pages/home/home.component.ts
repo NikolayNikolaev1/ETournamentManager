@@ -13,25 +13,8 @@ export class HomeComponent implements OnInit {
   constructor(private apiServie: ApiService) {}
 
   ngOnInit(): void {
-    // this.apiServie.request({ url: `Image/Delete/tester`, method: 'delete' }).subscribe();
-  }
-
-  handleFileInput(event: Event) {
-    this.imageFile = (event.target as HTMLInputElement).files?.item(0) ?? null;
-  }
-
-  Submit() {
     this.apiServie
-      .request<null, { entityId: string; file: any }>({
-        method: 'post',
-        url: SERVER_ROUTES.IMAGE.UPLOAD,
-        body: {
-          entityId: 'testing',
-          file: this.imageFile,
-        },
-        isFile: true,
-      })
+      .request({ url: `User/GetAll`, method: 'get', queryParams: { search: 'test' } })
       .subscribe();
-    // this.apiServie.uploadImage('tester', this.imageFile.item(0)).subscribe();
   }
 }

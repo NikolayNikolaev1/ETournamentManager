@@ -34,7 +34,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.Role", b =>
@@ -88,7 +88,7 @@ namespace Data.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Rounds");
+                    b.ToTable("Rounds", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.RoundTeam", b =>
@@ -106,7 +106,7 @@ namespace Data.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("RoundTeams");
+                    b.ToTable("RoundTeams", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.Team", b =>
@@ -131,7 +131,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.TeamMember", b =>
@@ -149,7 +149,7 @@ namespace Data.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("TeamMembers");
+                    b.ToTable("TeamMembers", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.Tournament", b =>
@@ -186,7 +186,7 @@ namespace Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Tournaments");
+                    b.ToTable("Tournaments", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.TournamentTeam", b =>
@@ -204,7 +204,7 @@ namespace Data.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TournamentTeams");
+                    b.ToTable("TournamentTeams", (string)null);
                 });
 
             modelBuilder.Entity("Data.Models.User", b =>

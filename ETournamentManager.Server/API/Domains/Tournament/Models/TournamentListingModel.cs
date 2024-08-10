@@ -1,6 +1,5 @@
 ﻿namespace API.Domains.Tournament.Models
 {
-    using AutoMapper;
     using Core.Mapper;
     using Data.Models;
     using Game.Models;

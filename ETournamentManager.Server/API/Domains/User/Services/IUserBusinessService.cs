@@ -5,6 +5,8 @@
 
     public interface IUserBusinessService : IService
     {
+        Task<ICollection<UserListingModel>> GetAll(UserQueryParamsModel queryParams);
+
         Task<UserProfileModel> GetProfile();
     }
 }

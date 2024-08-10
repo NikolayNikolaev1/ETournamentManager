@@ -1,17 +1,24 @@
 import { environment } from 'environments/environment.development';
 import { catchError, throwError } from 'rxjs';
 
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CLIENT_VALIDATION_ERROR_TITLE } from 'app/utils/constants';
+
+type QueryParams = {
+  search?: string;
+  role?: string;
+  userIds?: string[];
+};
 
 interface ApiRequestData<TBody> {
   url: string;
   method: 'get' | 'post' | 'patch' | 'delete';
   body?: TBody;
   isFile?: boolean;
+  queryParams?: QueryParams;
 }
 
 @Injectable({
@@ -28,32 +35,34 @@ export class ApiService {
     method,
     body,
     isFile = false,
+    queryParams = {},
   }: ApiRequestData<TRquestBody>) {
     const formData = new FormData();
+    let params = new HttpParams();
+    let requestUrl = `${environment.apiUrl}/api/${url}`;
 
     if (isFile) {
-      const { entityId, file } = body as { entityId: string; file: any };
-      formData.append('file', file);
-      formData.append('entityId', entityId);
+      if (method === 'get') {
+        requestUrl = `${environment.apiUrl}/UploadImages/${url}.png`;
+      } else if (method === 'post') {
+        const { entityId, file } = body as { entityId: string; file: any };
+        formData.append('file', file);
+        formData.append('entityId', entityId);
+      }
     }
 
+    Object.keys(queryParams).forEach((qp) => {
+      const queryParam = queryParams[qp as keyof QueryParams]!;
+
+      params = params.set(qp, Array.isArray(queryParam) ? queryParam.join(', ') : queryParam);
+    });
+
     return this.http
-      .request<TResponse>(method, `${environment.apiUrl}/${url}`, {
+      .request<TResponse>(method, requestUrl, {
         body: isFile ? formData : body,
+        params,
       })
       .pipe(catchError(this.handleError));
-  }
-
-  uploadImage(id: string, file: any) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('entityId', id);
-
-    return this.http.post(environment.apiUrl + '/Image/Upload', formData);
-  }
-
-  getFile(name: string) {
-    return this.http.get(`https://localhost:7136/UploadFiles/${name}`);
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -61,6 +70,10 @@ export class ApiService {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('A client error occurred:', error.error);
       return throwError(() => '');
+    }
+
+    if (error.status === 200) {
+      return throwError(() => true);
     }
 
     console.error(`Backend returned code ${error.status}, body was: `, error.error);

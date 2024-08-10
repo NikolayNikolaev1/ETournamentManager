@@ -6,8 +6,10 @@
     {
         public override Guid Id { get; set; } = Guid.NewGuid();
 
-        public ICollection<Tournament> CreatedTournaments { get; set; } = new List<Tournament>();
+        public ICollection<UserRole> Roles { get; set; } = new HashSet<UserRole>();
 
-        public ICollection<TeamMember> Teams { get; set; } = new List<TeamMember>();
+        public ICollection<Tournament> CreatedTournaments { get; set; } = new HashSet<Tournament>();
+
+        public ICollection<TeamMember> Teams { get; set; } = new HashSet<TeamMember>();
     }
 }

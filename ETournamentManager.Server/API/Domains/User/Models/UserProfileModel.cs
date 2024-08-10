@@ -1,5 +1,7 @@
 ﻿namespace API.Domains.User.Models
 {
+    using API.Domains.Team.Models;
+    using AutoMapper;
     using Core.Mapper;
     using Data.Models;
 

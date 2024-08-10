@@ -26,7 +26,7 @@ export class TeamDetailsComponent implements OnInit {
 
   private getTeamDetails() {
     this.apiService
-      .request<Team>({ url: `${SERVER_ROUTES.TEAM.GET}/${this.teamId}`, method: 'get' })
+      .request<Team>({ url: `${SERVER_ROUTES.TEAM.GET}/${this.teamId}`, method: 'get', queryParams: {search: 'test'} })
       .subscribe((response) => (this.teamData = response));
   }
 }
