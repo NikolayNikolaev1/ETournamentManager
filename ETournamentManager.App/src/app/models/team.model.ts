@@ -1,9 +1,11 @@
+import { UserBase } from './user.model';
+
 interface Team {
   id: string;
   name: string;
   tag: string;
   imgUrl: string;
-  playersCount: number;
+  members: UserBase[];
   tournamentsWon: number;
 }
 

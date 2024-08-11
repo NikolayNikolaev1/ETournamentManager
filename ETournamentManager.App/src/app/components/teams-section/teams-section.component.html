@@ -14,6 +14,7 @@
           ')'
         "
         [style.background-size]="'cover'"
+        [routerLink]="'/team/' + teamData.id"
       >
         <div class="card-wrapper">
           <div class="logo-holder">
@@ -24,17 +25,14 @@
             <div class="subtitle-row">
               <div class="subtitle">{{ teamData.tag }}</div>
               <div class="stats-info">
-                <img
-                  src="assets/images/first-place-medal.svg"
-                  alt="First Place Medal"
-                />
+                <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
                 <div class="subtitle">
                   {{ teamData.tournamentsWon }}
                 </div>
 
                 <img src="assets/images/people-icon.svg" alt="People Icon" />
                 <div class="subtitle">
-                  {{ teamData.playersCount }}
+                  {{ teamData.members.length }}
                 </div>
               </div>
             </div>

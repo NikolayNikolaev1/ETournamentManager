@@ -41,26 +41,20 @@
             => await teamService.Edit(id, model).ReturnOkResult();
 
         [HttpPatch]
-        //[Authorize(Roles = "TeamMember")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
+        [ProducesResponseType(typeof(TeamListingModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddMember([FromBody] TeamMemberModel model)
-        {
-            await teamService.AddMember(model);
-            return Ok();
-        }
+            => await teamService.AddMember(model).ReturnOkResult();
 
         [HttpPatch]
-        //[Authorize(Roles = "TeamMember", "TeamCreator", "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> RemoveMember([FromBody] TeamMemberModel model)
-        {
-            await teamService.RemoveMember(model);
-            return Ok();
-        }
+            => await teamService.RemoveMember(model).ReturnOkResult();
 
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "TeamCreater", "Admin"))]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(string id)
         {

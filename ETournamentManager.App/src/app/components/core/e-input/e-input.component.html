@@ -1,8 +1,25 @@
-<input
-  [(ngModel)]="value"
-  [ngClass]="{ filled: value.length > 0, invalid }"
-  [type]="type"
-  [placeholder]="label"
-  (change)="onInputChange()"
-  (blur)="onInputBlur()"
-/>
+<div class="input-container">
+  <div class="search-wrapper">
+    <input
+      [(ngModel)]="value"
+      [ngClass]="{ filled: value.length > 0, invalid }"
+      [type]="type"
+      [placeholder]="label"
+      (change)="onInputChange()"
+      (input)="onInput()"
+      (blur)="onInputBlur()"
+    />
+
+    @for (result of searchResult; track $index) {
+      <div class="search-result" (click)="onSearchResultClick($index)">
+        {{ result }}
+      </div>
+    }
+    
+  </div>
+  @if (isSearch) {
+    <div class="search-img">
+      <img src="assets/images/search-icon.svg" alt="Search icon" width="20" />
+    </div>
+  }
+</div>

@@ -9,6 +9,7 @@
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using User.Services;
 
     using static Core.Common.Constants.ErrorMessages;
     using static Core.Common.Constants.ErrorMessages.Team;
@@ -20,15 +21,37 @@
         ETournamentManagerDbContext dbContext,
         IAuthService authService,
         IMapper mapper,
-        ITeamDataService teamDataService) : ITeamBusinessService
+        ITeamDataService teamDataService,
+        IUserDataService userDataService) : ITeamBusinessService
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
 
-        public async Task AddMember(TeamMemberModel model)
+        public async Task<TeamListingModel> AddMember(TeamMemberModel model)
         {
-            //TODO: Check if userManager.currentUserId == team.captainid
+            Team? team = await teamDataService.GetById(model.TeamId);
+            User? user = await userDataService.GetById(model.MemberId);
 
-            if (await teamDataService.GetTeamMember(model.TeamId, model.MemberId) != null) return;
+            if (team == null)
+            {
+                throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
+            }
+
+            if (user == null)
+            {
+                throw new BusinessServiceException("User not found", Status404NotFound);
+            }
+
+            TeamMember? teamCaptain = await teamDataService.GetTeamMember(model.TeamId, currentUser.Id);
+
+            if (teamCaptain == null || !teamCaptain.IsCaptain)
+            {
+                throw new BusinessServiceException("Only team captain can add new members.");
+            }
+
+            if (await teamDataService.GetTeamMember(model.TeamId, model.MemberId) != null)
+            {
+                throw new BusinessServiceException("Member already in team.");
+            }
 
             await dbContext.TeamMembers.AddAsync(new TeamMember
             {
@@ -36,6 +59,8 @@
                 MemberId = Guid.Parse(model.MemberId)
             });
             await dbContext.SaveChangesAsync();
+
+            return mapper.Map<TeamListingModel>(team);
         }
 
         public async Task<string> Create(TeamManagementModel model)
@@ -145,11 +170,18 @@
                 throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
             }
 
-            return mapper.Map<TeamListingModel>(await teamDataService.GetById(id));
+            return mapper.Map<TeamListingModel>(team);
         }
 
-        public async Task RemoveMember(TeamMemberModel model)
+        public async Task<TeamListingModel> RemoveMember(TeamMemberModel model)
         {
+            Team? team = await teamDataService.GetById(model.TeamId);
+
+            if (team == null)
+            {
+                throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
+            }
+
             TeamMember? teamMember = await teamDataService.GetTeamMember(model.TeamId, model.MemberId);
 
             if (teamMember == null)
@@ -165,6 +197,8 @@
 
             dbContext.Remove(teamMember);
             await dbContext.SaveChangesAsync();
+
+            return mapper.Map<TeamListingModel>(team);
         }
 
         private async Task ValidationsCheck(TeamManagementModel model)

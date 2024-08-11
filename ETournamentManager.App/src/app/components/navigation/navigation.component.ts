@@ -1,9 +1,10 @@
+import { Subscription } from 'rxjs';
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'app/services/auth.service';
 
+import { AuthService } from 'app/services/auth.service';
 import * as Constants from 'app/utils/constants';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -21,7 +22,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.currentUserSub = this.authService.getCurrentUser().subscribe((currentUser) => {
+    this.currentUserSub = this.authService.getCurrentUser$().subscribe((currentUser) => {
       this.username = currentUser !== null ? currentUser.username : null;
     });
   }

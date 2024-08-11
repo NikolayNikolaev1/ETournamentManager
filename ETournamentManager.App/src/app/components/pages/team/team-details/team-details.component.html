@@ -1,1 +1,9 @@
-{{teamData | json}}
+{{ teamData | json }}
+
+<app-e-input
+  label="Add user to team"
+  [isSearch]="true"
+  [searchResult]="searchUsernames"
+  (inputChanged)="getUsersByUsername($event)"
+  (searchResultSelected)="selectUser($event)"
+/>

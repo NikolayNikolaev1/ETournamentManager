@@ -15,8 +15,8 @@
 
         Task<TeamListingModel> GetById(string id);
 
-        Task AddMember(TeamMemberModel model);
+        Task<TeamListingModel> AddMember(TeamMemberModel model);
 
-        Task RemoveMember(TeamMemberModel model);
+        Task<TeamListingModel> RemoveMember(TeamMemberModel model);
     }
 }

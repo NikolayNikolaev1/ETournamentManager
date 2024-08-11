@@ -29,6 +29,9 @@ export const SERVER_ROUTES = {
     LOGIN: 'Auth/Login',
     REGISTER: 'Auth/Register',
   },
+  USER: {
+    GET_ALL: 'User/GetAll',
+  },
   GAME: {
     CREATE: 'Game/Create',
   },
@@ -42,8 +45,10 @@ export const SERVER_ROUTES = {
     GetAll: 'Team/GetAll',
     UPDATE: 'Team/Update',
     DELETE: 'Team/Delete',
+    ADD_MEMBER: 'Team/AddMember',
   },
   IMAGE: {
+    GET: 'UploadImages',
     UPLOAD: 'Image/Upload',
     DELETE: 'Image/Delete',
   },
