@@ -1,0 +1,58 @@
+@use '../../../../assets/styles/fonts';
+
+.card-container {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  width: 392px;
+  height: 212px;
+  border-radius: 10px;
+
+  .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px;
+
+    .logo-holder {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      img {
+        height: 15px;
+      }
+    }
+
+    .information-holder {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        width: 100%;
+        font-family: fonts.$global;
+        font-size: 16px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .subtitle-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .subtitle {
+          font-family: fonts.$global;
+          font-size: 12px;
+          font-weight: 400;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

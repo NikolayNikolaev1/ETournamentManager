@@ -1,2 +1,29 @@
+@switch (currentUserProfile?.roleName) {
+  @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
+    <div class="section-container">
+      <div class="title-wrapper">
+        <div class="title">My Teams</div>
+        <hr />
+      </div>
 
-<app-teams-section [teams]="teamsData" />
+      <div class="teams-container">
+        @for (currentTeam of teamsData; track $index) {
+          <app-e-info-card [cardData]="getTeamInfoCard(currentTeam)">
+            <div statsIcons class="stats-info">
+              <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+              <div class="subtitle">
+                {{ currentTeam.tournamentsWon }}
+              </div>
+
+              <img src="assets/images/people-icon.svg" alt="People Icon" />
+              <div class="subtitle">
+                {{ currentTeam.members.length }}
+              </div>
+            </div>
+          </app-e-info-card>
+        }
+      </div>
+    </div>
+  }
+  @case (constants.TOURNAMENT_CREATOR_ROLE) {}
+}

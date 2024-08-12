@@ -4,7 +4,7 @@ interface Team {
   id: string;
   name: string;
   tag: string;
-  imgUrl: string;
+  imgUrl?: string;
   members: UserBase[];
   tournamentsWon: number;
 }

@@ -11,7 +11,7 @@
 
         Task Edit(string id, TournamentManagementModel model);
 
-        Task<ICollection<TournamentListingModel>> GetAll();
+        Task<ICollection<TournamentListingModel>> GetAll(TournamentQueryParams queryParams);
 
         Task<TournamentListingModel> GetById(string id);
 

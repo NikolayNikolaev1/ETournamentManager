@@ -37,12 +37,13 @@ export const SERVER_ROUTES = {
   },
   TOURNAMENT: {
     GET: 'Tournament/Get',
+    GET_ALL: 'Tournament/GetAll',
     CREATE: 'Tournament/Create',
   },
   TEAM: {
     CREATE: 'Team/Create',
     GET: 'Team/Get',
-    GetAll: 'Team/GetAll',
+    GET_ALL: 'Team/GetAll',
     UPDATE: 'Team/Update',
     DELETE: 'Team/Delete',
     ADD_MEMBER: 'Team/AddMember',

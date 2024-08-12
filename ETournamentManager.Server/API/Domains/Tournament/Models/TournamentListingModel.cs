@@ -3,6 +3,8 @@
     using Core.Mapper;
     using Data.Models;
     using Game.Models;
+    using Team.Models;
+
     using static Data.Models.Tournament;
 
     public class TournamentListingModel : IMapFrom<Tournament>
@@ -18,5 +20,7 @@
         public int MinTeamMembers { get; set; }
 
         public GameListingModel Game { get; set; } = null!;
+
+        public ICollection<TeamBaseModel> Teams { get; set; } = new HashSet<TeamBaseModel>();
     }
 }

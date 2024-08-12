@@ -1,0 +1,34 @@
+<div
+  class="card-container"
+  [style.background-image]="
+    'linear-gradient(0deg, rgba(80, 50, 145, 1) 0%, rgba(2, 0, 36, 0) 100%), url(' +
+    infoCard.imageUrl +
+    ')'
+  "
+  [style.background-size]="'cover'"
+  (click)="onCardClick(infoCard.id)"
+>
+  <div class="card-wrapper">
+    <div class="logo-holder">
+      <img src="assets/images/trophy-logo.svg" alt="Tyophy Logo" />
+    </div>
+    <div class="information-holder">
+      <div class="title">{{ infoCard.name }}</div>
+      <div class="subtitle-row">
+        <div class="subtitle">{{ infoCard.subname }}</div>
+        <ng-content select="[statsIcons]" />
+        <!-- <div class="stats-info">
+        <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+        <div class="subtitle">
+          {{ teamData.tournamentsWon }}
+        </div>
+
+        <img src="assets/images/people-icon.svg" alt="People Icon" />
+        <div class="subtitle">
+          {{ teamData.members.length }}
+        </div>
+      </div> -->
+      </div>
+    </div>
+  </div>
+</div>

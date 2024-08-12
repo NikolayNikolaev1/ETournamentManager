@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament
 {
+    using API.Domains.Team.Models;
     using Core.Extensions;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,10 @@
         {
             return Ok(await tournamentService.GetById(id));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] TournamentQueryParams queryParams)
+            => await tournamentService.GetAll(queryParams).ReturnOkResult();
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_CREATOR)]

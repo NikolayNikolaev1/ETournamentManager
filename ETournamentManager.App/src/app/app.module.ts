@@ -24,6 +24,7 @@ import { TeamsSectionComponent } from 'app/components/teams-section/teams-sectio
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
 import { EImageUploadComponent } from './components/core/e-image-upload/e-image-upload.component';
 import { TournamentDetailsComponent } from './components/pages/tournament/tournament-details/tournament-details.component';
+import { EInfoCardComponent } from './components/core/e-info-card/e-info-card.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { TournamentDetailsComponent } from './components/pages/tournament/tourna
     GameCreateComponent,
     EImageUploadComponent,
     TournamentDetailsComponent,
+    EInfoCardComponent,
   ],
   imports: [
     BrowserModule,

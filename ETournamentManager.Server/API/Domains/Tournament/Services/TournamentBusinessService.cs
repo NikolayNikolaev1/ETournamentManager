@@ -98,11 +98,26 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ICollection<TournamentListingModel>> GetAll()
-            => await dbContext
-            .Tournaments
+        public async Task<ICollection<TournamentListingModel>> GetAll(TournamentQueryParams queryParams)
+        {
+            ICollection<string> userIds = new HashSet<string>();
+
+            if (queryParams.UserIds != null)
+            {
+                userIds = queryParams.UserIds.Split(", ").ToList();
+            }
+
+            IQueryable<Tournament> tournaments = dbContext.Tournaments.AsQueryable();
+
+            if (userIds.Count > 0)
+            {
+                tournaments.Where(t => userIds.Contains(t.CreatorId.ToString()));
+            }
+
+            return await tournaments
             .ProjectTo<TournamentListingModel>(mapper.ConfigurationProvider)
             .ToListAsync();
+        }
 
         public async Task<TournamentListingModel> GetById(string id)
             => mapper.Map<TournamentListingModel>(await tournamentDataService.GetById(id));

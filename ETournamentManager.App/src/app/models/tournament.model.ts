@@ -1,12 +1,16 @@
 import Game from './game.model';
 
-interface Tournament {
-  id: string;
-  name: string;
+interface Tournament extends TournamentBase {
   description: string;
   tournamentType: number;
   minTeamMembers: number;
   game: Game;
+  imgUrl?: string;
 }
 
-export default Tournament
+export interface TournamentBase {
+  id: string;
+  name: string;
+}
+
+export default Tournament;

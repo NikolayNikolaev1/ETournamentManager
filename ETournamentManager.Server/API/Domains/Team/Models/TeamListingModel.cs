@@ -1,15 +1,12 @@
 ﻿namespace API.Domains.Team.Models
 {
-    using API.Domains.User.Models;
     using AutoMapper;
     using Core.Mapper;
     using Data.Models;
+    using User.Models;
 
-    public class TeamListingModel : IMapFrom<Team>, ICustomMapping
+    public class TeamListingModel : TeamBaseModel, ICustomMapping
     {
-        public string Id { get; set; } = null!;
-
-        public string Name { get; set; } = null!;
 
         public string Tag { get; set; } = null!;
 

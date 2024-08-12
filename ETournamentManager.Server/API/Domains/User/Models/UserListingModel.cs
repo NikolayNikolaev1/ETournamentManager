@@ -4,12 +4,8 @@
     using Core.Mapper;
     using Data.Models;
 
-    public class UserListingModel : IMapFrom<User>, ICustomMapping
+    public class UserListingModel : UserBaseModel, ICustomMapping
     {
-        public string Id { get; set; } = null!;
-
-        public string UserName { get; set; } = null!;
-
         public string Email { get; set; } = null!;
 
         public string RoleName { get; set; } = null!;
