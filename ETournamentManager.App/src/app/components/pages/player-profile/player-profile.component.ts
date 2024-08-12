@@ -2,6 +2,7 @@ import { environment } from 'environments/environment.development';
 import { Subscription } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
@@ -24,6 +25,7 @@ export class PlayerProfileComponent implements OnInit {
   tournamentsData: Tournament[] = [];
 
   constructor(
+    private router: Router,
     private apiService: ApiService,
     private authService: AuthService
   ) {}
@@ -86,12 +88,24 @@ export class PlayerProfileComponent implements OnInit {
     });
   }
 
+  onCardSelect(id: string, route: string) {
+    this.router.navigate([route, id]);
+  }
+
   getTeamInfoCard(team: Team): InfoCard {
     return {
       id: team.id,
       name: team.name,
       subname: team.tag,
       imageUrl: team.imgUrl ?? '',
+    };
+  }
+
+  getTournamentCard(tournament: Tournament): InfoCard {
+    return {
+      id: tournament.id,
+      name: tournament.name,
+      imageUrl: tournament.imgUrl ?? '',
     };
   }
 }

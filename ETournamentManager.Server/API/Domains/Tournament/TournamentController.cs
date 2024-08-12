@@ -1,6 +1,5 @@
 ﻿namespace API.Domains.Tournament
 {
-    using API.Domains.Team.Models;
     using Core.Extensions;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
@@ -43,14 +42,10 @@
         }
 
         [HttpPatch]
-        //[Authorize(Roles = "TeamMember")]
-        [Route("api/AddParticipant")]
-        [ProducesResponseType(Status200OK)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = TOURNAMENT_CREATOR)]
+        [ProducesResponseType(typeof(TournamentListingModel), Status200OK)]
         public async Task<IActionResult> AddParticipant([FromBody] TournamentTeamModel model)
-        {
-            await tournamentService.Join(model);
-            return Ok();
-        }
+            => await tournamentService.Join(model).ReturnOkResult();
 
         [HttpPatch]
         //[Authorize(Roles = "TeamMember", "TeamCreator", "Admin")]

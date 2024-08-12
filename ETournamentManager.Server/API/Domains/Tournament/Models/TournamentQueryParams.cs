@@ -2,6 +2,8 @@
 {
     public class TournamentQueryParams
     {
+        public string? Search { get; set; }
+
         public string? UserIds { get; set; }
     }
 }

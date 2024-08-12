@@ -1,1 +1,9 @@
 {{ tournamentData | json }}
+
+<app-e-input
+  label="Add team to tournament"
+  [isSearch]="true"
+  [searchResult]="searchTeamNames"
+  (inputChanged)="getTeamByName($event)"
+  (searchResultSelected)="selectTeam($event)"
+/>

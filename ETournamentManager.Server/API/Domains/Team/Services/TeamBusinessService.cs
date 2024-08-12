@@ -153,7 +153,12 @@
 
             if (userIds.Count > 0)
             {
-                teams.Where(t => t.Members.Any(m => userIds.Contains(m.MemberId.ToString())));
+                teams = teams.Where(t => t.Members.Any(m => userIds.Contains(m.MemberId.ToString())));
+            }
+
+            if (queryParams.Search != null)
+            {
+                teams = teams.Where(t => t.Name.ToLower().Contains(queryParams.Search.ToLower()));
             }
 
             return await teams

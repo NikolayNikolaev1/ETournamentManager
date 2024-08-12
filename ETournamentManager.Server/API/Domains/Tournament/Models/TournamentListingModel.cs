@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament.Models
 {
+    using AutoMapper;
     using Core.Mapper;
     using Data.Models;
     using Game.Models;
@@ -7,7 +8,7 @@
 
     using static Data.Models.Tournament;
 
-    public class TournamentListingModel : IMapFrom<Tournament>
+    public class TournamentListingModel : IMapFrom<Tournament>, ICustomMapping
     {
         public string Id { get; set; } = null!;
 
@@ -22,5 +23,9 @@
         public GameListingModel Game { get; set; } = null!;
 
         public ICollection<TeamBaseModel> Teams { get; set; } = new HashSet<TeamBaseModel>();
+
+        public void ConfigureMapping(Profile mapper)
+            => mapper.CreateMap<Tournament, TournamentListingModel>()
+            .ForMember(t => t.Teams, opt => opt.MapFrom(t => t.Teams.Select(t => t.Team)));
     }
 }

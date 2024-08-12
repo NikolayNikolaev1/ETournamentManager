@@ -9,4 +9,9 @@ interface Team {
   tournamentsWon: number;
 }
 
+export interface TeamBase {
+  id: string;
+  name: string;
+}
+
 export default Team;

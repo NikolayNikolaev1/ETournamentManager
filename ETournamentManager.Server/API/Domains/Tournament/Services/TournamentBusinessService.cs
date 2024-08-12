@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament.Services
 {
+    using API.Domains.Team.Services;
     using Auth.Models;
     using Auth.Services;
     using AutoMapper;
@@ -23,6 +24,7 @@
         IMapper mapper,
         IAuthService authService,
         ITournamentDataService tournamentDataService,
+        ITeamDataService teamDataService,
         IGameDataService gameDataService) : ITournamentBusinessService
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
@@ -111,7 +113,12 @@
 
             if (userIds.Count > 0)
             {
-                tournaments.Where(t => userIds.Contains(t.CreatorId.ToString()));
+                tournaments = tournaments.Where(t => userIds.Contains(t.CreatorId.ToString()));
+            }
+
+            if (queryParams.Search != null)
+            {
+                tournaments = tournaments.Where(t => t.Name.ToLower().Contains(queryParams.Search.ToLower()));
             }
 
             return await tournaments
@@ -122,8 +129,27 @@
         public async Task<TournamentListingModel> GetById(string id)
             => mapper.Map<TournamentListingModel>(await tournamentDataService.GetById(id));
 
-        public async Task Join(TournamentTeamModel model)
+        public async Task<TournamentListingModel> Join(TournamentTeamModel model)
         {
+            Task<Tournament?> tournamentTask = tournamentDataService.GetById(model.TournamentId);
+            Task<Team?> teamTask = teamDataService.GetById(model.TeamId);
+
+            await Task.WhenAll(tournamentTask, teamTask);
+
+            Tournament? tournament = tournamentTask.Result;
+            Team? team = teamTask.Result;
+
+
+            if (tournament == null)
+            {
+                throw new BusinessServiceException(TOURNAMENT_NOT_FOUND, Status404NotFound);
+            }
+
+            if (team == null)
+            {
+                throw new BusinessServiceException("Team not found", Status404NotFound);
+            }
+
             TournamentTeam? tournamentTeam = await tournamentDataService
                 .GetTournamentTeam(model.TournamentId, model.TeamId);
 
@@ -138,6 +164,8 @@
                 TeamId = Guid.Parse(model.TeamId)
             });
             await dbContext.SaveChangesAsync();
+
+            return mapper.Map<TournamentListingModel>(tournament);
         }
 
         public async Task Leave(TournamentTeamModel model)

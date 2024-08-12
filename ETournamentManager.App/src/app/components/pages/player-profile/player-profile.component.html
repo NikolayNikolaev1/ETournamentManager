@@ -8,7 +8,10 @@
 
       <div class="teams-container">
         @for (currentTeam of teamsData; track $index) {
-          <app-e-info-card [cardData]="getTeamInfoCard(currentTeam)">
+          <app-e-info-card
+            [cardData]="getTeamInfoCard(currentTeam)"
+            (cardClicked)="onCardSelect(currentTeam.id, '/team')"
+          >
             <div statsIcons class="stats-info">
               <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
               <div class="subtitle">
@@ -25,5 +28,28 @@
       </div>
     </div>
   }
-  @case (constants.TOURNAMENT_CREATOR_ROLE) {}
+  @case (constants.TOURNAMENT_CREATOR_ROLE) {
+    <div class="section-container">
+      <div class="title-wrapper">
+        <div class="title">My Tournaments</div>
+        <hr />
+      </div>
+
+      <div class="teams-container">
+        @for (currentTournament of tournamentsData; track $index) {
+          <app-e-info-card
+            [cardData]="getTournamentCard(currentTournament)"
+            (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
+          >
+            <div statsIcons class="stats-info">
+              <img src="assets/images/people-icon.svg" alt="People Icon" />
+              <div class="subtitle">
+                {{ currentTournament.minTeamMembers }}
+              </div>
+            </div>
+          </app-e-info-card>
+        }
+      </div>
+    </div>
+  }
 }
