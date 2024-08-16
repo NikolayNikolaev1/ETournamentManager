@@ -10,8 +10,10 @@
             => await dbContext
             .Tournaments
             .Include(t => t.Game)
+            .Include(t => t.Creator)
             .Include(t => t.Teams)
             .ThenInclude(t => t.Team)
+            .Include(t => t.Rounds)
             .FirstOrDefaultAsync(t => t.Id == Guid.Parse(id));
 
         public async Task<TournamentTeam?> GetTournamentTeam(string tournamentId, string teamId)

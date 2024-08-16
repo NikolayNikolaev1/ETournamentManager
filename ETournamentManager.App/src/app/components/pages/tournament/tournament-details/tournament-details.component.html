@@ -1,9 +1,18 @@
-{{ tournamentData | json }}
+@if (tournamentData !== null) {
+  {{ currentUserProfile | json }}
+  {{ tournamentData | json }}
+  @if (
+    currentUserProfile !== null &&
+    (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
+  ) {
+    <app-e-input
+      label="Add team to tournament"
+      [isSearch]="true"
+      [searchResult]="searchTeamNames"
+      (inputChanged)="getTeamByName($event)"
+      (searchResultSelected)="selectTeam($event)"
+    />
 
-<app-e-input
-  label="Add team to tournament"
-  [isSearch]="true"
-  [searchResult]="searchTeamNames"
-  (inputChanged)="getTeamByName($event)"
-  (searchResultSelected)="selectTeam($event)"
-/>
+    <button (click)="onStartClick()">Start Tournament</button>
+  }
+}

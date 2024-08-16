@@ -1,8 +1,9 @@
 ﻿namespace API.Domains.Round.Services
 {
+    using Core.Common.Data.Interfaces;
     using Models;
 
-    public interface IRoundBusinessService
+    public interface IRoundBusinessService : IService
     {
         Task End(RoundWinnerModel model);
 

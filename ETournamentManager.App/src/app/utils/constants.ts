@@ -39,7 +39,7 @@ export const SERVER_ROUTES = {
     GET: 'Tournament/Get',
     GET_ALL: 'Tournament/GetAll',
     CREATE: 'Tournament/Create',
-    ADD_PARTICIPANT: 'Tournament/AddParticipant'
+    ADD_PARTICIPANT: 'Tournament/AddParticipant',
   },
   TEAM: {
     CREATE: 'Team/Create',
@@ -48,6 +48,10 @@ export const SERVER_ROUTES = {
     UPDATE: 'Team/Update',
     DELETE: 'Team/Delete',
     ADD_MEMBER: 'Team/AddMember',
+  },
+  ROUND: {
+    GET_ALL: 'Round/GetAll',
+    GENERATE: 'Round/Generate',
   },
   IMAGE: {
     GET: 'UploadImages',

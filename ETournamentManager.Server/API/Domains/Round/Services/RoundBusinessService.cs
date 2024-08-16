@@ -1,27 +1,36 @@
 ﻿namespace API.Domains.Round.Services
 {
+    using Auth.Models;
+    using Auth.Services;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Core.Exceptions;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Azure;
     using Models;
     using Tournament.Services;
+
     using static Data.Models.Round;
     using static Data.Models.Tournament;
+    using static Microsoft.AspNetCore.Http.StatusCodes;
 
     public class RoundBusinessService(
         ETournamentManagerDbContext dbContext,
         IMapper mapper,
+        IAuthService authService,
         ITournamentDataService tournamentDataService) : IRoundBusinessService
     {
+        private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
+
         public async Task End(RoundWinnerModel model)
         {
             Round? round = await dbContext.Rounds.FirstOrDefaultAsync(r => r.Id.ToString() == model.RoundId);
 
             if (round == null)
             {
-                // TODO: Add error
-                return;
+                throw new BusinessServiceException("Round not found", Status404NotFound);
             }
 
             RoundTeam? roundTeam = await dbContext
@@ -30,8 +39,7 @@
 
             if (roundTeam == null)
             {
-                // TODO: Add error message
-                return;
+                throw new BusinessServiceException("RoundTeam not found", Status404NotFound);
             }
 
             roundTeam.IsWinner = true;
@@ -59,17 +67,23 @@
 
             if (tournament == null)
             {
-                // TODO: add exception for no tournament
-                return [];
+                throw new BusinessServiceException("Tournament not found", Status404NotFound);
             }
 
-            // TODO: Add validation for tournament.CreatorId == userManager.currentUserId;
-
-            if (tournament.Type == TournamentType.Team && tournament.Teams.Any(t => t.Team.Members.Count < tournament.MinTeamMembers))
+            if (tournament.CreatorId != Guid.Parse(currentUser.Id))
             {
-                // TODO: add exception for not enoght members in a team.
-                return [];
+                throw new BusinessServiceException("Only tournament creator can start tournament", Status401Unauthorized);
             }
+
+            if (tournament.Teams.Count != 8)
+            {
+                throw new BusinessServiceException("Eight teams arethe min for tournament to start.");
+            }
+
+            //if (tournament.Type == TournamentType.Team && tournament.Teams.Any(t => t.Team.Members.Count < tournament.MinTeamMembers))
+            //{
+            //    throw new BusinessServiceException("There are teams with not the min team members in it");
+            //}
 
             tournament.Active = true;
 
@@ -91,12 +105,12 @@
                 Round round = new Round
                 {
                     Stage = RoundStage.Quarterfinals,
-                    Tournament = tournament,
+                    TournamentId = tournament.Id,
                 };
                 Round nextRound = new Round
                 {
                     Stage = RoundStage.Semifinals,
-                    Tournament = tournament,
+                    TournamentId = tournament.Id,
                 };
 
                 /* For the first round of bracket creates new ID for next round.
@@ -106,6 +120,7 @@
                 {
                     nextRoundId = Guid.NewGuid();
                     nextRound.Id = nextRoundId;
+                    rounds.Add(nextRound);
                 }
                 else
                 {
@@ -113,20 +128,20 @@
                     nextRoundId = Guid.Empty;
                 }
 
-                round.NextRound = nextRound;
+                round.NextRoundId = nextRound.Id;
 
-                await dbContext.Rounds.AddAsync(round);
+                //await dbContext.Rounds.AddAsync(round);
 
                 RoundTeam firstTeam = new RoundTeam
                 {
-                    Team = teams.ElementAt(i),
-                    Round = round
+                    TeamId = teams.ElementAt(i - 1).Id,
+                    RoundId = round.Id
                 };
 
                 RoundTeam secondTeam = new RoundTeam
                 {
-                    Team = teams.ElementAt(i + 1),
-                    Round = round
+                    TeamId = teams.ElementAt(i).Id,
+                    RoundId = round.Id
                 };
 
                 roundTeams.Add(firstTeam);
@@ -134,6 +149,7 @@
                 rounds.Add(round);
             }
 
+            await dbContext.Rounds.AddRangeAsync(rounds);
             await dbContext.RoundTeams.AddRangeAsync(roundTeams);
             await dbContext.SaveChangesAsync();
 
@@ -146,11 +162,14 @@
 
             if (tournament == null)
             {
-                // TODO: Add validation for no tournamnet;
-                return [];
+                throw new BusinessServiceException("Tournament not found", Status404NotFound);
             }
 
-            return mapper.Map<ICollection<RoundListingModel>>(tournament.Rounds);
+            ICollection<RoundListingModel> rounds = new List<RoundListingModel>();
+
+            tournament.Rounds.ToList().ForEach(r => rounds.Add(mapper.Map<RoundListingModel>(r)));
+
+            return rounds;
         }
     }
 }

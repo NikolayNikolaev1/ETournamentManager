@@ -4,6 +4,7 @@
     using Core.Mapper;
     using Data.Models;
     using Team.Models;
+
     using static Data.Models.Round;
 
     public class RoundListingModel : IMapFrom<Round>, ICustomMapping
@@ -18,7 +19,7 @@
 
         public RoundListingModel? NextRound { get; set; }
 
-        public ICollection<TeamListingModel> Teams { get; set; } = new List<TeamListingModel>();
+        public ICollection<TeamBaseModel> Teams { get; set; } = new List<TeamBaseModel>();
 
         public void ConfigureMapping(Profile mapper)
             => mapper.CreateMap<Round, RoundListingModel>()

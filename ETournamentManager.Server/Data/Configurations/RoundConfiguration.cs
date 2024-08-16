@@ -10,8 +10,8 @@
         {
             round
                 .HasOne(r => r.NextRound)
-                .WithOne()
-                .HasForeignKey<Round>(r => r.NextRoundId)
+                .WithMany(r => r.PrevRounds)
+                .HasForeignKey(r => r.NextRoundId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

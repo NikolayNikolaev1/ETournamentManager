@@ -39,12 +39,12 @@ const routes: Routes = [
     component: TournamentCreateComponent,
   },
   {
-    path: 'tournament/create',
-    component: TournamentCreateComponent,
-  },
-  {
     path: 'tournament/:id',
     component: TournamentDetailsComponent,
+  },
+  {
+    path: 'team/create',
+    component: TeamCreateComponent,
   },
   {
     path: 'team/:id',

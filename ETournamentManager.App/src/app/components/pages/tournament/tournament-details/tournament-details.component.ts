@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import Round from 'app/models/round.model';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
+import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
+import { AuthService } from 'app/services/auth.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
 
 @Component({
@@ -14,17 +17,23 @@ import { SERVER_ROUTES } from 'app/utils/constants';
 export class TournamentDetailsComponent {
   tournamentId: string = '';
   tournamentData: Tournament | null = null;
+  roundsData: Round[] = [];
   searchTeams: Team[] = [];
   searchTeamNames: string[] = [];
+  currentUserProfile: UserProfile | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    setTimeout(() => (this.currentUserProfile = this.authService.getCurrentUser()), 100);
+
     this.tournamentId = this.route.snapshot.paramMap.get('id') ?? '';
     this.getTournamentDetails();
+    this.getRoundsData();
   }
 
   getTeamByName(name: string) {
@@ -57,6 +66,15 @@ export class TournamentDetailsComponent {
       .subscribe((response) => (this.tournamentData = response));
   }
 
+  onStartClick() {
+    this.apiService
+      .request<Round[]>({
+        method: 'post',
+        url: `${SERVER_ROUTES.ROUND.GENERATE}/${this.tournamentId}`,
+      })
+      .subscribe((response) => (this.roundsData = response));
+  }
+
   private getTournamentDetails() {
     this.apiService
       .request<Tournament>({
@@ -64,5 +82,14 @@ export class TournamentDetailsComponent {
         method: 'get',
       })
       .subscribe((response) => (this.tournamentData = response));
+  }
+
+  private getRoundsData() {
+    this.apiService
+      .request<Round[]>({
+        url: `${SERVER_ROUTES.ROUND.GET_ALL}/${this.tournamentId}`,
+        method: 'get',
+      })
+      .subscribe((response) => (this.roundsData = response));
   }
 }

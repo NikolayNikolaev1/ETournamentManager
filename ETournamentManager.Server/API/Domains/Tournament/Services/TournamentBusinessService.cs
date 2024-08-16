@@ -131,13 +131,13 @@
 
         public async Task<TournamentListingModel> Join(TournamentTeamModel model)
         {
-            Task<Tournament?> tournamentTask = tournamentDataService.GetById(model.TournamentId);
-            Task<Team?> teamTask = teamDataService.GetById(model.TeamId);
+            Tournament? tournament = await tournamentDataService.GetById(model.TournamentId);
+            Team? team = await teamDataService.GetById(model.TeamId);
 
-            await Task.WhenAll(tournamentTask, teamTask);
+            //await Task.WhenAll(tournamentTask, teamTask);
 
-            Tournament? tournament = tournamentTask.Result;
-            Team? team = teamTask.Result;
+            //Tournament? tournament = tournamentTask.Result;
+            //Team? team = teamTask.Result;
 
 
             if (tournament == null)

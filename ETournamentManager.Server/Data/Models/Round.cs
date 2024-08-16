@@ -21,6 +21,8 @@
 
         public Round? NextRound { get; set; }
 
-        public ICollection<RoundTeam> Teams { get; set; } = new List<RoundTeam>();
+        public ICollection<Round> PrevRounds { get; set; } = new HashSet<Round>();
+
+        public ICollection<RoundTeam> Teams { get; set; } = new HashSet<RoundTeam>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament.Models
 {
+    using API.Domains.User.Models;
     using AutoMapper;
     using Core.Mapper;
     using Data.Models;
@@ -21,6 +22,8 @@
         public int MinTeamMembers { get; set; }
 
         public GameListingModel Game { get; set; } = null!;
+
+        public UserBaseModel Creator { get; set; } = null!;
 
         public ICollection<TeamBaseModel> Teams { get; set; } = new HashSet<TeamBaseModel>();
 

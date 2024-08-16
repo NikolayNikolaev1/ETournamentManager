@@ -7,9 +7,6 @@
 
     public class TeamListingModel : TeamBaseModel, ICustomMapping
     {
-
-        public string Tag { get; set; } = null!;
-
         public string? Description { get; set; }
 
         public UserBaseModel Captain { get; set; } = null!;
