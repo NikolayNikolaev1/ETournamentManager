@@ -52,6 +52,7 @@ export const SERVER_ROUTES = {
   ROUND: {
     GET_ALL: 'Round/GetAll',
     GENERATE: 'Round/Generate',
+    END: 'Round/End',
   },
   IMAGE: {
     GET: 'UploadImages',

@@ -3,17 +3,14 @@
     using Auth.Models;
     using Auth.Services;
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Core.Exceptions;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Azure;
     using Models;
     using Tournament.Services;
 
     using static Data.Models.Round;
-    using static Data.Models.Tournament;
     using static Microsoft.AspNetCore.Http.StatusCodes;
 
     public class RoundBusinessService(
@@ -26,7 +23,10 @@
 
         public async Task End(RoundWinnerModel model)
         {
-            Round? round = await dbContext.Rounds.FirstOrDefaultAsync(r => r.Id.ToString() == model.RoundId);
+            Round? round = await dbContext
+                .Rounds
+                .Include(r => r.Tournament)
+                .FirstOrDefaultAsync(r => r.Id.ToString() == model.RoundId);
 
             if (round == null)
             {
@@ -48,8 +48,8 @@
             {
                 RoundTeam nextRoundTeam = new RoundTeam
                 {
-                    Round = round.NextRound!,
-                    Team = roundTeam.Team
+                    RoundId = Guid.Parse(round.NextRoundId.ToString()!), // TODO: Fix this conersion.,
+                    TeamId = roundTeam.TeamId
                 };
                 await dbContext.RoundTeams.AddAsync(nextRoundTeam);
             }
@@ -97,20 +97,28 @@
             ICollection<Round> rounds = new HashSet<Round>();
             ICollection<RoundTeam> roundTeams = new HashSet<RoundTeam>();
 
-
             Guid nextRoundId = Guid.Empty;
+            Guid finalsRoundId = Guid.NewGuid();
+
+            rounds.Add(new Round
+            {
+                Id = finalsRoundId,
+                Stage = RoundStage.Finals,
+                TournamentId = Guid.Parse(tournamentId)
+            });
 
             for (int i = 1; i <= teams.Count; i += 2)
             {
                 Round round = new Round
                 {
                     Stage = RoundStage.Quarterfinals,
-                    TournamentId = tournament.Id,
+                    TournamentId = Guid.Parse(tournamentId)
                 };
                 Round nextRound = new Round
                 {
                     Stage = RoundStage.Semifinals,
-                    TournamentId = tournament.Id,
+                    TournamentId = Guid.Parse(tournamentId),
+                    NextRoundId = finalsRoundId
                 };
 
                 /* For the first round of bracket creates new ID for next round.
@@ -153,7 +161,10 @@
             await dbContext.RoundTeams.AddRangeAsync(roundTeams);
             await dbContext.SaveChangesAsync();
 
-            return mapper.Map<ICollection<RoundListingModel>>(rounds);
+            return mapper.Map<ICollection<RoundListingModel>>(rounds
+                .OrderByDescending(r => r.Stage)
+                .ThenBy(r => r.NextRoundId)
+                .ToList());
         }
 
         public async Task<ICollection<RoundListingModel>> GetAll(string tournamentId)
@@ -165,11 +176,13 @@
                 throw new BusinessServiceException("Tournament not found", Status404NotFound);
             }
 
-            ICollection<RoundListingModel> rounds = new List<RoundListingModel>();
+            ICollection<Round> rounds = tournament
+                .Rounds
+                .OrderByDescending(r => r.Stage)
+                .ThenBy(r => r.NextRoundId)
+                .ToList();
 
-            tournament.Rounds.ToList().ForEach(r => rounds.Add(mapper.Map<RoundListingModel>(r)));
-
-            return rounds;
+            return mapper.Map<ICollection<RoundListingModel>>(rounds);
         }
     }
 }

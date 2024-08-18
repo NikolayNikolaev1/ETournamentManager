@@ -2,6 +2,7 @@
   {{ currentUserProfile | json }}
   {{ tournamentData | json }}
   @if (
+    roundsData.length === 0 &&
     currentUserProfile !== null &&
     (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
   ) {
@@ -14,5 +15,17 @@
     />
 
     <button (click)="onStartClick()">Start Tournament</button>
+  }
+
+  @if (roundsData.length > 0) {
+    <app-tournament-bracket
+      [roundsData]="roundsData"
+      [tournamentId]="tournamentId"
+      [canChooseWinner]="
+        currentUserProfile !== null &&
+        (tournamentData.creator.id === currentUserProfile.id ||
+          currentUserProfile.roleName === 'ADMIN')
+      "
+    />
   }
 }
