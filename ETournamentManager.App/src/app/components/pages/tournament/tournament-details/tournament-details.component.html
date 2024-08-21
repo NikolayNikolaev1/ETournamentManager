@@ -1,31 +1,88 @@
-@if (tournamentData !== null) {
-  {{ currentUserProfile | json }}
-  {{ tournamentData | json }}
-  @if (
-    roundsData.length === 0 &&
-    currentUserProfile !== null &&
-    (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
-  ) {
-    <app-e-input
-      label="Add team to tournament"
-      [isSearch]="true"
-      [searchResult]="searchTeamNames"
-      (inputChanged)="getTeamByName($event)"
-      (searchResultSelected)="selectTeam($event)"
-    />
+<div id="tournament-container">
+  @if (tournamentData !== null) {
+    <div id="banner-header">
+      <img [src]="tournamentImageUrl" alt="Tournament Image" height="120" />
+      <div class="banner-info-wrapper">
+        <h1 class="title">{{ tournamentData.name }}</h1>
+        <h4 class="description">{{ tournamentData.description }}</h4>
+        <p class="contact">
+          For tournament details - Contact:
+          <a class="contact-mail" [href]="'mailto:' + tournamentData.creator.email">
+            {{ tournamentData.creator.email }}
+          </a>
+        </p>
+      </div>
+    </div>
 
-    <button (click)="onStartClick()">Start Tournament</button>
-  }
+    <div class="section-container">
+      <div class="title-wrapper">
+        <div class="title">Participent Teams</div>
+        <hr />
+      </div>
 
-  @if (roundsData.length > 0) {
-    <app-tournament-bracket
-      [roundsData]="roundsData"
-      [tournamentId]="tournamentId"
-      [canChooseWinner]="
-        currentUserProfile !== null &&
-        (tournamentData.creator.id === currentUserProfile.id ||
-          currentUserProfile.roleName === 'ADMIN')
-      "
-    />
+      <div class="info-cards-container">
+        @for (currentTeam of tournamentTeamsData; track $index) {
+          <app-e-info-card
+            [cardData]="getTeamInfoCard(currentTeam)"
+            (cardClicked)="onCardSelect(currentTeam.id, '/team')"
+          >
+            @if (
+              !tournamentData.active &&
+              (tournamentData.creator.id === currentUserProfile?.id ||
+                currentUserProfile?.roleName === 'ADMIN')
+            ) {
+              <div
+                actions
+                class="actions"
+                (click)="$event.stopPropagation(); onRemoveTeamClick(currentTeam.id)"
+              >
+                <img src="assets/images/close-icon.svg" alt="Close icon" />
+              </div>
+            }
+
+            <div statsIcons class="stats-info">
+              <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+              <div class="subtitle">
+                {{ currentTeam.tournamentsWon }}
+              </div>
+
+              <img src="assets/images/people-icon.svg" alt="People Icon" />
+              <div class="subtitle">
+                {{ currentTeam.members.length }}
+              </div>
+            </div>
+          </app-e-info-card>
+        }
+      </div>
+    </div>
+
+    @if (
+      roundsData.length === 0 &&
+      currentUserProfile !== null &&
+      (tournamentData.creator.id === currentUserProfile.id ||
+        currentUserProfile.roleName === 'ADMIN')
+    ) {
+      <app-e-input
+        label="Add team to tournament"
+        [isSearch]="true"
+        [searchResult]="searchTeamNames"
+        (inputChanged)="getTeamByName($event)"
+        (searchResultSelected)="selectTeam($event)"
+      />
+
+      <button (click)="onStartClick()">Start Tournament</button>
+    }
+
+    @if (roundsData.length > 0) {
+      <app-tournament-bracket
+        [roundsData]="roundsData"
+        [tournamentId]="tournamentId"
+        [canChooseWinner]="
+          currentUserProfile !== null &&
+          (tournamentData.creator.id === currentUserProfile.id ||
+            currentUserProfile.roleName === 'ADMIN')
+        "
+      />
+    }
   }
-}
+</div>

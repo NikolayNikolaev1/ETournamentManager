@@ -6,6 +6,7 @@ interface Tournament extends TournamentBase {
   description: string;
   tournamentType: number;
   minTeamMembers: number;
+  active: boolean;
   game: Game;
   creator: UserBase;
   teams: TeamBase[];

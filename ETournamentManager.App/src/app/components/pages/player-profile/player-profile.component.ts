@@ -10,6 +10,7 @@ import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import * as Constants from 'app/utils/constants';
+import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-card-converter';
 import { InfoCard } from 'app/utils/types';
 
 @Component({
@@ -23,6 +24,8 @@ export class PlayerProfileComponent implements OnInit {
   currentUserSub!: Subscription;
   teamsData: Team[] = [];
   tournamentsData: Tournament[] = [];
+  getTeamInfoCard = convertTeamInfoCard;
+  getTournamentCard = convertTournamentInfoCard;
 
   constructor(
     private router: Router,
@@ -92,20 +95,20 @@ export class PlayerProfileComponent implements OnInit {
     this.router.navigate([route, id]);
   }
 
-  getTeamInfoCard(team: Team): InfoCard {
-    return {
-      id: team.id,
-      name: team.name,
-      subname: team.tag,
-      imageUrl: team.imgUrl ?? '',
-    };
-  }
+  // getTeamInfoCard(team: Team): InfoCard {
+  //   return {
+  //     id: team.id,
+  //     name: team.name,
+  //     subname: team.tag,
+  //     imageUrl: team.imgUrl ?? '',
+  //   };
+  // }
 
-  getTournamentCard(tournament: Tournament): InfoCard {
-    return {
-      id: tournament.id,
-      name: tournament.name,
-      imageUrl: tournament.imgUrl ?? '',
-    };
-  }
+  // getTournamentCard(tournament: Tournament): InfoCard {
+  //   return {
+  //     id: tournament.id,
+  //     name: tournament.name,
+  //     imageUrl: tournament.imgUrl ?? '',
+  //   };
+  // }
 }

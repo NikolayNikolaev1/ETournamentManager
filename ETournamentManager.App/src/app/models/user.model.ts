@@ -7,6 +7,7 @@ interface User extends UserBase {
 export interface UserBase {
   id: string;
   userName: string;
+  email: string;
 }
 
 export default User;

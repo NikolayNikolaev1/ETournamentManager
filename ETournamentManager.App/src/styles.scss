@@ -1,6 +1,12 @@
+@use './assets/styles/fonts';
+
 @font-face {
   font-family: 'Tournament-Manager';
   src: url('./assets/fonts/Freedom.ttf');
+}
+
+#test {
+  flex-grow: 1;
 }
 
 html,
@@ -56,9 +62,10 @@ body {
   #content {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100vh;
 
     #page-container {
+      flex-grow: 1;
       height: 100%;
       padding: 0 60px;
       padding-top: 50px;
@@ -80,6 +87,67 @@ body {
             margin-top: 8px;
             background-color: purple;
             border: 1px solid blueviolet;
+          }
+        }
+
+        .info-cards-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 30px;
+          width: 100%;
+          padding: 30px;
+          font-family: fonts.$global;
+          font-style: normal;
+          font-weight: 700;
+          color: white;
+
+          .actions {
+
+            img {
+              height: 25px;
+              filter: brightness(0) saturate(100%) invert(14%) sepia(97%) saturate(6303%)
+                hue-rotate(356deg) brightness(100%) contrast(100%);
+            }
+
+            img:hover {
+              filter: brightness(0) saturate(100%) invert(15%) sepia(71%) saturate(3799%)
+                hue-rotate(351deg) brightness(78%) contrast(120%);
+            }
+          }
+
+          .stats-info {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+
+            img {
+              filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%)
+                hue-rotate(349deg) brightness(100%) contrast(104%);
+              height: 15px;
+              width: 15px;
+            }
+          }
+        }
+      }
+
+      #banner-header {
+        display: flex;
+        gap: 15px;
+        padding: 30px;
+        color: white;
+        background-color: #90e0ef;
+        background-image: url('/assets/images/tournament-banner-img.jpg');
+
+        .banner-info-wrapper {
+          display: flex;
+          flex-direction: column;
+
+          .contact {
+            margin-top: auto;
+
+            .contact-mail {
+              color: lightgray;
+            }
           }
         }
       }

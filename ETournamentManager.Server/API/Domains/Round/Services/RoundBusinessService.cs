@@ -26,6 +26,7 @@
             Round? round = await dbContext
                 .Rounds
                 .Include(r => r.Tournament)
+                .Include(r => r.NextRound)
                 .FirstOrDefaultAsync(r => r.Id.ToString() == model.RoundId);
 
             if (round == null)
@@ -35,20 +36,53 @@
 
             RoundTeam? roundTeam = await dbContext
                        .RoundTeams
-                       .FirstOrDefaultAsync(rp => rp.RoundId == round.Id && rp.TeamId.ToString() == model.WinnerId);
+                       .FirstOrDefaultAsync(rp => rp.RoundId == round.Id && rp.TeamId == Guid.Parse(model.WinnerId));
 
             if (roundTeam == null)
             {
                 throw new BusinessServiceException("RoundTeam not found", Status404NotFound);
             }
 
+            bool hasNextRoundWinner = round.NextRound?.Teams.Any(t => t.IsWinner) ?? false;
+
+            if (hasNextRoundWinner)
+            {
+                throw new BusinessServiceException("Can not change winner if next round has already a winner");
+            }
+
+            RoundTeam opponentRoundTeam = await dbContext
+                       .RoundTeams
+                       .FirstAsync(rp => rp.RoundId == round.Id && rp.TeamId != Guid.Parse(model.WinnerId));
+
             roundTeam.IsWinner = true;
+            opponentRoundTeam.IsWinner = false;
 
             if (round.Stage != RoundStage.Finals)
             {
+                RoundTeam? opponentNextRoundTeam = await dbContext
+                    .RoundTeams
+                    .Include(rt => rt.Round)
+                    .FirstOrDefaultAsync(rt => rt.RoundId == round.NextRoundId
+                        && rt.TeamId == opponentRoundTeam.TeamId);
+
+                if (opponentNextRoundTeam != null)
+                {
+                    bool isNextRoundFinished = await dbContext
+                        .RoundTeams
+                        .AnyAsync(rt => rt.RoundId == opponentNextRoundTeam.RoundId
+                            && rt.IsWinner);
+
+                    if (isNextRoundFinished)
+                    {
+                        throw new BusinessServiceException("Can not change round winner when next round is finished.");
+                    }
+
+                    dbContext.RoundTeams.Remove(opponentNextRoundTeam);
+                }
+
                 RoundTeam nextRoundTeam = new RoundTeam
                 {
-                    RoundId = Guid.Parse(round.NextRoundId.ToString()!), // TODO: Fix this conersion.,
+                    RoundId = Guid.Parse(round.NextRoundId.ToString()!), // TODO: Fix this conversion.
                     TeamId = roundTeam.TeamId
                 };
                 await dbContext.RoundTeams.AddAsync(nextRoundTeam);
@@ -181,6 +215,7 @@
                 .OrderByDescending(r => r.Stage)
                 .ThenBy(r => r.NextRoundId)
                 .ToList();
+            // TODO: Fix ordering after nextRoundId.
 
             return mapper.Map<ICollection<RoundListingModel>>(rounds);
         }

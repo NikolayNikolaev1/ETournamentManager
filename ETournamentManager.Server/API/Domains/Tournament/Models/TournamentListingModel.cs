@@ -17,6 +17,8 @@
 
         public string? Description { get; set; }
 
+        public bool Active { get; set; }
+
         public TournamentType TournamentType { get; set; }
 
         public int MinTeamMembers { get; set; }

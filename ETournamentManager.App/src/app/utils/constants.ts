@@ -40,6 +40,7 @@ export const SERVER_ROUTES = {
     GET_ALL: 'Tournament/GetAll',
     CREATE: 'Tournament/Create',
     ADD_PARTICIPANT: 'Tournament/AddParticipant',
+    REMOVE_PARTICIPANT: 'Tournament/RemoveParticipant',
   },
   TEAM: {
     CREATE: 'Team/Create',

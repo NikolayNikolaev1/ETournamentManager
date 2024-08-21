@@ -39,7 +39,10 @@
         <div class="match">
           <div
             class="match-top team"
-            (click)="onTeamClick(currentRound.id, currentRound.teams[0].id)"
+            (click)="
+              currentRound.teams.length === 2 &&
+                onTeamClick(currentRound.id, currentRound.teams[0].id)
+            "
           >
             <span class="name">
               {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].name }}
@@ -52,7 +55,10 @@
           </div>
           <div
             class="match-bottom team"
-            (click)="onTeamClick(currentRound.id, currentRound.teams[1].id)"
+            (click)="
+              currentRound.teams.length === 2 &&
+                onTeamClick(currentRound.id, currentRound.teams[1].id)
+            "
           >
             <span class="name">
               {{ currentRound.teams.length < 2 ? 'TBD' : currentRound.teams[1].name }}
@@ -77,10 +83,11 @@
       <div class="match">
         <div
           class="match-top team"
-          (click)="onTeamClick(roundsData[6].id, roundsData[6].teams[0].id)"
+          (click)="
+            roundsData[6].teams.length === 2 &&
+              onTeamClick(roundsData[6].id, roundsData[6].teams[0].id)
+          "
         >
-          <!-- <span class="image"></span>
-          <span class="seed">5</span> -->
           <span class="name">
             {{ roundsData[6].teams.length < 1 ? 'TBD' : roundsData[6].teams[0].name }}
           </span>
@@ -92,10 +99,11 @@
         </div>
         <div
           class="match-bottom team"
-          (click)="onTeamClick(roundsData[6].id, roundsData[6].teams[1].id)"
+          (click)="
+            roundsData[6].teams.length === 2 &&
+              onTeamClick(roundsData[6].id, roundsData[6].teams[1].id)
+          "
         >
-          <!-- <span class="image"></span>
-          <span class="seed">3</span> -->
           <span class="name">
             {{ roundsData[6].teams.length < 2 ? 'TBD' : roundsData[6].teams[1].name }}
           </span>
@@ -105,7 +113,7 @@
             </span>
           }
         </div>
-        <div class="match-lines alt" [ngClass]="{ progress: roundsData[6] !== null }">
+        <div class="match-lines alt" [ngClass]="{ progress: roundsData[6].teams.length !== 0 }">
           <div class="line one"></div>
         </div>
       </div>

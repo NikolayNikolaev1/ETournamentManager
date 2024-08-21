@@ -1,9 +1,27 @@
-{{ teamData | json }}
+<div id="team-container">
+  @if (teamData !== null) {
+    <div id="banner-header">
+      <img [src]="teamImageUrl" alt="Tournament Image" height="120" />
+      <div class="banner-info-wrapper">
+        <h1 class="title">{{ teamData.name }}</h1>
+        <h4 class="description">{{ teamData.description }}</h4>
+        <p class="contact">
+          Team captain contact:
+          <a class="contact-mail" [href]="'mailto:' + teamData.captain.email">
+            {{ teamData.captain.email }}
+          </a>
+        </p>
+      </div>
+    </div>
 
-<app-e-input
-  label="Add user to team"
-  [isSearch]="true"
-  [searchResult]="searchUsernames"
-  (inputChanged)="getUsersByUsername($event)"
-  (searchResultSelected)="selectUser($event)"
-/>
+    {{ teamData | json }}
+
+    <app-e-input
+      label="Add user to team"
+      [isSearch]="true"
+      [searchResult]="searchUsernames"
+      (inputChanged)="getUsersByUsername($event)"
+      (searchResultSelected)="selectUser($event)"
+    />
+  }
+</div>

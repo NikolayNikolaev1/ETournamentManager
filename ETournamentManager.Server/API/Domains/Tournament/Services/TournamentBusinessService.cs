@@ -178,8 +178,8 @@
             }
 
             if (tournamentTeam.Tournament.CreatorId != Guid.Parse(currentUser.Id)
-                || tournamentTeam.Team.Members.First(m => m.IsCaptain).MemberId != Guid.Parse(currentUser.Id)
-                || currentUser.RoleName != ADMIN)
+                && tournamentTeam.Team.Members.First(m => m.IsCaptain).MemberId != Guid.Parse(currentUser.Id)
+                && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("Only tournament creator or team captain can remove team from tournament", Status401Unauthorized);
             }

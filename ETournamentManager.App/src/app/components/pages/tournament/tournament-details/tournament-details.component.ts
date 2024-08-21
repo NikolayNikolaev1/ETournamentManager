@@ -1,5 +1,7 @@
+import { environment } from 'environments/environment.development';
+
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import Round from 'app/models/round.model';
 import Team from 'app/models/team.model';
@@ -8,6 +10,7 @@ import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
+import { convertTeamInfoCard } from 'app/utils/info-card-converter';
 
 @Component({
   selector: 'app-tournament-details',
@@ -17,12 +20,16 @@ import { SERVER_ROUTES } from 'app/utils/constants';
 export class TournamentDetailsComponent {
   tournamentId: string = '';
   tournamentData: Tournament | null = null;
+  tournamentImageUrl: string = '';
+  tournamentTeamsData: Team[] = [];
   roundsData: Round[] = [];
   searchTeams: Team[] = [];
   searchTeamNames: string[] = [];
   currentUserProfile: UserProfile | null = null;
+  getTeamInfoCard = convertTeamInfoCard;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private apiService: ApiService,
     private authService: AuthService
@@ -75,13 +82,41 @@ export class TournamentDetailsComponent {
       .subscribe((response) => (this.roundsData = response));
   }
 
+  onCardSelect(id: string, route: string) {
+    this.router.navigate([route, id]);
+  }
+
+  onRemoveTeamClick(teamId: string) {
+    this.apiService
+      .request<null, { tournamentId: string; teamId: string }>({
+        url: SERVER_ROUTES.TOURNAMENT.REMOVE_PARTICIPANT,
+        method: 'patch',
+        body: {
+          tournamentId: this.tournamentId,
+          teamId,
+        },
+      })
+      .subscribe(() => this.getTournamentDetails());
+  }
+
   private getTournamentDetails() {
     this.apiService
       .request<Tournament>({
         url: `${SERVER_ROUTES.TOURNAMENT.GET}/${this.tournamentId}`,
         method: 'get',
       })
-      .subscribe((response) => (this.tournamentData = response));
+      .subscribe((response) => {
+        this.tournamentData = response;
+
+        this.apiService.request({ method: 'get', url: this.tournamentId, isFile: true }).subscribe({
+          error: (isValid) =>
+            (this.tournamentImageUrl = isValid
+              ? `${environment.apiUrl}/UploadImages/${this.tournamentId}.png`
+              : 'assets/images/default-tournament-img.jpg'),
+        });
+
+        this.getTournamentTeams();
+      });
   }
 
   private getRoundsData() {
@@ -91,5 +126,28 @@ export class TournamentDetailsComponent {
         method: 'get',
       })
       .subscribe((response) => (this.roundsData = response));
+  }
+
+  private getTournamentTeams() {
+    this.apiService
+      .request<Team[]>({
+        url: SERVER_ROUTES.TEAM.GET_ALL,
+        method: 'get',
+        queryParams: {
+          tournamentIds: [this.tournamentId],
+        },
+      })
+      .subscribe((response) => {
+        this.tournamentTeamsData = response;
+
+        this.tournamentTeamsData.forEach((t) => {
+          this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
+            error: (isValid) =>
+              (t.imgUrl = isValid
+                ? `${environment.apiUrl}/UploadImages/${t.id}.png`
+                : 'assets/images/default-team-img.jpg'),
+          });
+        });
+      });
   }
 }

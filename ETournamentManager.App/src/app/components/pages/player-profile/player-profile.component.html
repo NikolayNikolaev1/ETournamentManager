@@ -6,7 +6,7 @@
         <hr />
       </div>
 
-      <div class="teams-container">
+      <div class="info-cards-container">
         @for (currentTeam of teamsData; track $index) {
           <app-e-info-card
             [cardData]="getTeamInfoCard(currentTeam)"
@@ -35,7 +35,7 @@
         <hr />
       </div>
 
-      <div class="teams-container">
+      <div class="info-cards-container">
         @for (currentTournament of tournamentsData; track $index) {
           <app-e-info-card
             [cardData]="getTournamentCard(currentTournament)"

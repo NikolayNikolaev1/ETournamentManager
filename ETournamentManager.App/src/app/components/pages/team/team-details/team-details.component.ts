@@ -1,3 +1,5 @@
+import { environment } from 'environments/environment.development';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,6 +16,7 @@ import { SERVER_ROUTES } from 'app/utils/constants';
 export class TeamDetailsComponent implements OnInit {
   teamId: string = '';
   teamData: Team | null = null;
+  teamImageUrl: string = '';
   searchUsers: User[] = [];
   searchUsernames: string[] = [];
 
@@ -33,7 +36,16 @@ export class TeamDetailsComponent implements OnInit {
         url: `${SERVER_ROUTES.TEAM.GET}/${this.teamId}`,
         method: 'get',
       })
-      .subscribe((response) => (this.teamData = response));
+      .subscribe((response) => {
+        this.teamData = response;
+
+        this.apiService.request({ method: 'get', url: this.teamId, isFile: true }).subscribe({
+          error: (isValid) =>
+            (this.teamImageUrl = isValid
+              ? `${environment.apiUrl}/UploadImages/${this.teamId}.png`
+              : 'assets/images/default-team-img.jpg'),
+        });
+      });
   }
 
   getUsersByUsername(username: string) {

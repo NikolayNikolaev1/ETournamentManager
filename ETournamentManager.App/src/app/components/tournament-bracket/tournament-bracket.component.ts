@@ -27,8 +27,7 @@ export class TournamentBracketComponent {
     }
 
     if (this.roundsData.find((r) => r.id === roundId)!.winnerId === teamId) {
-      console.log('tester');
-      
+      // Can not chose the same team as winner again.
       return;
     }
 

@@ -143,10 +143,16 @@
         public async Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams)
         {
             ICollection<string> userIds = new HashSet<string>();
+            ICollection<string> tournamentIds = new HashSet<string>();
 
             if (queryParams.UserIds != null)
             {
                 userIds = queryParams.UserIds.Split(", ").ToList();
+            }
+
+            if (queryParams.TournamentIds != null)
+            {
+                tournamentIds = queryParams.TournamentIds.Split(", ").ToList();
             }
 
             IQueryable<Team> teams = dbContext.Teams.AsQueryable();
@@ -154,6 +160,11 @@
             if (userIds.Count > 0)
             {
                 teams = teams.Where(t => t.Members.Any(m => userIds.Contains(m.MemberId.ToString())));
+            }
+
+            if (tournamentIds.Count > 0)
+            {
+                teams = teams.Where(t => t.Tournaments.Any(t => tournamentIds.Contains(t.TournamentId.ToString())));
             }
 
             if (queryParams.Search != null)

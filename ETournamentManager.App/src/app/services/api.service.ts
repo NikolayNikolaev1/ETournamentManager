@@ -11,6 +11,7 @@ type QueryParams = {
   search?: string;
   role?: string;
   userIds?: string[];
+  tournamentIds?: string[];
 };
 
 interface ApiRequestData<TBody> {
