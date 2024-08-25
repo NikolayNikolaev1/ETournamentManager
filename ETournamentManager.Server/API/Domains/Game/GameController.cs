@@ -15,8 +15,8 @@
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameListingModel))]
-        public async Task<IActionResult> Get()
-            => await gameService.GetAll().ReturnOkResult();
+        public async Task<IActionResult> GetAll([FromQuery] GameQueryParamsModel queryParams)
+            => await gameService.GetAll(queryParams).ReturnOkResult();
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameListingModel))]

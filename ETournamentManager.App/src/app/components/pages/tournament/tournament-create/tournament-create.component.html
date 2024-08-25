@@ -24,13 +24,22 @@
     (submitted)="onCreateClick()"
     (formInputsChanged)="onFormChanged($event)"
   >
-    <app-e-switch
-      dynamicInput
-      label="Type"
-      [on]="true"
-      [switchLabels]="{ on: 'Single Player', off: 'Team' }"
-      [colors]="{ on: 'blue', off: 'red' }"
-      (toggled)="onTypeChange()"
-    />
+    <div dynamicInput>
+      <app-e-input
+        label="Game"
+        [isSearch]="true"
+        [searchResult]="searchGames"
+        (inputChanged)="getAllGamesByName($event)"
+        (searchResultSelected)="selectGame($event)"
+      />
+      {{ selectedGame?.name }}
+      <app-e-switch
+        label="Type"
+        [on]="true"
+        [switchLabels]="{ on: 'Single Player', off: 'Team' }"
+        [colors]="{ on: 'blue', off: 'red' }"
+        (toggled)="onTypeChange()"
+      />
+    </div>
   </app-e-form>
 </div>

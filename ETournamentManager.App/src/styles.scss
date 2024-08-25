@@ -76,10 +76,10 @@ body {
   #content {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    flex-grow: 1;
 
     #page-container {
-      flex-grow: 1;
+      min-height: 100vh;
       height: 100%;
       padding: 0 60px;
       padding-top: 50px;

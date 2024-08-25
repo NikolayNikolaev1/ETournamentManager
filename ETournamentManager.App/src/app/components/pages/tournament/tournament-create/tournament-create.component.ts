@@ -1,8 +1,9 @@
-import { DialogService } from '@ngneat/dialog';
-
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { DialogService } from '@ngneat/dialog';
+
+import Game from 'app/models/game.model';
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
 
@@ -22,8 +23,10 @@ export class TournamentCreateComponent {
   description: string = '';
   type: TournamentType = TournamentType.SinglePlayer;
   minTeamMembers: number = 1;
-  gameId: string = '508894B2-5CA4-4872-AD1D-3A316F2BB862'; // TODO: Remove hardcoded id.
   errorMessage: string = '';
+  games: Game[] = [];
+  selectedGame: Game | null = null;
+  searchGames: string[] = [];
 
   constructor(
     private router: Router,
@@ -43,6 +46,8 @@ export class TournamentCreateComponent {
   }
 
   onCreateClick() {
+    if (this.selectedGame === null) return;
+
     this.apiService
       .request<string, TOURNAMENT_CREATE_REQUEST_BODY>({
         url: SERVER_ROUTES.TOURNAMENT.CREATE,
@@ -52,7 +57,7 @@ export class TournamentCreateComponent {
           description: this.description,
           type: this.type,
           minTeamMembers: this.minTeamMembers,
-          gameId: this.gameId,
+          gameId: this.selectedGame.id,
         },
       })
       .subscribe({
@@ -63,5 +68,24 @@ export class TournamentCreateComponent {
         },
         error: (error) => (this.errorMessage = error),
       });
+  }
+
+  getAllGamesByName(gameName: string) {
+    this.apiService
+      .request<Game[]>({
+        method: 'get',
+        url: SERVER_ROUTES.GAME.GET_ALL,
+        queryParams: {
+          search: gameName,
+        },
+      })
+      .subscribe((response) => {
+        this.games = response;
+        this.searchGames = this.games.map((g) => g.name);
+      });
+  }
+
+  selectGame(index: number) {
+    this.selectedGame = this.games[index]; //TODO: add validation for submit when game is not selected
   }
 }

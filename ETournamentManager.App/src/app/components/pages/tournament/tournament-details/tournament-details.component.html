@@ -84,15 +84,17 @@
     }
 
     @if (roundsData.length > 0) {
-      <app-tournament-bracket
-        [roundsData]="roundsData"
-        [tournamentId]="tournamentId"
-        [canChooseWinner]="
-          currentUserProfile !== null &&
-          (tournamentData.creator.id === currentUserProfile.id ||
-            currentUserProfile.roleName === 'ADMIN')
-        "
-      />
+      <div class="bracket-wrapper">
+        <app-tournament-bracket
+          [roundsData]="roundsData"
+          [tournamentId]="tournamentId"
+          [canChooseWinner]="
+            currentUserProfile !== null &&
+            (tournamentData.creator.id === currentUserProfile.id ||
+              currentUserProfile.roleName === 'ADMIN')
+          "
+        />
+      </div>
     }
   }
 </div>

@@ -56,11 +56,20 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ICollection<GameListingModel>> GetAll()
-            => await dbContext
-            .Games
-            .ProjectTo<GameListingModel>(mapper.ConfigurationProvider)
-            .ToListAsync();
+        public async Task<ICollection<GameListingModel>> GetAll(GameQueryParamsModel queryParams)
+        {
+            IQueryable<Game> games = dbContext.Games.AsQueryable();
+
+
+            if (queryParams.Search != null)
+            {
+                games = games.Where(t => t.Name.ToLower().Contains(queryParams.Search.ToLower()));
+            }
+
+            return await games
+                .ProjectTo<GameListingModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
 
         public async Task<GameListingModel> GetById(string id)
             => mapper.Map<GameListingModel>(await gameDataService.GetById(id));

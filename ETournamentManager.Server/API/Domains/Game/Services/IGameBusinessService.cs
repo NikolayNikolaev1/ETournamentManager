@@ -11,7 +11,7 @@
 
         Task Edit(string id, GameManagementModel nidek);
 
-        Task<ICollection<GameListingModel>> GetAll();
+        Task<ICollection<GameListingModel>> GetAll(GameQueryParamsModel queryParams);
 
         Task<GameListingModel> GetById(string id);
     }
