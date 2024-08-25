@@ -73,6 +73,11 @@ body {
     padding: 10px;
   }
 
+  .error-message {
+    font-weight: bold;
+    color: red;
+  }
+
   #content {
     display: flex;
     flex-direction: column;

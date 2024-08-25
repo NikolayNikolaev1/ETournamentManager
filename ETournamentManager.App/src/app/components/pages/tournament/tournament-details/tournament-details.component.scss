@@ -12,4 +12,24 @@
     background-color: white;
     height: 450px;
   }
+
+  #tournament-actions {
+    display: flex;
+    gap: 15px;
+
+    #start-tournament {
+      cursor: pointer;
+      width: 200px;
+      color: purple;
+      font-weight: 600;
+      background-color: wheat;
+      border-color: purple;
+      border-radius: 25px;
+
+      &:hover {
+        color: white;
+        background-color: purple;
+      }
+    }
+  }
 }

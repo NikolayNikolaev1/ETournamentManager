@@ -24,6 +24,29 @@
       </div>
     </div>
 
+    @if (
+      roundsData.length === 0 &&
+      currentUserProfile !== null &&
+      (tournamentData.creator.id === currentUserProfile.id ||
+        currentUserProfile.roleName === 'ADMIN')
+    ) {
+      <div id="tournament-actions">
+        <app-e-input
+          label="Add team"
+          [isSearch]="true"
+          [searchResult]="searchTeamNames"
+          (inputChanged)="getTeamByName($event)"
+          (searchResultSelected)="selectTeam($event)"
+        />
+
+        <button id="start-tournament" (click)="onStartClick()">Start Tournament</button>
+
+        <div class="error-message" [ngStyle]="{ 'align-self': 'center' }">
+          {{ startTournamentError }}
+        </div>
+      </div>
+    }
+
     <div class="section-container">
       <div class="title-wrapper">
         <div class="title">Participent Teams</div>
@@ -65,23 +88,6 @@
         }
       </div>
     </div>
-
-    @if (
-      roundsData.length === 0 &&
-      currentUserProfile !== null &&
-      (tournamentData.creator.id === currentUserProfile.id ||
-        currentUserProfile.roleName === 'ADMIN')
-    ) {
-      <app-e-input
-        label="Add team to tournament"
-        [isSearch]="true"
-        [searchResult]="searchTeamNames"
-        (inputChanged)="getTeamByName($event)"
-        (searchResultSelected)="selectTeam($event)"
-      />
-
-      <button (click)="onStartClick()">Start Tournament</button>
-    }
 
     @if (roundsData.length > 0) {
       <div class="bracket-wrapper">

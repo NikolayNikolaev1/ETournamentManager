@@ -1,8 +1,9 @@
-import { DialogService } from '@ngneat/dialog';
 import { environment } from 'environments/environment.development';
 
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { DialogService } from '@ngneat/dialog';
 
 import Round from 'app/models/round.model';
 import Team from 'app/models/team.model';
@@ -29,6 +30,8 @@ export class TournamentDetailsComponent {
   searchTeams: Team[] = [];
   searchTeamNames: string[] = [];
   currentUserProfile: UserProfile | null = null;
+  startTournamentError: string = '';
+
   getTeamInfoCard = convertTeamInfoCard;
 
   private dialog = inject(DialogService);
@@ -84,7 +87,10 @@ export class TournamentDetailsComponent {
         method: 'post',
         url: `${SERVER_ROUTES.ROUND.GENERATE}/${this.tournamentId}`,
       })
-      .subscribe((response) => (this.roundsData = response));
+      .subscribe({
+        next: (response) => (this.roundsData = response),
+        error: (errorMessage) => (this.startTournamentError = errorMessage),
+      });
   }
 
   onCardSelect(id: string, route: string) {

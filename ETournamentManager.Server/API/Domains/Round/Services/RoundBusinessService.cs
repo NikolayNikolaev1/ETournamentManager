@@ -10,8 +10,12 @@
     using Models;
     using Tournament.Services;
 
+    using static Core.Common.Constants.ErrorMessages;
     using static Data.Models.Round;
     using static Microsoft.AspNetCore.Http.StatusCodes;
+
+    using Team = Data.Models.Team;
+    using Tournament = Data.Models.Tournament;
 
     public class RoundBusinessService(
         ETournamentManagerDbContext dbContext,
@@ -111,7 +115,7 @@
 
             if (tournament.Teams.Count != 8)
             {
-                throw new BusinessServiceException("Eight teams arethe min for tournament to start.");
+                throw new BusinessServiceException("Eight teams are the min for tournament to start.", CLIENT_VALIDATION_ERROR_TITLE, "Team count" );
             }
 
             //if (tournament.Type == TournamentType.Team && tournament.Teams.Any(t => t.Team.Members.Count < tournament.MinTeamMembers))
