@@ -1,7 +1,14 @@
 <div id="tournament-container">
   @if (tournamentData !== null) {
     <div id="banner-header">
-      <img [src]="tournamentImageUrl" alt="Tournament Image" height="120" />
+      <app-e-image-upload
+        [entityId]="tournamentId"
+        [imgUrl]="tournamentImageUrl"
+        [hideActions]="
+          tournamentData.creator.id !== currentUserProfile?.id &&
+          currentUserProfile?.roleName !== 'ADMIN'
+        "
+      />
       <div class="banner-info-wrapper">
         <h1 class="title">{{ tournamentData.name }}</h1>
         <h4 class="description">{{ tournamentData.description }}</h4>
@@ -11,6 +18,9 @@
             {{ tournamentData.creator.email }}
           </a>
         </p>
+      </div>
+      <div class="edit-wrapper" (click)="onEditClick()">
+        <img class="edit-icon" src="assets/images/edit-icon.svg" alt="Edit icon" />
       </div>
     </div>
 

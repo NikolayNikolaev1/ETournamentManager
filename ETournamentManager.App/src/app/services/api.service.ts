@@ -57,7 +57,7 @@ export class ApiService {
 
       params = params.set(qp, Array.isArray(queryParam) ? queryParam.join(', ') : queryParam);
     });
-
+    // TODO: Add plain/text response.
     return this.http
       .request<TResponse>(method, requestUrl, {
         body: isFile ? formData : body,

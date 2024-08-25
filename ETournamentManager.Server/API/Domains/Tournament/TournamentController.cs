@@ -26,7 +26,7 @@
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
-        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(typeof(string), Status200OK)]
         [ProducesResponseType(Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] TournamentManagementModel model)
             => await tournamentService.Create(model).ReturnOkResult();

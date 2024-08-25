@@ -19,32 +19,12 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: CLIENT_ROUTES.AUTH.LOGIN,
-    component: LoginComponent,
-  },
-  {
-    path: CLIENT_ROUTES.AUTH.REGISTER,
-    component: RegisterComponent,
-  },
-  {
     path: 'profile',
     component: PlayerProfileComponent,
   },
   {
-    path: CLIENT_ROUTES.GAME.CREATE,
-    component: GameCreateComponent,
-  },
-  {
-    path: 'tournament/create',
-    component: TournamentCreateComponent,
-  },
-  {
     path: 'tournament/:id',
     component: TournamentDetailsComponent,
-  },
-  {
-    path: 'team/create',
-    component: TeamCreateComponent,
   },
   {
     path: 'team/:id',

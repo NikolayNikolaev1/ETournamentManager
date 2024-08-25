@@ -10,6 +10,8 @@ import { SERVER_ROUTES } from 'app/utils/constants';
 })
 export class EImageUploadComponent {
   @Input() entityId: string = '';
+  @Input() imgUrl: string | null = null;
+  @Input() hideActions: boolean = false;
   @Output() changedImage = new EventEmitter<File | null>();
   imageFile: File | null = null;
 
@@ -22,6 +24,7 @@ export class EImageUploadComponent {
   }
 
   triggerFileChange() {
+    this.imgUrl = null;
     this.fileInputRef.nativeElement.click();
   }
 
@@ -43,6 +46,7 @@ export class EImageUploadComponent {
   }
 
   onDeleteClick() {
+    this.imgUrl = null;
     this.apiServie
       .request({ url: `${SERVER_ROUTES.IMAGE.DELETE}/${this.entityId}`, method: 'delete' })
       .subscribe(() => {

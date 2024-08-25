@@ -1,3 +1,5 @@
+import { DialogCloseDirective } from '@ngneat/dialog';
+
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -22,9 +24,10 @@ import { TeamDetailsComponent } from 'app/components/pages/team/team-details/tea
 import { TournamentCreateComponent } from 'app/components/pages/tournament/tournament-create/tournament-create.component';
 import { TeamsSectionComponent } from 'app/components/teams-section/teams-section.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
+
 import { EImageUploadComponent } from './components/core/e-image-upload/e-image-upload.component';
-import { TournamentDetailsComponent } from './components/pages/tournament/tournament-details/tournament-details.component';
 import { EInfoCardComponent } from './components/core/e-info-card/e-info-card.component';
+import { TournamentDetailsComponent } from './components/pages/tournament/tournament-details/tournament-details.component';
 import { TournamentBracketComponent } from './components/tournament-bracket/tournament-bracket.component';
 
 @NgModule({
@@ -56,6 +59,7 @@ import { TournamentBracketComponent } from './components/tournament-bracket/tour
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    DialogCloseDirective,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],
   bootstrap: [AppComponent],

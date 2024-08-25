@@ -5,7 +5,7 @@
 
     public interface ITournamentBusinessService : IService
     {
-        Task Create(TournamentManagementModel model);
+        Task<string> Create(TournamentManagementModel model);
 
         Task Delete(string id);
 

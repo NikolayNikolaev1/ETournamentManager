@@ -1,6 +1,7 @@
+import { DialogService } from '@ngneat/dialog';
 import { environment } from 'environments/environment.development';
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import Round from 'app/models/round.model';
@@ -11,6 +12,8 @@ import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
 import { convertTeamInfoCard } from 'app/utils/info-card-converter';
+
+import { TournamentCreateComponent } from '../tournament-create/tournament-create.component';
 
 @Component({
   selector: 'app-tournament-details',
@@ -27,6 +30,8 @@ export class TournamentDetailsComponent {
   searchTeamNames: string[] = [];
   currentUserProfile: UserProfile | null = null;
   getTeamInfoCard = convertTeamInfoCard;
+
+  private dialog = inject(DialogService);
 
   constructor(
     private router: Router,
@@ -97,6 +102,14 @@ export class TournamentDetailsComponent {
         },
       })
       .subscribe(() => this.getTournamentDetails());
+  }
+
+  onEditClick() {
+    this.dialog.open(TournamentCreateComponent, {
+      data: {
+        title: '',
+      },
+    });
   }
 
   private getTournamentDetails() {

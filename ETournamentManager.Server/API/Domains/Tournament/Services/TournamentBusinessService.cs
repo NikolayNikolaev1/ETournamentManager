@@ -29,7 +29,7 @@
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
 
-        public async Task Create(TournamentManagementModel model)
+        public async Task<string> Create(TournamentManagementModel model)
         {
             if (!await gameDataService.ContainsId(model.GameId))
             {
@@ -48,6 +48,8 @@
 
             await dbContext.Tournaments.AddAsync(tournament);
             await dbContext.SaveChangesAsync();
+
+            return tournament.Id.ToString();
         }
 
         public async Task Delete(string id)
@@ -134,12 +136,6 @@
             Tournament? tournament = await tournamentDataService.GetById(model.TournamentId);
             Team? team = await teamDataService.GetById(model.TeamId);
 
-            //await Task.WhenAll(tournamentTask, teamTask);
-
-            //Tournament? tournament = tournamentTask.Result;
-            //Team? team = teamTask.Result;
-
-
             if (tournament == null)
             {
                 throw new BusinessServiceException(TOURNAMENT_NOT_FOUND, Status404NotFound);
@@ -148,6 +144,11 @@
             if (team == null)
             {
                 throw new BusinessServiceException("Team not found", Status404NotFound);
+            }
+
+            if (tournament.Active)
+            {
+                throw new BusinessServiceException("Can not join an active tournament.");
             }
 
             TournamentTeam? tournamentTeam = await tournamentDataService
@@ -175,6 +176,11 @@
             if (tournamentTeam == null)
             {
                 throw new BusinessServiceException("Team not found in tournament", Status404NotFound);
+            }
+
+            if (tournamentTeam.Tournament.Active)
+            {
+                throw new BusinessServiceException("Can not leave an active tournament.");
             }
 
             if (tournamentTeam.Tournament.CreatorId != Guid.Parse(currentUser.Id)

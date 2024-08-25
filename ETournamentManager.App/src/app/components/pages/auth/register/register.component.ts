@@ -1,3 +1,5 @@
+import { DialogService } from '@ngneat/dialog';
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -28,7 +30,8 @@ export class RegisterComponent {
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {}
 
   onFormChanged({ email, username, password, repeatPassword }: REGISTER_FORM_MODEL) {
@@ -73,6 +76,7 @@ export class RegisterComponent {
         next: (response) => {
           localStorage.setItem(TOKEN_KEY_NAME, response.token);
           this.authService.getUserProfile();
+          this.dialogService.closeAll();
           this.router.navigate(['/']);
         },
         error: (error) => (this.errorMessage = error),

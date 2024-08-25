@@ -1,55 +1,58 @@
-@switch (currentUserProfile?.roleName) {
-  @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
-    <div class="section-container">
-      <div class="title-wrapper">
-        <div class="title">My Teams</div>
-        <hr />
-      </div>
+<div id="profile-container">
+  
+  @switch (currentUserProfile?.roleName) {
+    @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
+      <div class="section-container">
+        <div class="title-wrapper">
+          <div class="title">My Teams</div>
+          <hr />
+        </div>
 
-      <div class="info-cards-container">
-        @for (currentTeam of teamsData; track $index) {
-          <app-e-info-card
-            [cardData]="getTeamInfoCard(currentTeam)"
-            (cardClicked)="onCardSelect(currentTeam.id, '/team')"
-          >
-            <div statsIcons class="stats-info">
-              <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
-              <div class="subtitle">
-                {{ currentTeam.tournamentsWon }}
-              </div>
+        <div class="info-cards-container">
+          @for (currentTeam of teamsData; track $index) {
+            <app-e-info-card
+              [cardData]="getTeamInfoCard(currentTeam)"
+              (cardClicked)="onCardSelect(currentTeam.id, '/team')"
+            >
+              <div statsIcons class="stats-info">
+                <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+                <div class="subtitle">
+                  {{ currentTeam.tournamentsWon }}
+                </div>
 
-              <img src="assets/images/people-icon.svg" alt="People Icon" />
-              <div class="subtitle">
-                {{ currentTeam.members.length }}
+                <img src="assets/images/people-icon.svg" alt="People Icon" />
+                <div class="subtitle">
+                  {{ currentTeam.members.length }}
+                </div>
               </div>
-            </div>
-          </app-e-info-card>
-        }
+            </app-e-info-card>
+          }
+        </div>
       </div>
-    </div>
+    }
+    @case (constants.TOURNAMENT_CREATOR_ROLE) {
+      <div class="section-container">
+        <div class="title-wrapper">
+          <div class="title">My Tournaments</div>
+          <hr />
+        </div>
+
+        <div class="info-cards-container">
+          @for (currentTournament of tournamentsData; track $index) {
+            <app-e-info-card
+              [cardData]="getTournamentCard(currentTournament)"
+              (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
+            >
+              <div statsIcons class="stats-info">
+                <img src="assets/images/people-icon.svg" alt="People Icon" />
+                <div class="subtitle">
+                  {{ currentTournament.minTeamMembers }}
+                </div>
+              </div>
+            </app-e-info-card>
+          }
+        </div>
+      </div>
+    }
   }
-  @case (constants.TOURNAMENT_CREATOR_ROLE) {
-    <div class="section-container">
-      <div class="title-wrapper">
-        <div class="title">My Tournaments</div>
-        <hr />
-      </div>
-
-      <div class="info-cards-container">
-        @for (currentTournament of tournamentsData; track $index) {
-          <app-e-info-card
-            [cardData]="getTournamentCard(currentTournament)"
-            (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
-          >
-            <div statsIcons class="stats-info">
-              <img src="assets/images/people-icon.svg" alt="People Icon" />
-              <div class="subtitle">
-                {{ currentTournament.minTeamMembers }}
-              </div>
-            </div>
-          </app-e-info-card>
-        }
-      </div>
-    </div>
-  }
-}
+</div>

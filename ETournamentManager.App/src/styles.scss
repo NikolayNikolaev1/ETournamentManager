@@ -5,10 +5,6 @@
   src: url('./assets/fonts/Freedom.ttf');
 }
 
-#test {
-  flex-grow: 1;
-}
-
 html,
 body {
   height: 100%;
@@ -44,6 +40,18 @@ body {
     }
   }
 
+  img.edit-icon {
+    cursor: pointer;
+    // White filter
+    filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg)
+      brightness(107%) contrast(101%);
+  }
+
+  img.edit-icon:hover {
+    filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg)
+      brightness(103%) contrast(104%);
+  }
+
   .flex-right {
     margin-left: auto;
     padding-right: 20px;
@@ -57,6 +65,12 @@ body {
   .hover-transition:hover {
     cursor: pointer;
     opacity: 1;
+  }
+
+  #dialog-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
   }
 
   #content {
@@ -102,7 +116,6 @@ body {
           color: white;
 
           .actions {
-
             img {
               height: 25px;
               filter: brightness(0) saturate(100%) invert(14%) sepia(97%) saturate(6303%)

@@ -1,6 +1,6 @@
 <div class="image-upload-wrapper" [ngClass]="{ 'image-selected': imageFile !== null }">
   <input #fileInput type="file" accept="image/png" (change)="onFileChange($event)" />
-  @if (imageFile === null) {
+  @if (imageFile === null && imgUrl === null) {
     <div class="upload-container" (click)="triggerFileChange()">
       <img
         class="img-upload-icon"
@@ -15,26 +15,30 @@
       </div>
     </div>
   } @else {
-    <img
-      class="uploaded-image"
-      [src]="getImageUrl()"
-      alt="Uploaded Image"
-      width="210"
-      height="100"
-    />
-    <div class="actions">
+    <div class="image-container">
       <img
-        src="assets/images/edit-icon.svg"
-        alt="Edit Icon"
-        width="12"
-        (click)="triggerFileChange()"
+        class="uploaded-image"
+        [src]="imgUrl ?? getImageUrl()"
+        alt="Uploaded Image"
+        width="210"
+        height="100"
       />
-      <img
-        src="assets/images/delete-icon.svg"
-        alt="Delete Icon"
-        width="12"
-        (click)="onDeleteClick()"
-      />
+      @if (!hideActions) {
+        <div class="actions">
+          <img
+            src="assets/images/edit-icon.svg"
+            alt="Edit Icon"
+            width="12"
+            (click)="triggerFileChange()"
+          />
+          <img
+            src="assets/images/delete-icon.svg"
+            alt="Delete Icon"
+            width="12"
+            (click)="onDeleteClick()"
+          />
+        </div>
+      }
     </div>
   }
 </div>

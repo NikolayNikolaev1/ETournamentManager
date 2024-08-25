@@ -1,34 +1,36 @@
-<app-e-form
-  title="Create new tournament"
-  [inputFields]="[
-    {
-      name: 'name',
-      value: name,
-      label: 'Name',
-      required: true,
-    },
-    {
-      name: 'description',
-      value: description,
-      label: 'Description',
-    },
-    {
-      name: 'minTeamMembers',
-      value: minTeamMembers.toString(),
-      label: 'Min members',
-      type: 'number',
-    },
-  ]"
-  [error]="errorMessage"
-  (submitted)="onCreateClick()"
-  (formInputsChanged)="onFormChanged($event)"
->
-  <app-e-switch
-    dynamicInput
-    label="Type"
-    [on]="true"
-    [switchLabels]="{ on: 'Single Player', off: 'Team' }"
-    [colors]="{ on: 'blue', off: 'red' }"
-    (toggled)="onTypeChange()"
-  />
-</app-e-form>
+<div id="dialog-container">
+  <app-e-form
+    title="Create new tournament"
+    [inputFields]="[
+      {
+        name: 'name',
+        value: name,
+        label: 'Name',
+        required: true,
+      },
+      {
+        name: 'description',
+        value: description,
+        label: 'Description',
+      },
+      {
+        name: 'minTeamMembers',
+        value: minTeamMembers.toString(),
+        label: 'Min members',
+        type: 'number',
+      },
+    ]"
+    [error]="errorMessage"
+    (submitted)="onCreateClick()"
+    (formInputsChanged)="onFormChanged($event)"
+  >
+    <app-e-switch
+      dynamicInput
+      label="Type"
+      [on]="true"
+      [switchLabels]="{ on: 'Single Player', off: 'Team' }"
+      [colors]="{ on: 'blue', off: 'red' }"
+      (toggled)="onTypeChange()"
+    />
+  </app-e-form>
+</div>

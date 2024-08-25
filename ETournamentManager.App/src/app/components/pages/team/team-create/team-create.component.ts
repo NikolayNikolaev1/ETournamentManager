@@ -1,3 +1,5 @@
+import { DialogService } from '@ngneat/dialog';
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -19,7 +21,8 @@ export class TeamCreateComponent {
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private readonly dialogService: DialogService
   ) {}
 
   onFormChanged({ name, tag, description }: TEAM_CREATE_FORM_MODEL) {
@@ -40,7 +43,11 @@ export class TeamCreateComponent {
         },
       })
       .subscribe({
-        next: (id) => this.router.navigate(['/team', id]),
+        next: (id) => {
+          this.dialogService.closeAll();
+          
+          this.router.navigate(['/team', id]);
+        },
         error: (error) => (this.errorMessage = error),
       });
   }

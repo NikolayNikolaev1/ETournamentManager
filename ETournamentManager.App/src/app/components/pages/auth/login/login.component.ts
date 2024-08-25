@@ -1,3 +1,5 @@
+import { DialogService } from '@ngneat/dialog';
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -15,6 +17,7 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(
+    private dialogService: DialogService,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -30,6 +33,7 @@ export class LoginComponent {
       next: (response) => {
         localStorage.setItem(TOKEN_KEY_NAME, response.token);
         this.authService.getUserProfile();
+        this.dialogService.closeAll();
         this.router.navigate(['/']);
       },
       error: (error) => (this.errorMessage = error),
