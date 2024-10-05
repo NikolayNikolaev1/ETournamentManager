@@ -1,7 +1,13 @@
 <div id="team-container">
   @if (teamData !== null) {
     <div id="banner-header">
-      <img [src]="teamImageUrl" alt="Tournament Image" height="120" />
+      <app-e-image-upload
+        [entityId]="teamId"
+        [imgUrl]="teamImageUrl"
+        [hideActions]="
+          teamData.captain.id !== currentUserProfile?.id && currentUserProfile?.roleName !== 'ADMIN'
+        "
+      />
       <div class="banner-info-wrapper">
         <h1 class="title">{{ teamData.name }}</h1>
         <h4 class="description">{{ teamData.description }}</h4>
@@ -14,14 +20,51 @@
       </div>
     </div>
 
-    {{ teamData | json }}
+    @if (
+      currentUserProfile !== null &&
+      (teamData.captain.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
+    ) {
+      <app-e-input
+        label="Add user to team"
+        [isSearch]="true"
+        [searchResult]="searchUsernames"
+        (inputChanged)="getUsersByUsername($event)"
+        (searchResultSelected)="selectUser($event)"
+      />
+    }
 
-    <app-e-input
-      label="Add user to team"
-      [isSearch]="true"
-      [searchResult]="searchUsernames"
-      (inputChanged)="getUsersByUsername($event)"
-      (searchResultSelected)="selectUser($event)"
-    />
+    <div class="section-container">
+      <div class="title-wrapper">
+        <div class="title">Participent Teams</div>
+        <hr />
+      </div>
+
+      <div id="member-cards-container" class="info-cards-container">
+        @for (currentMember of teamMembersData; track $index) {
+          <app-e-info-card [cardData]="getUserInfoCard(currentMember)">
+            @if (
+              (teamData.captain.id === currentUserProfile?.id ||
+                currentUserProfile?.roleName === 'ADMIN') &&
+              currentMember.id.toLowerCase() !== teamData.captain.id
+            ) {
+              <div
+                actions
+                class="actions"
+                (click)="$event.stopPropagation(); onRemoveMemberClick(currentMember.id)"
+              >
+                <img src="assets/images/close-icon.svg" alt="Close icon" />
+              </div>
+            }
+
+            @if (currentMember.id === this.teamData.captain.id.toLowerCase()) {
+              <div statsIcons class="stats-info">
+                <img src="assets/images/crown-icon.svg" alt="Captain icon" />
+                <div class="subtitle">Captain</div>
+              </div>
+            }
+          </app-e-info-card>
+        }
+      </div>
+    </div>
   }
 </div>

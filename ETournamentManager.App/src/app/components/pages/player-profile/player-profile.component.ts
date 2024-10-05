@@ -24,6 +24,7 @@ export class PlayerProfileComponent implements OnInit {
   currentUserSub!: Subscription;
   teamsData: Team[] = [];
   tournamentsData: Tournament[] = [];
+  userImageUrl: string = '';
   getTeamInfoCard = convertTeamInfoCard;
   getTournamentCard = convertTournamentInfoCard;
 
@@ -37,6 +38,15 @@ export class PlayerProfileComponent implements OnInit {
     // TODO: Fix not showing teams/tournaments after first refresh.
     setTimeout(() => {
       this.currentUserProfile = this.authService.getCurrentUser();
+
+      this.apiService
+        .request({ method: 'get', url: this.currentUserProfile!.id, isFile: true })
+        .subscribe({
+          error: (isValid) =>
+            (this.userImageUrl = isValid
+              ? `${environment.apiUrl}/UploadImages/${this.currentUserProfile!.id}.jpg`
+              : 'assets/images/default-user-img.jpg'),
+        });
 
       switch (this.currentUserProfile?.roleName) {
         case Constants.TOURNAMENT_PARTICIPANT_ROLE:
@@ -55,7 +65,7 @@ export class PlayerProfileComponent implements OnInit {
                 this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
                   error: (isValid) =>
                     (t.imgUrl = isValid
-                      ? `${environment.apiUrl}/UploadImages/${t.id}.png`
+                      ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
                       : 'assets/images/default-team-img.jpg'),
                 });
               });
@@ -77,7 +87,7 @@ export class PlayerProfileComponent implements OnInit {
                 this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
                   error: (isValid) =>
                     (t.imgUrl = isValid
-                      ? `${environment.apiUrl}/UploadImages/${t.id}.png`
+                      ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
                       : 'assets/images/default-tournament-img.jpg'),
                 });
               });

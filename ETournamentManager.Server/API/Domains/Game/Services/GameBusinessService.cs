@@ -72,6 +72,15 @@
         }
 
         public async Task<GameListingModel> GetById(string id)
-            => mapper.Map<GameListingModel>(await gameDataService.GetById(id));
+        {
+            Game? game = await gameDataService.GetById(id);
+
+            if(game == null)
+            {
+                throw new BusinessServiceException(GAME_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
+
+            return mapper.Map<GameListingModel>(await gameDataService.GetById(id));
+        }
     }
 }

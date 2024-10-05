@@ -5,5 +5,7 @@
         public string? Search { get; set; }
 
         public string? Role { get; set; }
+
+        public string? TeamIds { get; set; }
     }
 }

@@ -13,6 +13,7 @@
 
     using static Core.Common.Constants.ErrorMessages;
     using static Core.Common.Constants.ErrorMessages.Team;
+    using static Core.Common.Constants.Roles;
     using static Microsoft.AspNetCore.Http.StatusCodes;
 
     using Team = Data.Models.Team;
@@ -43,7 +44,7 @@
 
             TeamMember? teamCaptain = await teamDataService.GetTeamMember(model.TeamId, currentUser.Id);
 
-            if (teamCaptain == null || !teamCaptain.IsCaptain)
+            if (teamCaptain == null || !teamCaptain.IsCaptain && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("Only team captain can add new members.");
             }
@@ -206,7 +207,7 @@
             }
 
             if (teamMember.Team.Members.First(m => m.IsCaptain).MemberId != Guid.Parse(currentUser.Id)
-                || teamMember.MemberId != Guid.Parse(currentUser.Id))
+                && teamMember.MemberId != Guid.Parse(currentUser.Id) && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("Only captain can remove a member, or member can leave the team", Status403Forbidden);
             }

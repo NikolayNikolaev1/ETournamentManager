@@ -1,5 +1,15 @@
 <div id="profile-container">
-  
+  <div id="profile-edit-wrapper">
+    @if (currentUserProfile !== null) {
+      <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+
+      <div id="username-edit-form">
+        <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" />
+        <button id="username-edit-btn">Change User Name</button>
+      </div>
+    }
+  </div>
+
   @switch (currentUserProfile?.roleName) {
     @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
       <div class="section-container">
@@ -8,7 +18,7 @@
           <hr />
         </div>
 
-        <div class="info-cards-container">
+        <div id="teams-cards-container" class="info-cards-container teams">
           @for (currentTeam of teamsData; track $index) {
             <app-e-info-card
               [cardData]="getTeamInfoCard(currentTeam)"

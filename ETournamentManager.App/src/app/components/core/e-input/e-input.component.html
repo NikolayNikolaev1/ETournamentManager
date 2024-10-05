@@ -10,12 +10,13 @@
       (blur)="onInputBlur()"
     />
 
-    @for (result of searchResult; track $index) {
-      <div class="search-result" (click)="onSearchResultClick($index)">
-        {{ result }}
-      </div>
-    }
-    
+    <div class="search-list">
+      @for (result of searchResult; track $index) {
+        <div class="search-result" (click)="onSearchResultClick($index)">
+          {{ result }}
+        </div>
+      }
+    </div>
   </div>
   @if (isSearch) {
     <div class="search-img">

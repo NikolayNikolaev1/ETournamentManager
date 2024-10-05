@@ -12,6 +12,7 @@ type QueryParams = {
   role?: string;
   userIds?: string[];
   tournamentIds?: string[];
+  teamIds?: string[];
 };
 
 interface ApiRequestData<TBody> {
@@ -44,7 +45,7 @@ export class ApiService {
 
     if (isFile) {
       if (method === 'get') {
-        requestUrl = `${environment.apiUrl}/UploadImages/${url}.png`;
+        requestUrl = `${environment.apiUrl}/UploadImages/${url}.jpg`;
       } else if (method === 'post') {
         const { entityId, file } = body as { entityId: string; file: any };
         formData.append('file', file);

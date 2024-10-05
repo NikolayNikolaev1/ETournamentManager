@@ -6,16 +6,21 @@
     display: flex;
     flex-direction: column;
 
-    .search-result {
-      cursor: pointer;
-      text-align: center;
-      padding: 10px;
-      background-color: yellow;
-      border: 1px solid red;
-    }
+    .search-list {
+      position: absolute;
+      top: 40px;
 
-    .search-result:hover {
-      background-color: lightblue;
+      .search-result {
+        cursor: pointer;
+        text-align: center;
+        padding: 10px;
+        background-color: yellow;
+        border: 1px solid red;
+      }
+
+      .search-result:hover {
+        background-color: lightblue;
+      }
     }
   }
 

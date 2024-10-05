@@ -112,8 +112,9 @@ body {
         .info-cards-container {
           display: flex;
           flex-wrap: wrap;
+          justify-content: center;
           gap: 30px;
-          width: 100%;
+          width: 95%;
           padding: 30px;
           font-family: fonts.$global;
           font-style: normal;

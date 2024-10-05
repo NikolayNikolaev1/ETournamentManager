@@ -130,7 +130,7 @@ export class TournamentDetailsComponent {
         this.apiService.request({ method: 'get', url: this.tournamentId, isFile: true }).subscribe({
           error: (isValid) =>
             (this.tournamentImageUrl = isValid
-              ? `${environment.apiUrl}/UploadImages/${this.tournamentId}.png`
+              ? `${environment.apiUrl}/UploadImages/${this.tournamentId}.jpg`
               : 'assets/images/default-tournament-img.jpg'),
         });
 
@@ -163,7 +163,7 @@ export class TournamentDetailsComponent {
           this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
             error: (isValid) =>
               (t.imgUrl = isValid
-                ? `${environment.apiUrl}/UploadImages/${t.id}.png`
+                ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
                 : 'assets/images/default-team-img.jpg'),
           });
         });

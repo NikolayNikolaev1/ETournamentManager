@@ -151,6 +151,11 @@
                 throw new BusinessServiceException("Can not join an active tournament.");
             }
 
+            if (tournament.CreatorId != Guid.Parse(currentUser.Id) || currentUser.RoleName != ADMIN)
+            {
+                throw new BusinessServiceException("User is not creator of tournament.", Status401Unauthorized);
+            }
+
             TournamentTeam? tournamentTeam = await tournamentDataService
                 .GetTournamentTeam(model.TournamentId, model.TeamId);
 

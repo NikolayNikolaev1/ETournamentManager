@@ -8,7 +8,7 @@
 
     public class ImageService : IImageService
     {
-        private readonly ICollection<string> extensions = new HashSet<string>() { ".png" };
+        private readonly ICollection<string> extensions = new HashSet<string>() { ".jpg" };
         private readonly long mbToBitesCalcluation = 5 * 1024 * 1024;
         private readonly string path = Path.Combine(Directory.GetCurrentDirectory(), STATIC_FILES_PATH);
 
@@ -36,7 +36,7 @@
 
         public async Task Delete(string name)
         {
-            File.Delete(@$"{path}\{name}.png");
+            File.Delete(@$"{path}\{name}.jpg");
 
             await Task.CompletedTask;
         }

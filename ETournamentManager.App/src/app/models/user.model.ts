@@ -8,6 +8,7 @@ export interface UserBase {
   id: string;
   userName: string;
   email: string;
+  imgUrl: string;
 }
 
 export default User;

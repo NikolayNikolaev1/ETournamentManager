@@ -1,5 +1,5 @@
 <div class="image-upload-wrapper" [ngClass]="{ 'image-selected': imageFile !== null }">
-  <input #fileInput type="file" accept="image/png" (change)="onFileChange($event)" />
+  <input #fileInput type="file" accept="image/jpg" (change)="onFileChange($event)" />
   @if (imageFile === null && imgUrl === null) {
     <div class="upload-container" (click)="triggerFileChange()">
       <img
@@ -11,7 +11,7 @@
       <div class="label">
         <h3>Upload Image</h3>
         <h6>Recomended images:</h6>
-        <h3>PNG format, 5MB or less</h3>
+        <h3>JPG format, 5MB or less</h3>
       </div>
     </div>
   } @else {

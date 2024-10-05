@@ -24,12 +24,27 @@ namespace API.Domains.User.Services
 
         public async Task<ICollection<UserListingModel>> GetAll(UserQueryParamsModel queryParams)
         {
+            ICollection<string> teamIds = new HashSet<string>();
+
+            if (queryParams.TeamIds != null)
+            {
+                teamIds = queryParams.TeamIds.Split(", ").ToList();
+            }
+
+
             IQueryable<User> users = dbContext
                 .Users
+                .Include(u => u.Teams)
                 .Where(u => u.Roles.First().Role.Name != ADMIN)
                 .AsQueryable();
 
-            if (queryParams.Role == null && (queryParams.Role == TOURNAMENT_CREATOR || queryParams.Role == TOURNAMENT_PARTICIPANT))
+
+            if (teamIds.Count > 0)
+            {
+                users = users.Where(u => u.Teams.Select(t => t.TeamId).Any(id => teamIds.Contains(id.ToString())));
+            }
+
+            if (queryParams.Role != null && (queryParams.Role == TOURNAMENT_CREATOR || queryParams.Role == TOURNAMENT_PARTICIPANT))
             {
                 users = users.Where(u => u.Roles.First().Role.Name == queryParams.Role);
             }

@@ -50,6 +50,7 @@ export const SERVER_ROUTES = {
     UPDATE: 'Team/Update',
     DELETE: 'Team/Delete',
     ADD_MEMBER: 'Team/AddMember',
+    REMOVE_MEMBER: 'Team/RemoveMember',
   },
   ROUND: {
     GET_ALL: 'Round/GetAll',

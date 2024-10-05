@@ -47,7 +47,7 @@
             => await tournamentService.Join(model).ReturnOkResult();
 
         [HttpPatch]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}, {TOURNAMENT_PARTICIPANT}")]
         [ProducesResponseType(Status200OK)]
         public async Task<IActionResult> RemoveParticipant([FromBody] TournamentTeamModel model)
         {

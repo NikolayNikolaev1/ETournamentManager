@@ -11,6 +11,7 @@
     using Tournament.Services;
 
     using static Core.Common.Constants.ErrorMessages;
+    using static Core.Common.Constants.Roles;
     using static Data.Models.Round;
     using static Microsoft.AspNetCore.Http.StatusCodes;
 
@@ -108,14 +109,14 @@
                 throw new BusinessServiceException("Tournament not found", Status404NotFound);
             }
 
-            if (tournament.CreatorId != Guid.Parse(currentUser.Id))
+            if (tournament.CreatorId != Guid.Parse(currentUser.Id) || currentUser.RoleName == ADMIN)
             {
                 throw new BusinessServiceException("Only tournament creator can start tournament", Status401Unauthorized);
             }
 
             if (tournament.Teams.Count != 8)
             {
-                throw new BusinessServiceException("Eight teams are the min for tournament to start.", CLIENT_VALIDATION_ERROR_TITLE, "Team count" );
+                throw new BusinessServiceException("Eight teams are the min for tournament to start.", CLIENT_VALIDATION_ERROR_TITLE, "Team count");
             }
 
             //if (tournament.Type == TournamentType.Team && tournament.Teams.Any(t => t.Team.Members.Count < tournament.MinTeamMembers))
