@@ -15,7 +15,7 @@
     public class RoundController(IRoundBusinessService roundService) : ControllerBase
     {
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(ICollection<RoundListingModel>), Status200OK)]
         public async Task<IActionResult> GetAll(string id)
             => await roundService.GetAll(id).ReturnOkResult();

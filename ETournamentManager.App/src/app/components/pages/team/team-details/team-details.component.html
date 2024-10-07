@@ -39,7 +39,7 @@
         <hr />
       </div>
 
-      <div id="member-cards-container" class="info-cards-container">
+      <div class="info-cards-container cards-container">
         @for (currentMember of teamMembersData; track $index) {
           <app-e-info-card [cardData]="getUserInfoCard(currentMember)">
             @if (
@@ -66,5 +66,55 @@
         }
       </div>
     </div>
+
+    @if (activeTournaments.length > 0) {
+      <div class="section-container">
+        <div class="title-wrapper">
+          <div class="title">Active Tournaments</div>
+          <hr />
+        </div>
+
+        <div class="info-cards-container cards-container">
+          @for (currentTournament of activeTournaments; track $index) {
+            <app-e-info-card
+              [cardData]="getTournamentInfoCard(currentTournament)"
+              (cardClicked)="onTournamentCardSelect($event)"
+            >
+              <!-- @if (currentMember.id === this.teamData.captain.id.toLowerCase()) {
+                <div statsIcons class="stats-info">
+                  <img src="assets/images/crown-icon.svg" alt="Captain icon" />
+                  <div class="subtitle">Captain</div>
+                </div>
+              } -->
+            </app-e-info-card>
+          }
+        </div>
+      </div>
+    }
+
+    @if (pastTournaments.length > 0) {
+      <div class="section-container">
+        <div class="title-wrapper">
+          <div class="title">Past Tournaments</div>
+          <hr />
+        </div>
+
+        <div class="info-cards-container cards-container">
+          @for (currentTournament of pastTournaments; track $index) {
+            <app-e-info-card
+              [cardData]="getTournamentInfoCard(currentTournament)"
+              (cardClicked)="onTournamentCardSelect($event)"
+            >
+              <!-- @if (currentMember.id === this.teamData.captain.id.toLowerCase()) {
+                <div statsIcons class="stats-info">
+                  <img src="assets/images/crown-icon.svg" alt="Captain icon" />
+                  <div class="subtitle">Captain</div>
+                </div>
+              } -->
+            </app-e-info-card>
+          }
+        </div>
+      </div>
+    }
   }
 </div>

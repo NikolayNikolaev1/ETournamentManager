@@ -9,8 +9,25 @@
 
   .bracket-wrapper {
     display: flex;
-    background-color: white;
+    justify-content: center;
     height: 450px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 20px;
+
+    #tournament-ranking-wrapper {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: center;
+      align-self: center;
+      gap: 10px;
+      height: fit-content;
+      padding: 20px;
+      border: 2px solid red;
+
+      .ranking-row {
+        display: flex;
+      }
+    }
   }
 
   #tournament-actions {

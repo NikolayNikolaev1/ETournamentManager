@@ -91,6 +91,22 @@
 
     @if (roundsData.length > 0) {
       <div class="bracket-wrapper">
+        @if (ranking.length !== 0) {
+          <div id="tournament-ranking-wrapper">
+            @for (currentPlace of ranking; track $index) {
+              <div class="ranking-row">
+                <div class="place">
+                  {{ currentPlace.place }}
+                </div>
+                -
+                <div class="name">
+                  {{ currentPlace.name }}
+                </div>
+              </div>
+            }
+          </div>
+        }
+
         <app-tournament-bracket
           [roundsData]="roundsData"
           [tournamentId]="tournamentId"

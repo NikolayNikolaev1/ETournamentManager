@@ -1,6 +1,4 @@
 .bracket-container {
-  position: absolute;
-
   .bracket {
     display: flex;
     flex-direction: row;
@@ -54,8 +52,8 @@
         }
 
         .team:hover {
-            cursor: pointer;
-            background-color: aqua;
+          cursor: pointer;
+          background-color: aqua;
         }
 
         .team:first-child {

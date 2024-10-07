@@ -31,6 +31,7 @@ export class TournamentDetailsComponent {
   searchTeamNames: string[] = [];
   currentUserProfile: UserProfile | null = null;
   startTournamentError: string = '';
+  ranking: { place: string; name: string }[] = [];
 
   getTeamInfoCard = convertTeamInfoCard;
 
@@ -118,6 +119,23 @@ export class TournamentDetailsComponent {
     });
   }
 
+  private getRanking() {
+    this.ranking = this.roundsData.map((tr, i) => ({
+      place: i < 4 ? '5-8' : i < 6 ? '3-4' : '2',
+      name: tr.teams.find((t) => t.id !== tr.winnerId)!.name,
+    }));
+
+    const lastRound = this.roundsData[this.roundsData.length - 1];
+
+    this.ranking = [
+      ...this.ranking,
+      {
+        place: '1',
+        name: lastRound.teams.find((t) => t.id === lastRound.winnerId)!.name,
+      },
+    ];
+  }
+
   private getTournamentDetails() {
     this.apiService
       .request<Tournament>({
@@ -144,7 +162,13 @@ export class TournamentDetailsComponent {
         url: `${SERVER_ROUTES.ROUND.GET_ALL}/${this.tournamentId}`,
         method: 'get',
       })
-      .subscribe((response) => (this.roundsData = response));
+      .subscribe((response) => {
+        this.roundsData = response;
+
+        if (!this.tournamentData?.active) {
+          this.getRanking();
+        }
+      });
   }
 
   private getTournamentTeams() {
