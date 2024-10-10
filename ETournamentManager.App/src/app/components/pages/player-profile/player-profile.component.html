@@ -1,7 +1,9 @@
 <div id="profile-container">
   <div id="profile-edit-wrapper">
-    @if (currentUserProfile !== null) {
-      <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+    @if (currentUserProfile !== null && currentUserProfile.roleName !== constants.ADMIN_ROLE) {
+      @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
+        <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+      }
 
       <div id="username-edit-form">
         <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" />
@@ -40,7 +42,13 @@
         </div>
       </div>
     }
-    @case (constants.TOURNAMENT_CREATOR_ROLE) {
+    @case (
+      [constants.TOURNAMENT_CREATOR_ROLE, constants.ADMIN_ROLE].includes(
+        currentUserProfile?.roleName ?? ''
+      )
+        ? currentUserProfile?.roleName
+        : ''
+    ) {
       <div class="section-container">
         <div class="title-wrapper">
           <div class="title">My Tournaments</div>
