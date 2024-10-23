@@ -106,6 +106,7 @@
         {
             ICollection<string> userIds = new HashSet<string>();
             ICollection<string> teamIds = new HashSet<string>();
+            ICollection<string> gameIds = new HashSet<string>();
 
             if (queryParams.UserIds != null)
             {
@@ -115,6 +116,11 @@
             if (queryParams.TeamIds != null)
             {
                 teamIds = queryParams.TeamIds.Split(", ").ToList();
+            }
+
+            if (queryParams.GameIds != null)
+            {
+                gameIds = queryParams.GameIds.Split(", ").ToList();
             }
 
             IQueryable<Tournament> tournaments = dbContext
@@ -130,6 +136,11 @@
             if (teamIds.Count > 0)
             {
                 tournaments = tournaments.Where(t => t.Teams.Any(t => teamIds.Contains(t.TeamId.ToString())));
+            }
+
+            if (gameIds.Count > 0)
+            {
+                tournaments = tournaments.Where(t => gameIds.Contains(t.GameId.ToString()));
             }
 
             if (queryParams.Search != null)

@@ -7,5 +7,7 @@
         public string? UserIds { get; set; }
 
         public string? TeamIds { get; set; }
+
+        public string? GameIds { get; set; }
     }
 }

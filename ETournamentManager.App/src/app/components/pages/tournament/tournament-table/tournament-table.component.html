@@ -3,7 +3,7 @@
   [isSearch]="true"
   [searchResult]="getUserNames()"
   (inputChanged)="getUsersByUsername($event)"
-  (searchResultSelected)="selectUser($event)"
+  (searchResultSelected)="selectFilter('creator', $event)"
 />
 
 <div class="filters-container">
@@ -14,7 +14,28 @@
         class="close-img"
         src="assets/images/close-icon.svg"
         alt="Close icon"
-        (click)="onFilterRemove(currentFilter.id)"
+        (click)="onFilterRemove('creator', currentFilter.id)"
+      />
+    </div>
+  }
+</div>
+
+<app-e-input
+  label="Games"
+  [isSearch]="true"
+  [searchResult]="getGameNames()"
+  (inputChanged)="getGameByName($event)"
+  (searchResultSelected)="selectFilter('game', $event)"
+/>
+<div class="filters-container">
+  @for (currentFilter of filteredGames; track $index) {
+    <div class="filter">
+      {{ currentFilter.name }}
+      <img
+        class="close-img"
+        src="assets/images/close-icon.svg"
+        alt="Close icon"
+        (click)="onFilterRemove('game', currentFilter.id)"
       />
     </div>
   }

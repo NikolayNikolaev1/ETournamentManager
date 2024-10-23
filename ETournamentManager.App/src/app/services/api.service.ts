@@ -13,6 +13,7 @@ type QueryParams = {
   userIds?: string[];
   tournamentIds?: string[];
   teamIds?: string[];
+  gameIds?: string[];
 };
 
 interface ApiRequestData<TBody> {

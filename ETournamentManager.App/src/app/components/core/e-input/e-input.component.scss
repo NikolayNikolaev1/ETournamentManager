@@ -8,6 +8,7 @@
 
     .search-list {
       position: absolute;
+      z-index: 1;
       top: 40px;
 
       .search-result {
