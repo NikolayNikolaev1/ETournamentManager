@@ -1,0 +1,30 @@
+<!-- table.component.html -->
+<div class="table-container">
+  <input [(ngModel)]="filterText" (input)="applyFilter()" placeholder="Search..." />
+  <table>
+    <thead>
+      <tr>
+        @for (item of header; track $index) {
+          <th (click)="sortData(item)">{{ item }}</th>
+          <!-- <th (click)="sortData(item)">{{ item }}</th> -->
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (currentTournament of paginatedData; track $index) {
+        <tr>
+          @for (item of header; track $index) {
+            <td>{{ currentTournament[item] }}</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- Pagination controls -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>

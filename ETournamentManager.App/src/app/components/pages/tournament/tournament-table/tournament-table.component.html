@@ -1,0 +1,23 @@
+<app-e-input
+  label="Creator"
+  [isSearch]="true"
+  [searchResult]="getUserNames()"
+  (inputChanged)="getUsersByUsername($event)"
+  (searchResultSelected)="selectUser($event)"
+/>
+
+<div class="filters-container">
+  @for (currentFilter of filteredCreators; track $index) {
+    <div class="filter">
+      {{ currentFilter.userName }}
+      <img
+        class="close-img"
+        src="assets/images/close-icon.svg"
+        alt="Close icon"
+        (click)="onFilterRemove(currentFilter.id)"
+      />
+    </div>
+  }
+</div>
+
+<app-e-table [header]="['name', 'creator', 'game']" [data]="tournamentsData" />

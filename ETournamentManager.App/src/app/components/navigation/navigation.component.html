@@ -4,7 +4,7 @@
       <img src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
       {{ constants.WEBSITE_NAME }}
     </li>
-    <li class="nav-item hover-transition">Current tournaments</li>
+    <li class="nav-item hover-transition" routerLink="/tournaments">Current tournaments</li>
     @if (currentUser !== null) {
       <li class="nav-item hover-transition">My teams</li>
       @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {

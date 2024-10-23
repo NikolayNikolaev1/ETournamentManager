@@ -1,10 +1,12 @@
-import { DialogCloseDirective } from '@ngneat/dialog';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { DialogCloseDirective } from '@ngneat/dialog';
 
 import { AppRoutingModule } from 'app/app-routing.module';
 import { AppComponent } from 'app/app.component';
@@ -25,10 +27,13 @@ import { TournamentCreateComponent } from 'app/components/pages/tournament/tourn
 import { TeamsSectionComponent } from 'app/components/teams-section/teams-section.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
 
+import { EAdminManagementComponent } from './components/core/e-admin-management/e-admin-management.component';
 import { EImageUploadComponent } from './components/core/e-image-upload/e-image-upload.component';
 import { EInfoCardComponent } from './components/core/e-info-card/e-info-card.component';
 import { TournamentDetailsComponent } from './components/pages/tournament/tournament-details/tournament-details.component';
 import { TournamentBracketComponent } from './components/tournament-bracket/tournament-bracket.component';
+import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
+import { ETableComponent } from './components/core/e-table/e-table.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +57,9 @@ import { TournamentBracketComponent } from './components/tournament-bracket/tour
     TournamentDetailsComponent,
     EInfoCardComponent,
     TournamentBracketComponent,
+    EAdminManagementComponent,
+    TournamentTableComponent,
+    ETableComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +68,7 @@ import { TournamentBracketComponent } from './components/tournament-bracket/tour
     FormsModule,
     BrowserAnimationsModule,
     DialogCloseDirective,
+    GoogleChartsModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],
   bootstrap: [AppComponent],

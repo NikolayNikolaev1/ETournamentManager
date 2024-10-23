@@ -1,16 +1,20 @@
 <div id="profile-container">
-  <div id="profile-edit-wrapper">
-    @if (currentUserProfile !== null && currentUserProfile.roleName !== constants.ADMIN_ROLE) {
-      @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-        <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
-      }
+  @if (currentUserProfile !== null) {
+    @if (currentUserProfile.roleName === constants.ADMIN_ROLE) {
+      <app-e-admin-management />
+    } @else {
+      <div id="profile-edit-wrapper">
+        @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
+          <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+        }
 
-      <div id="username-edit-form">
-        <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" />
-        <button id="username-edit-btn">Change User Name</button>
+        <div id="username-edit-form">
+          <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" />
+          <button id="username-edit-btn">Change User Name</button>
+        </div>
       </div>
     }
-  </div>
+  }
 
   @switch (currentUserProfile?.roleName) {
     @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
