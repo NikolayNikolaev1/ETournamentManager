@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { DialogService } from '@ngneat/dialog';
+
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
@@ -12,6 +14,8 @@ import { AuthService } from 'app/services/auth.service';
 import * as Constants from 'app/utils/constants';
 import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-card-converter';
 import { InfoCard } from 'app/utils/types';
+
+import { PasswordChangeComponent } from '../auth/password-change/password-change.component';
 
 @Component({
   selector: 'app-player-profile',
@@ -30,6 +34,7 @@ export class PlayerProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private dialog: DialogService,
     private apiService: ApiService,
     private authService: AuthService
   ) {}
@@ -103,6 +108,10 @@ export class PlayerProfileComponent implements OnInit {
 
   onCardSelect(id: string, route: string) {
     this.router.navigate([route, id]);
+  }
+
+  onPasswordChangeClick() {
+    this.dialog.open(PasswordChangeComponent);
   }
 
   // getTeamInfoCard(team: Team): InfoCard {

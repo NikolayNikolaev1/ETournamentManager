@@ -10,5 +10,7 @@
         Task<AuthResponseModel> Login(LoginModel model);
 
         Task<AuthResponseModel> Register(RegisterModel model);
+
+        Task PasswordChange(PasswordChangeModel model);
     }
 }

@@ -28,6 +28,7 @@ export const SERVER_ROUTES = {
   AUTH: {
     LOGIN: 'Auth/Login',
     REGISTER: 'Auth/Register',
+    PASSWORD_CHANGE: 'Auth/PasswordChange',
   },
   USER: {
     GET_ALL: 'User/GetAll',

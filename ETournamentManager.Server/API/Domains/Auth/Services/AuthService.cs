@@ -1,12 +1,12 @@
 ﻿namespace API.Domains.Auth.Services
 {
-    using API.Domains.Team.Services;
     using AutoMapper;
     using Core.Common.Data;
     using Core.Exceptions;
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using Models;
@@ -58,6 +58,23 @@
             {
                 Token = await GenerateJwtToken(user),
             };
+        }
+
+        public async Task PasswordChange(PasswordChangeModel model)
+        {
+            var currentUser = GetCurrentUser();
+
+            User user = await dbContext.Users.FirstAsync(u => u.Id.ToString() == currentUser.Id);
+
+            var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new BusinessServiceException(
+                    string.Join(", ", result.Errors.Select(e => e.Description)),
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "password");
+            }
         }
 
         public async Task<AuthResponseModel> Register(RegisterModel model)
