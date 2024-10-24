@@ -13,6 +13,7 @@ import { TournamentCreateComponent } from 'app/components/pages/tournament/tourn
 import { TournamentDetailsComponent } from 'app/components/pages/tournament/tournament-details/tournament-details.component';
 import { CLIENT_ROUTES } from 'app/utils/constants';
 import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
+import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
   {
     path: 'team/:id',
     component: TeamDetailsComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'teams',
+    component: TeamTableComponent,
     pathMatch: 'full',
   },
   {

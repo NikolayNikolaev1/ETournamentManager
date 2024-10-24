@@ -34,6 +34,7 @@ import { TournamentDetailsComponent } from './components/pages/tournament/tourna
 import { TournamentBracketComponent } from './components/tournament-bracket/tournament-bracket.component';
 import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
 import { ETableComponent } from './components/core/e-table/e-table.component';
+import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ETableComponent } from './components/core/e-table/e-table.component';
     EAdminManagementComponent,
     TournamentTableComponent,
     ETableComponent,
+    TeamTableComponent,
   ],
   imports: [
     BrowserModule,

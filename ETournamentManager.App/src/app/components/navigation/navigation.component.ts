@@ -1,8 +1,9 @@
-import { DialogService } from '@ngneat/dialog';
 import { Subscription } from 'rxjs';
 
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { DialogService } from '@ngneat/dialog';
 
 import UserProfile from 'app/models/user-profile.model';
 import { AuthService } from 'app/services/auth.service';
@@ -10,6 +11,7 @@ import * as Constants from 'app/utils/constants';
 
 import { LoginComponent } from '../pages/auth/login/login.component';
 import { RegisterComponent } from '../pages/auth/register/register.component';
+import { GameCreateComponent } from '../pages/game/game-create/game-create.component';
 import { TeamCreateComponent } from '../pages/team/team-create/team-create.component';
 import { TournamentCreateComponent } from '../pages/tournament/tournament-create/tournament-create.component';
 
@@ -60,6 +62,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   onTeamCreateClick() {
     this.dialog.open(TeamCreateComponent, {
+      data: {
+        title: '',
+      },
+    });
+  }
+
+  onGameCreateClick() {
+    this.dialog.open(GameCreateComponent, {
       data: {
         title: '',
       },

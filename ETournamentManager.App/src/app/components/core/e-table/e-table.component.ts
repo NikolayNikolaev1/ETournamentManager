@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-e-table',
@@ -8,6 +8,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 export class ETableComponent implements OnChanges {
   @Input() data: any = [];
   @Input() header: string[] = [];
+  @Output() rowClicked = new EventEmitter<string>();
   filteredData: any[] = [];
   paginatedData: any[] = [];
   filterText = '';
@@ -65,5 +66,9 @@ export class ETableComponent implements OnChanges {
       this.currentPage++;
       this.updatePaginatedData();
     }
+  }
+
+  onRowClick(id: string) {
+    this.rowClicked.emit(id);
   }
 }

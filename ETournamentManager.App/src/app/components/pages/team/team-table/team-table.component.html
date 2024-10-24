@@ -1,0 +1,34 @@
+<div id="teams-page">
+  <div id="filter-section">
+    <div class="filter-holder">
+      <app-e-input
+        label="Member"
+        [isSearch]="true"
+        [searchResult]="getUserNames()"
+        (inputChanged)="getUsersByUsername($event)"
+        (searchResultSelected)="selectFilter('member', $event)"
+      />
+
+      <div class="filters-container">
+        @for (currentFilter of filteredMembers; track $index) {
+          <div class="filter">
+            {{ currentFilter.userName }}
+            <img
+              class="close-img"
+              src="assets/images/close-icon.svg"
+              alt="Close icon"
+              (click)="onFilterRemove('member', currentFilter.id)"
+            />
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div id="table-wrapper">
+    <app-e-table
+      [header]="['name', 'tag', 'captain', 'members', 'wins']"
+      [data]="teamsData"
+      (rowClicked)="onTeamClick($event)"
+    />
+  </div>
+</div>

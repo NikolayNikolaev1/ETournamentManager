@@ -5,15 +5,26 @@
       {{ constants.WEBSITE_NAME }}
     </li>
     <li class="nav-item hover-transition" routerLink="/tournaments">Current tournaments</li>
+    <li class="nav-item hover-transition" routerLink="/teams">All teams</li>
     @if (currentUser !== null) {
-      <li class="nav-item hover-transition">My teams</li>
       @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-        <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">Create team</li>
+        <li class="nav-item hover-transition">My teams</li>
+        <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">
+          Create team
+        </li>
       } @else {
         <li class="nav-item hover-transition flex-right" (click)="onTournamentCreateClick()">
           Create tournament
         </li>
       }
+
+      <li
+        *ngIf="currentUser.roleName === constants.ADMIN_ROLE"
+        class="nav-item hover-transition"
+        (click)="onGameCreateClick()"
+      >
+        Create game
+      </li>
       <li class="nav-item hover-transition" routerLink="/profile">
         {{ currentUser.username | uppercase }}
       </li>

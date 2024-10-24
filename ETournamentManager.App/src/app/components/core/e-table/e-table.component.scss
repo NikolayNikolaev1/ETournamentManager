@@ -1,34 +1,32 @@
 /* table.component.css */
 .table-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10px;
-  }
-  
-  table th,
-  table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    cursor: pointer;
-  }
-  
-  table th {
-    background-color: #f2f2f2;
-  }
-  
-  .pagination {
-    text-align: center;
-  }
-  
-  .pagination button {
-    margin: 0 5px;
-    padding: 5px 10px;
-  }
-  
+  width: 100%;
+  max-width: 600px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+table th {
+  background-color: #f2f2f2;
+}
+
+.pagination {
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}

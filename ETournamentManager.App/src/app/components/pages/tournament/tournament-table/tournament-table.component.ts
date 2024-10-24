@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import Game from 'app/models/game.model';
 import Tournament from 'app/models/tournament.model';
@@ -18,7 +19,10 @@ export class TournamentTableComponent implements OnInit {
   filteredCreators: { id: string; userName: string }[] = [];
   filteredGames: { id: string; name: string }[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private router: Router,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit() {
     this.getTournaments();
@@ -97,6 +101,10 @@ export class TournamentTableComponent implements OnInit {
       });
   }
 
+  onTournamentClick(id: string) {
+    this.router.navigate(['/tournament', id]);
+  }
+
   private getTournaments() {
     this.apiService
       .request<Tournament[]>({
@@ -109,6 +117,7 @@ export class TournamentTableComponent implements OnInit {
       })
       .subscribe((response) => {
         this.tournamentsData = response.map((t) => ({
+          id: t.id,
           name: t.name,
           creator: t.creator.userName,
           game: t.game.name,
