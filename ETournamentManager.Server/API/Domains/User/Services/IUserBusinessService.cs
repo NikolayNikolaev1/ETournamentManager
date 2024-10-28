@@ -8,5 +8,7 @@
         Task<ICollection<UserListingModel>> GetAll(UserQueryParamsModel queryParams);
 
         Task<UserProfileModel> GetProfile();
+
+        Task EditUsername(string userName);
     }
 }

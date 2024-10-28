@@ -98,6 +98,11 @@
             tournament.Description = model.Description;
             tournament.GameId = Guid.Parse(model.GameId);
 
+            if (tournament.Teams.Count == 0)
+            {
+                tournament.Type = model.Type;
+            }
+
             dbContext.Tournaments.Update(tournament);
             await dbContext.SaveChangesAsync();
         }
@@ -176,7 +181,7 @@
                 throw new BusinessServiceException("Can not join an active tournament.");
             }
 
-            if (tournament.CreatorId != Guid.Parse(currentUser.Id) || currentUser.RoleName != ADMIN)
+            if (tournament.CreatorId != Guid.Parse(currentUser.Id) && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("User is not creator of tournament.", Status401Unauthorized);
             }

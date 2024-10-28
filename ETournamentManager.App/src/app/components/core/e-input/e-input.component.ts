@@ -44,12 +44,12 @@ export class EInputComponent implements OnInit {
   onInputBlur() {
     if (this.required) this.invalid = this.value.length === 0;
 
-    if (this.isSearch) this.searchResult = [];
+    // if (this.isSearch) this.searchResult = [];
   }
 
   onSearchResultClick(index: number) {
     this.searchResultSelected.emit(index);
-    this.value = '';
+    this.value = this.searchResult[index];
     this.searchResult = [];
   }
 }

@@ -5,9 +5,9 @@
 
     public interface ITeamDataService : IService
     {
-        Task<bool> ContainsName(string name);
+        Task<bool> ContainsName(string name, string id);
 
-        Task<bool> ContainsTag(string tag);
+        Task<bool> ContainsTag(string tag, string id);
 
         Task<Team?> GetById(string id);
 

@@ -21,5 +21,11 @@
         [ProducesResponseType(typeof(UserProfileModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProfile()
             => await userService.GetProfile().ReturnOkResult();
+
+
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> EditUserName([FromBody] UserManagementModel user)
+            => await userService.EditUsername(user.UserName).ReturnOkResult();
     }
 }

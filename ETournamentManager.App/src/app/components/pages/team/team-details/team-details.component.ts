@@ -3,6 +3,8 @@ import { environment } from 'environments/environment.development';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { DialogService } from '@ngneat/dialog';
+
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
@@ -11,6 +13,8 @@ import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import { SERVER_ROUTES, TOURNAMENT_PARTICIPANT_ROLE } from 'app/utils/constants';
 import { convertTournamentInfoCard, convertUserInfoCard } from 'app/utils/info-card-converter';
+
+import { TeamCreateComponent } from '../team-create/team-create.component';
 
 @Component({
   selector: 'app-team-details',
@@ -33,6 +37,7 @@ export class TeamDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private dialog: DialogService,
     private apiService: ApiService,
     private authService: AuthService
   ) {}
@@ -90,6 +95,19 @@ export class TeamDetailsComponent implements OnInit {
 
   onTournamentCardSelect(tournamentId: string) {
     this.router.navigate(['/tournament', tournamentId]);
+  }
+
+  onEditClick() {
+    if (!this.teamData) return;
+
+    this.dialog.open(TeamCreateComponent, {
+      data: {
+        teamId: this.teamId,
+        name: this.teamData.name,
+        tag: this.teamData.tag,
+        description: this.teamData.description,
+      },
+    });
   }
 
   private getTeamDetails() {

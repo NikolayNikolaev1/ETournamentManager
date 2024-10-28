@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { DialogService } from '@ngneat/dialog';
+import { DialogRef, DialogService } from '@ngneat/dialog';
 
 import Game from 'app/models/game.model';
 import { ApiService } from 'app/services/api.service';
@@ -18,7 +18,7 @@ import {
   templateUrl: './tournament-create.component.html',
   styleUrl: './tournament-create.component.scss',
 })
-export class TournamentCreateComponent {
+export class TournamentCreateComponent implements OnInit {
   name: string = '';
   description: string = '';
   type: TournamentType = TournamentType.SinglePlayer;
@@ -27,12 +27,41 @@ export class TournamentCreateComponent {
   games: Game[] = [];
   selectedGame: Game | null = null;
   searchGames: string[] = [];
+  hideType = false;
+  tournamentId: string = '';
+  isEdit: boolean = false;
 
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private ref: DialogRef<{
+      tournamentId: string;
+      name: string;
+      description: string;
+      minTeamMembers: number;
+      type?: number;
+      game: Game;
+    }>
   ) {}
+
+  ngOnInit() {
+    if (this.ref.data) {
+      this.tournamentId = this.ref.data.tournamentId;
+      this.isEdit = true;
+      this.name = this.ref.data.name;
+      this.description = this.ref.data.description;
+      this.minTeamMembers = this.ref.data.minTeamMembers;
+
+      if (this.ref.data.type === undefined) {
+        this.hideType = true;
+      } else {
+        this.type = this.ref.data.type;
+      }
+
+      this.selectedGame = this.ref.data.game;
+    }
+  }
 
   onFormChanged({ name, description, minTeamMembers }: TOURNAMENT_CREATE_FORM) {
     this.name = name;
@@ -45,13 +74,19 @@ export class TournamentCreateComponent {
       this.type === TournamentType.SinglePlayer ? TournamentType.Team : TournamentType.SinglePlayer;
   }
 
-  onCreateClick() {
-    if (this.selectedGame === null) return;
+  onSubmitClick() {
+    this.errorMessage = '';
+    if (this.selectedGame === null) {
+      this.errorMessage = 'Must select game first';
+      return;
+    }
 
     this.apiService
       .request<string, TOURNAMENT_CREATE_REQUEST_BODY>({
-        url: SERVER_ROUTES.TOURNAMENT.CREATE,
-        method: 'post',
+        url: this.isEdit
+          ? `${SERVER_ROUTES.TOURNAMENT.UPDATE}/${this.tournamentId}`
+          : SERVER_ROUTES.TOURNAMENT.CREATE,
+        method: this.isEdit ? 'patch' : 'post',
         body: {
           name: this.name,
           description: this.description,
@@ -62,7 +97,6 @@ export class TournamentCreateComponent {
       })
       .subscribe({
         next: (id) => {
-          console.log(id);
           this.dialogService.closeAll();
           this.router.navigate(['/tournament', id]);
         },

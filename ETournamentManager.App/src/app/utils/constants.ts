@@ -32,6 +32,7 @@ export const SERVER_ROUTES = {
   },
   USER: {
     GET_ALL: 'User/GetAll',
+    EDIT_USERNAME: 'User/EditUserName',
   },
   GAME: {
     GET_ALL: 'Game/GetAll',
@@ -41,6 +42,7 @@ export const SERVER_ROUTES = {
     GET: 'Tournament/Get',
     GET_ALL: 'Tournament/GetAll',
     CREATE: 'Tournament/Create',
+    UPDATE: 'Tournament/Update',
     ADD_PARTICIPANT: 'Tournament/AddParticipant',
     REMOVE_PARTICIPANT: 'Tournament/RemoveParticipant',
   },

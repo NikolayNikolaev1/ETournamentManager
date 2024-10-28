@@ -8,6 +8,7 @@ namespace API.Domains.User.Services
     using Core.Exceptions;
     using Data;
     using Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Collections.Generic;
@@ -17,7 +18,9 @@ namespace API.Domains.User.Services
 
     public class UserBusinessService(
         ETournamentManagerDbContext dbContext,
+        UserManager<User> userManager,
         IAuthService authService,
+        IUserDataService userDataService,
         IMapper mapper) : IUserBusinessService
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
@@ -57,6 +60,19 @@ namespace API.Domains.User.Services
             return await users
                 .ProjectTo<UserListingModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
+        }
+
+        public async Task EditUsername(string userName)
+        {
+            User? user = await userDataService.GetById(currentUser.Id);
+
+            if (user == null)
+            {
+                throw new BusinessServiceException(USER_NOT_FOUND);
+            }
+
+            await userManager.SetUserNameAsync(user, userName);
+            await userManager.UpdateNormalizedUserNameAsync(user);
         }
 
         public async Task<UserProfileModel> GetProfile()

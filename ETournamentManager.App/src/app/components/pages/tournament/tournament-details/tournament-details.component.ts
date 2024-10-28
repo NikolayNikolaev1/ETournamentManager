@@ -112,9 +112,17 @@ export class TournamentDetailsComponent {
   }
 
   onEditClick() {
+    if (!this.tournamentData) return;
+
     this.dialog.open(TournamentCreateComponent, {
       data: {
-        title: '',
+        tournamentId: this.tournamentId,
+        name: this.tournamentData.name,
+        description: this.tournamentData.description,
+        minTeamMembers: this.tournamentData.minTeamMembers,
+        type:
+          this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
+        game: this.tournamentData.game,
       },
     });
   }

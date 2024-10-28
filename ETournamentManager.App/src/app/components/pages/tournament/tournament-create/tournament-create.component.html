@@ -21,7 +21,7 @@
       },
     ]"
     [error]="errorMessage"
-    (submitted)="onCreateClick()"
+    (submitted)="onSubmitClick()"
     (formInputsChanged)="onFormChanged($event)"
   >
     <div dynamicInput>
@@ -30,16 +30,19 @@
         [isSearch]="true"
         [searchResult]="searchGames"
         (inputChanged)="getAllGamesByName($event)"
+        [value]="selectedGame ? selectedGame.name : ''"
         (searchResultSelected)="selectGame($event)"
       />
-      {{ selectedGame?.name }}
-      <app-e-switch
-        label="Type"
-        [on]="true"
-        [switchLabels]="{ on: 'Single Player', off: 'Team' }"
-        [colors]="{ on: 'blue', off: 'red' }"
-        (toggled)="onTypeChange()"
-      />
+
+      @if (!hideType) {
+        <app-e-switch
+          label="Type"
+          [on]="type === 0"
+          [switchLabels]="{ on: 'Single Player', off: 'Team' }"
+          [colors]="{ on: 'blue', off: 'red' }"
+          (toggled)="onTypeChange()"
+        />
+      }
     </div>
   </app-e-form>
 </div>

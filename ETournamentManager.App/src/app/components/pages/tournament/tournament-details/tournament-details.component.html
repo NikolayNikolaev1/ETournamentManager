@@ -19,9 +19,19 @@
           </a>
         </p>
       </div>
-      <div class="edit-wrapper" (click)="onEditClick()">
-        <img class="edit-icon" src="assets/images/edit-icon.svg" alt="Edit icon" />
-      </div>
+      @if (
+        tournamentData.creator.id === currentUserProfile?.id ||
+        currentUserProfile?.roleName === 'ADMIN'
+      ) {
+        <div class="edit-wrapper">
+          <img
+            class="edit-icon"
+            src="assets/images/edit-icon.svg"
+            alt="Edit icon"
+            (click)="onEditClick()"
+          />
+        </div>
+      }
     </div>
 
     @if (

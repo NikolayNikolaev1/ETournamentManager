@@ -9,8 +9,8 @@
         }
 
         <div id="username-edit-form">
-          <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" />
-          <button id="username-edit-btn">Change User Name</button>
+          <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" (inputChanged)="onUsernameChange($event)"/>
+          <button id="username-edit-btn" (click)="onChangeUsernameClick()">Change User Name</button>
         </div>
 
         <button id="password-change-btn" (click)="onPasswordChangeClick()">Change Password</button>

@@ -37,6 +37,7 @@
                 public const string NOT_AUTHENTICATED = "User not authenticated!";
                 public const string USER_EMAIL_EXISTS = "User with that email already exists!";
                 public const string USER_NAME_EXISTS = "User with that username already exists!";
+                public const string USER_NOT_FOUND = "Usr not found";
             }
 
             public static class Game

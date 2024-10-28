@@ -110,6 +110,24 @@ export class PlayerProfileComponent implements OnInit {
     this.router.navigate([route, id]);
   }
 
+  onUsernameChange(newUsername: string) {
+    if (this.currentUserProfile) this.currentUserProfile.username = newUsername;
+  }
+
+  onChangeUsernameClick() {
+    if (!this.currentUserProfile) return;
+
+    this.apiService
+      .request<null, { username: string }>({
+        method: 'patch',
+        url: Constants.SERVER_ROUTES.USER.EDIT_USERNAME,
+        body: {
+          username: this.currentUserProfile?.username,
+        },
+      })
+      .subscribe();
+  }
+
   onPasswordChangeClick() {
     this.dialog.open(PasswordChangeComponent);
   }

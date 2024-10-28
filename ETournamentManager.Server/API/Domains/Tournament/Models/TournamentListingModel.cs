@@ -19,7 +19,7 @@
 
         public bool Active { get; set; }
 
-        public TournamentType TournamentType { get; set; }
+        public int TournamentType { get; set; }
 
         public int MinTeamMembers { get; set; }
 
@@ -31,6 +31,7 @@
 
         public void ConfigureMapping(Profile mapper)
             => mapper.CreateMap<Tournament, TournamentListingModel>()
-            .ForMember(t => t.Teams, opt => opt.MapFrom(t => t.Teams.Select(t => t.Team)));
+            .ForMember(t => t.Teams, opt => opt.MapFrom(t => t.Teams.Select(t => t.Team)))
+            .ForMember(t => t.TournamentType, opt => opt.MapFrom(t => t.Type));
     }
 }

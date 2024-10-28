@@ -131,7 +131,7 @@
                 throw new BusinessServiceException(USER_NOT_CAPTAIN, Status403Forbidden);
             }
 
-            await ValidationsCheck(model);
+            await ValidationsCheck(model, id);
 
             team.Name = model.Name;
             team.Tag = model.Tag.ToUpper();
@@ -218,7 +218,7 @@
             return mapper.Map<TeamListingModel>(team);
         }
 
-        private async Task ValidationsCheck(TeamManagementModel model)
+        private async Task ValidationsCheck(TeamManagementModel model, string id = "")
         {
             if (model.Name == string.Empty)
             {
@@ -236,7 +236,7 @@
                     nameof(model.Name));
             }
 
-            if (await teamDataService.ContainsName(model.Name))
+            if (await teamDataService.ContainsName(model.Name, id))
             {
                 throw new BusinessServiceException(
                     TEAM_NAME_EXISTS,
@@ -244,7 +244,7 @@
                     nameof(model.Name));
             }
 
-            if (await teamDataService.ContainsTag(model.Tag))
+            if (await teamDataService.ContainsTag(model.Tag, id))
             {
                 throw new BusinessServiceException(
                     TEAM_TAG_EXISTS,
