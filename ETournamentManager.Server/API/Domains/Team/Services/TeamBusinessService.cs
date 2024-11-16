@@ -158,6 +158,12 @@
 
             IQueryable<Team> teams = dbContext.Teams.AsQueryable();
 
+
+            if (queryParams.IsPrivate != null)
+            {
+                teams = teams.Where(t => t.IsPrivate == queryParams.IsPrivate);
+            }
+
             if (userIds.Count > 0)
             {
                 teams = teams.Where(t => t.Members.Any(m => userIds.Contains(m.MemberId.ToString())));

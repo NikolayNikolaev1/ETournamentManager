@@ -14,6 +14,7 @@ type QueryParams = {
   tournamentIds?: string[];
   teamIds?: string[];
   gameIds?: string[];
+  isPrivate?: boolean;
 };
 
 interface ApiRequestData<TBody> {

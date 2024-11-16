@@ -7,5 +7,7 @@
         public string? UserIds { get; set; }
 
         public string? TournamentIds { get; set;}
+
+        public bool? IsPrivate { get; set; }
     }
 }   

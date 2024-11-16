@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -16,22 +16,19 @@ type LOGIN_RESPONSE_TYPE = { token: string };
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUser: UserProfile | null = null;
-  private currentUserSource = new Subject<UserProfile | null>();
-  currentUser$ = this.currentUserSource.asObservable();
+  private userSubject = new BehaviorSubject<UserProfile | null>(null);
+  currentUser$ = this.userSubject.asObservable();
+  isAuthenticated: boolean = false;
 
   constructor(private apiService: ApiService) {}
 
-  // TODO: Find a wourkaround getting the currentUser in the whole app.
-  getCurrentUser$ = () => this.currentUser$;
-  getCurrentUser = () => this.currentUser;
-
   getUserProfile() {
     const token = localStorage.getItem(TOKEN_KEY_NAME);
-    if (token !== null && this.currentUser === null) {
+
+    if (token !== null) {
       this.apiService
         .request<UserProfile>({ url: 'User/GetProfile', method: 'get' })
-        .subscribe((response) => this.setCurrentUser(response));
+        .subscribe((response) => this.updateCurrentUser(response));
     }
   }
 
@@ -45,11 +42,11 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(TOKEN_KEY_NAME);
-    this.setCurrentUser(null);
+    this.updateCurrentUser(null);
   }
 
-  private setCurrentUser(user: UserProfile | null) {
-    this.currentUserSource.next(user);
-    this.currentUser = user;
+  private updateCurrentUser(user: UserProfile | null) {
+    this.userSubject.next(user);
+    this.isAuthenticated = user !== null;
   }
 }

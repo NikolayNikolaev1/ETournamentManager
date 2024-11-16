@@ -8,7 +8,6 @@
     using Services;
 
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]/[action]")]
     public class UserController(IUserBusinessService userService) : ControllerBase
     {
@@ -18,12 +17,14 @@
             => await userService.GetAll(queryParams).ReturnOkResult();
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(UserProfileModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProfile()
             => await userService.GetProfile().ReturnOkResult();
 
 
         [HttpPatch]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> EditUserName([FromBody] UserManagementModel user)
             => await userService.EditUsername(user.UserName).ReturnOkResult();

@@ -1,3 +1,35 @@
-<app-e-image-upload [entityId]="'test'"/>
+<div class="tournament-section">
+  <div id="tournamnet-title">{{ startedTournaments[currentTournamnetIndex].name }}</div>
+  <div id="game-name">Game: {{ startedTournaments[currentTournamnetIndex].game }}</div>
 
-<img src="https://localhost:7136/UploadImages/testing.jpg" alt="">
+  <div id="team-rounds-holder">
+    <div id="team-list">
+      @for (currentTeam of startedTournaments[currentTournamnetIndex].teams; track $index) {
+        <div class="team-name">{{ currentTeam.name }}</div>
+      }
+    </div>
+
+    <app-tournament-bracket
+      [tournamentId]="startedTournaments[currentTournamnetIndex].id"
+      [roundsData]="startedTournaments[currentTournamnetIndex].rounds"
+      [canChooseWinner]="false"
+    />
+  </div>
+
+  <div id="arrows-container">
+    <img
+      class="arrow left"
+      [ngClass]="{ disabled: currentTournamnetIndex === 0 }"
+      src="assets/images/arrow.svg"
+      alt="Arrow icon"
+      (click)="changeTournament(false)"
+    />
+    <img
+      class="arrow"
+      [ngClass]="{ disabled: currentTournamnetIndex === startedTournaments.length - 1 }"
+      src="assets/images/arrow.svg"
+      alt="Arrow icon"
+      (click)="changeTournament(true)"
+    />
+  </div>
+</div>

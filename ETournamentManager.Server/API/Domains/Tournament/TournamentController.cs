@@ -24,6 +24,11 @@
         public async Task<IActionResult> GetAll([FromQuery] TournamentQueryParams queryParams)
             => await tournamentService.GetAll(queryParams).ReturnOkResult();
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllWithRounds()
+            => await tournamentService.GetAllWithRounds().ReturnOkResult();
+
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
         [ProducesResponseType(typeof(string), Status200OK)]

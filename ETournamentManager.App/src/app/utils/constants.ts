@@ -41,6 +41,7 @@ export const SERVER_ROUTES = {
   TOURNAMENT: {
     GET: 'Tournament/Get',
     GET_ALL: 'Tournament/GetAll',
+    GET_ALL_ROUNDS: 'Tournament/GetAllWithRounds',
     CREATE: 'Tournament/Create',
     UPDATE: 'Tournament/Update',
     ADD_PARTICIPANT: 'Tournament/AddParticipant',

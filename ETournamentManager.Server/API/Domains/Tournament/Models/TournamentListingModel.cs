@@ -1,27 +1,14 @@
 ﻿namespace API.Domains.Tournament.Models
 {
-    using API.Domains.User.Models;
     using AutoMapper;
     using Core.Mapper;
     using Data.Models;
     using Game.Models;
     using Team.Models;
+    using User.Models;
 
-    using static Data.Models.Tournament;
-
-    public class TournamentListingModel : IMapFrom<Tournament>, ICustomMapping
+    public class TournamentListingModel : TournamentBaseModel, ICustomMapping
     {
-        public string Id { get; set; } = null!;
-
-        public string Name { get; set; } = null!;
-
-        public string? Description { get; set; }
-
-        public bool Active { get; set; }
-
-        public int TournamentType { get; set; }
-
-        public int MinTeamMembers { get; set; }
 
         public GameListingModel Game { get; set; } = null!;
 

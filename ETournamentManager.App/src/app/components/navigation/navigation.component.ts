@@ -32,15 +32,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.currentUserSub = this.authService.getCurrentUser$().subscribe((currentUser) => {
-      this.currentUser = currentUser;
-    });
+    setTimeout(() => {
+      this.currentUserSub = this.authService.currentUser$.subscribe(
+        (profile) => (this.currentUser = profile)
+      );
+    }, 100);
   }
 
   ngOnDestroy = () => this.currentUserSub.unsubscribe();
 
   onLogout() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
     this.authService.logout();
   }
 

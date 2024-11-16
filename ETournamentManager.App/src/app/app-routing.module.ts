@@ -12,8 +12,10 @@ import { TeamDetailsComponent } from 'app/components/pages/team/team-details/tea
 import { TournamentCreateComponent } from 'app/components/pages/tournament/tournament-create/tournament-create.component';
 import { TournamentDetailsComponent } from 'app/components/pages/tournament/tournament-details/tournament-details.component';
 import { CLIENT_ROUTES } from 'app/utils/constants';
-import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
+
+import { authGuard } from './components/guards/auth.,guard';
 import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
+import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
 
 const routes: Routes = [
   {
@@ -23,6 +25,7 @@ const routes: Routes = [
   {
     path: 'profile',
     component: PlayerProfileComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'tournament/:id',

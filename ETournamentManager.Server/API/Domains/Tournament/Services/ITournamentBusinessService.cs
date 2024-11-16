@@ -13,6 +13,8 @@
 
         Task<ICollection<TournamentListingModel>> GetAll(TournamentQueryParams queryParams);
 
+        Task<ICollection<TournamentRoundsModel>> GetAllWithRounds();
+
         Task<TournamentListingModel> GetById(string id);
 
         Task<TournamentListingModel> Join(TournamentTeamModel model);

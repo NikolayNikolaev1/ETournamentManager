@@ -40,9 +40,8 @@ export class PlayerProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // TODO: Fix not showing teams/tournaments after first refresh.
-    setTimeout(() => {
-      this.currentUserProfile = this.authService.getCurrentUser();
+    this.authService.currentUser$.subscribe((profile) => {
+      this.currentUserProfile = profile;
 
       this.apiService
         .request({ method: 'get', url: this.currentUserProfile!.id, isFile: true })
@@ -99,10 +98,6 @@ export class PlayerProfileComponent implements OnInit {
             });
           break;
       }
-    }, 100);
-
-    this.currentUserSub = this.authService.getCurrentUser$().subscribe((currentUser) => {
-      this.currentUserProfile = currentUser;
     });
   }
 

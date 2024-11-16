@@ -15,6 +15,7 @@ import { SERVER_ROUTES } from 'app/utils/constants';
 import { convertTeamInfoCard } from 'app/utils/info-card-converter';
 
 import { TournamentCreateComponent } from '../tournament-create/tournament-create.component';
+import { TournamentType } from '../tournament-create/tournament-create.configuration';
 
 @Component({
   selector: 'app-tournament-details',
@@ -45,7 +46,7 @@ export class TournamentDetailsComponent {
   ) {}
 
   ngOnInit() {
-    setTimeout(() => (this.currentUserProfile = this.authService.getCurrentUser()), 100);
+    this.authService.currentUser$.subscribe((profile) => (this.currentUserProfile = profile));
 
     this.tournamentId = this.route.snapshot.paramMap.get('id') ?? '';
     this.getTournamentDetails();
@@ -59,6 +60,7 @@ export class TournamentDetailsComponent {
         url: SERVER_ROUTES.TEAM.GET_ALL,
         queryParams: {
           search: name,
+          isPrivate: this.tournamentData?.tournamentType === TournamentType.SinglePlayer,
         },
       })
       .subscribe((response) => {

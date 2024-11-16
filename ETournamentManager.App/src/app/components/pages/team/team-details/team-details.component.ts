@@ -43,7 +43,7 @@ export class TeamDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    setTimeout(() => (this.currentUserProfile = this.authService.getCurrentUser()), 100);
+    this.authService.currentUser$.subscribe((profile) => (this.currentUserProfile = profile));
 
     this.teamId = this.route.snapshot.paramMap.get('id') ?? '';
     this.getTeamDetails();

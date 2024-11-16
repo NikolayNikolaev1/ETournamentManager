@@ -158,6 +158,20 @@
             .ToListAsync();
         }
 
+        public async Task<ICollection<TournamentRoundsModel>> GetAllWithRounds()
+        {
+            return await dbContext
+                .Tournaments
+                .Where(t => t.Active)
+                .Include(t => t.Rounds)
+                .Include(t => t.Teams)
+                .ThenInclude(t => t.Team)
+                .Include(t => t.Game)
+                .Include(t => t.Creator)
+                .ProjectTo<TournamentRoundsModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
         public async Task<TournamentListingModel> GetById(string id)
             => mapper.Map<TournamentListingModel>(await tournamentDataService.GetById(id));
 

@@ -1,4 +1,5 @@
 import Game from './game.model';
+import Round from './round.model';
 import { TeamBase } from './team.model';
 import { UserBase } from './user.model';
 
@@ -16,6 +17,12 @@ interface Tournament extends TournamentBase {
 export interface TournamentBase {
   id: string;
   name: string;
+}
+
+export interface TournamentRounds extends TournamentBase {
+  game: string;
+  teams: TeamBase[];
+  rounds: Round[];
 }
 
 export default Tournament;
