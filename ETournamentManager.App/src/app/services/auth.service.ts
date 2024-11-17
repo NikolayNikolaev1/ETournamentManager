@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import UserProfile from 'app/models/user-profile.model';
 import { TOKEN_KEY_NAME } from 'app/utils/constants';
 
+import { ADMIN_ROLE } from '../utils/constants';
 import { ApiService } from './api.service';
 
 const LOGIN_ROUTE: string = 'Auth/Login';
@@ -18,7 +19,8 @@ type LOGIN_RESPONSE_TYPE = { token: string };
 export class AuthService {
   private userSubject = new BehaviorSubject<UserProfile | null>(null);
   currentUser$ = this.userSubject.asObservable();
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean = localStorage.getItem(TOKEN_KEY_NAME) !== null;
+  isAdmin: boolean = false;
 
   constructor(private apiService: ApiService) {}
 
@@ -48,5 +50,6 @@ export class AuthService {
   private updateCurrentUser(user: UserProfile | null) {
     this.userSubject.next(user);
     this.isAuthenticated = user !== null;
+    this.isAdmin = user?.roleName === ADMIN_ROLE;
   }
 }

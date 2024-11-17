@@ -129,6 +129,12 @@ export class TournamentDetailsComponent {
     });
   }
 
+  onDeleteClick() {
+    this.apiService
+      .request({ url: `${SERVER_ROUTES.TOURNAMENT.DELETE}/${this.tournamentId}`, method: 'delete' })
+      .subscribe(() => this.router.navigate(['/profile']));
+  }
+
   private getRanking() {
     this.ranking = this.roundsData.map((tr, i) => ({
       place: i < 4 ? '5-8' : i < 6 ? '3-4' : '2',

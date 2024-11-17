@@ -76,6 +76,7 @@ export class PlayerProfileComponent implements OnInit {
             });
           break;
         case Constants.TOURNAMENT_CREATOR_ROLE:
+        case Constants.ADMIN_ROLE:
           this.apiService
             .request<Tournament[]>({
               method: 'get',

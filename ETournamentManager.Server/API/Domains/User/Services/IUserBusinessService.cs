@@ -10,5 +10,7 @@
         Task<UserProfileModel> GetProfile();
 
         Task EditUsername(string userName);
+
+        Task ChangeStatus(string id);
     }
 }

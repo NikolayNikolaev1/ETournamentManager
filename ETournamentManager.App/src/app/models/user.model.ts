@@ -9,6 +9,7 @@ export interface UserBase {
   userName: string;
   email: string;
   imgUrl: string;
+  disabled: boolean;
 }
 
 export default User;

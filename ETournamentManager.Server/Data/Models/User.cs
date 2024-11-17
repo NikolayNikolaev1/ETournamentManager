@@ -6,6 +6,8 @@
     {
         public override Guid Id { get; set; } = Guid.NewGuid();
 
+        public bool Disabled { get; set; }
+
         public ICollection<UserRole> Roles { get; set; } = new HashSet<UserRole>();
 
         public ICollection<Tournament> CreatedTournaments { get; set; } = new HashSet<Tournament>();

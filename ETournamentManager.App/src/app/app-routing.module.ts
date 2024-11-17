@@ -13,9 +13,11 @@ import { TournamentCreateComponent } from 'app/components/pages/tournament/tourn
 import { TournamentDetailsComponent } from 'app/components/pages/tournament/tournament-details/tournament-details.component';
 import { CLIENT_ROUTES } from 'app/utils/constants';
 
+import { adminGuard } from './components/guards/admin.guard';
 import { authGuard } from './components/guards/auth.,guard';
 import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
+import { UserTableComponent } from './components/pages/users/user-table/user-table.component';
 
 const routes: Routes = [
   {
@@ -44,6 +46,12 @@ const routes: Routes = [
     path: 'teams',
     component: TeamTableComponent,
     pathMatch: 'full',
+  },
+  {
+    path: 'users',
+    component: UserTableComponent,
+    pathMatch: 'full',
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: '**',

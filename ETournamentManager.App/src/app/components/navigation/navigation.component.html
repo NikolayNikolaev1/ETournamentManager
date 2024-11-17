@@ -7,6 +7,9 @@
     <li class="nav-item hover-transition" routerLink="/tournaments">Current tournaments</li>
     <li class="nav-item hover-transition" routerLink="/teams">All teams</li>
     @if (currentUser !== null) {
+      @if (currentUser.roleName === constants.ADMIN_ROLE) {
+        <li class="nav-item hover-transition" routerLink="/users">All users</li>
+      }
       @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
         <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">
           Create team

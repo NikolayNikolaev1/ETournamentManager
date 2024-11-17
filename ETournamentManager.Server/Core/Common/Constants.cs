@@ -38,6 +38,7 @@
                 public const string USER_EMAIL_EXISTS = "User with that email already exists!";
                 public const string USER_NAME_EXISTS = "User with that username already exists!";
                 public const string USER_NOT_FOUND = "Usr not found";
+                public const string USER_DISABLED = "User account is disabled. Contact admin for more info.";
             }
 
             public static class Game

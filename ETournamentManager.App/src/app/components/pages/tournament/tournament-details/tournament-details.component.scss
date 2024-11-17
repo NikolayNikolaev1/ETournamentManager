@@ -3,7 +3,9 @@
   flex-direction: column;
   gap: 25px;
 
-  .edit-wrapper {
+  .action-wrapper {
+    display: flex;
+    gap: 15px;
     margin-left: auto;
   }
 

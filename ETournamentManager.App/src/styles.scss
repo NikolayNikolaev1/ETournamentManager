@@ -40,14 +40,16 @@ body {
     }
   }
 
-  img.edit-icon {
+  img.action-icon {
+    height: 25px;
+    
     cursor: pointer;
     // White filter
     filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg)
       brightness(107%) contrast(101%);
   }
 
-  img.edit-icon:hover {
+  img.aciton-icon:hover {
     filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg)
       brightness(103%) contrast(104%);
   }

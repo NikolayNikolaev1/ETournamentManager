@@ -54,6 +54,15 @@
                     StatusCodes.Status404NotFound);
             }
 
+            if (user.Disabled)
+            {
+                throw new BusinessServiceException(
+                    USER_DISABLED,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "Disabled",
+                    StatusCodes.Status404NotFound);
+            }
+
             return new AuthResponseModel
             {
                 Token = await GenerateJwtToken(user),
@@ -93,6 +102,7 @@
             {
                 Email = model.Email,
                 UserName = model.UserName,
+                Disabled = model.RoleName == TOURNAMENT_CREATOR
             };
 
             var userCreated = await userManager.CreateAsync(user, model.Password);

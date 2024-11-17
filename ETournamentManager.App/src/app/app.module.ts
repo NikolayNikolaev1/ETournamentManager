@@ -36,6 +36,7 @@ import { TournamentTableComponent } from './components/pages/tournament/tourname
 import { ETableComponent } from './components/core/e-table/e-table.component';
 import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 import { PasswordChangeComponent } from './components/pages/auth/password-change/password-change.component';
+import { UserTableComponent } from './components/pages/users/user-table/user-table.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { PasswordChangeComponent } from './components/pages/auth/password-change
     ETableComponent,
     TeamTableComponent,
     PasswordChangeComponent,
+    UserTableComponent,
   ],
   imports: [
     BrowserModule,

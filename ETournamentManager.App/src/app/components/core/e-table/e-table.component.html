@@ -6,6 +6,9 @@
         @for (item of header; track $index) {
           <th (click)="sortData(item)">{{ item }}</th>
         }
+        @for (currAction of actions; track $index) {
+          <th>{{ currAction }}</th>
+        }
       </tr>
     </thead>
     <tbody>
@@ -13,6 +16,20 @@
         <tr>
           @for (item of header; track $index) {
             <td (click)="onRowClick(currentData.id)">{{ currentData[item] }}</td>
+          }
+
+          @for (currAction of actions; track $index) {
+            <td>
+              <button (click)="onActrionClick(currentData.id, currAction)">
+                {{
+                  currentData[currAction] === undefined
+                    ? 'change'
+                    : currentData[currAction]
+                      ? 'Deactive'
+                      : 'Active'
+                }}
+              </button>
+            </td>
           }
         </tr>
       }

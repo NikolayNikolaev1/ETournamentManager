@@ -8,7 +8,9 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 export class ETableComponent implements OnChanges {
   @Input() data: any = [];
   @Input() header: string[] = [];
+  @Input() actions: string[] = [];
   @Output() rowClicked = new EventEmitter<string>();
+  @Output() actionClicked = new EventEmitter<{ id: string; action: string }>();
   filteredData: any[] = [];
   paginatedData: any[] = [];
   filterText = '';
@@ -70,5 +72,9 @@ export class ETableComponent implements OnChanges {
 
   onRowClick(id: string) {
     this.rowClicked.emit(id);
+  }
+
+  onActrionClick(id: string, action: string) {
+    this.actionClicked.emit({ id, action });
   }
 }

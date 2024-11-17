@@ -89,5 +89,20 @@ namespace API.Domains.User.Services
 
             return profile;
         }
+
+        public async Task ChangeStatus(string id)
+        {
+            User? user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id);
+
+            if (user == null)
+            {
+                throw new BusinessServiceException(USER_NOT_FOUND, StatusCodes.Status404NotFound);
+            }
+
+            user.Disabled = !user.Disabled;
+
+            dbContext.Users.Update(user);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
