@@ -55,27 +55,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   onRegisterClick() {
-    this.dialog.open(RegisterComponent, {
-      data: {
-        title: '',
-      },
-    });
+    this.dialog.open(RegisterComponent);
   }
 
   onTeamCreateClick() {
-    this.dialog.open(TeamCreateComponent, {
-      data: {
-        title: '',
-      },
-    });
+    this.dialog.open(TeamCreateComponent);
   }
 
   onGameCreateClick() {
-    this.dialog.open(GameCreateComponent, {
-      data: {
-        title: '',
-      },
-    });
+    this.dialog.open(GameCreateComponent);
   }
 
   onTournamentCreateClick() {

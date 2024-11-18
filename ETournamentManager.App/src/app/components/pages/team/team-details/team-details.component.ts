@@ -110,6 +110,12 @@ export class TeamDetailsComponent implements OnInit {
     });
   }
 
+  onDeleteClick() {
+    this.apiService
+      .request({ url: `${SERVER_ROUTES.TEAM.DELETE}/${this.teamId}`, method: 'delete' })
+      .subscribe(() => this.router.navigate(['/profile']));
+  }
+
   private getTeamDetails() {
     this.apiService
       .request<Team>({

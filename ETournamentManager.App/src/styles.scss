@@ -31,6 +31,34 @@ body {
     text-decoration: none;
   }
 
+  .loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #fff;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
   .image-text {
     display: flex;
     gap: 5px;
@@ -40,18 +68,23 @@ body {
     }
   }
 
-  img.action-icon {
-    height: 25px;
-    
-    cursor: pointer;
-    // White filter
-    filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg)
-      brightness(107%) contrast(101%);
-  }
+  .action-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-left: auto;
 
-  img.aciton-icon:hover {
-    filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg)
-      brightness(103%) contrast(104%);
+    img.action-icon {
+      height: 25px;
+      cursor: pointer;
+      // White filter
+      filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg)
+        brightness(107%) contrast(101%);
+    }
+
+    img.action-icon:hover {
+      filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg)
+        brightness(103%) contrast(104%);
+    }
   }
 
   .flex-right {

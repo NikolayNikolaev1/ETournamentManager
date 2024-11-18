@@ -20,15 +20,20 @@
       </div>
 
       @if (
-        teamData.captain.id === currentUserProfile?.id ||
-        currentUserProfile?.roleName === 'ADMIN'
+        teamData.captain.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN'
       ) {
-        <div class="edit-wrapper">
+        <div class="action-wrapper">
           <img
-            class="edit-icon"
+            class="action-icon"
             src="assets/images/edit-icon.svg"
             alt="Edit icon"
             (click)="onEditClick()"
+          />
+          <img
+            class="action-icon"
+            src="assets/images/delete-icon.svg"
+            alt="Edit icon"
+            (click)="onDeleteClick()"
           />
         </div>
       }

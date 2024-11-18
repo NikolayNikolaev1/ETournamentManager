@@ -113,8 +113,14 @@
                 throw new BusinessServiceException("Can not delete team that has members in it");
             }
 
-            dbContext.Teams.Remove(team);
-            await dbContext.SaveChangesAsync();
+            if (!team.Tournaments.Any())
+            {
+                TeamMember teamCaptain = dbContext.TeamMembers.First(m => m.TeamId == team.Id && m.IsCaptain);
+
+                dbContext.TeamMembers.Remove(teamCaptain);
+                dbContext.Teams.Remove(team);
+                await dbContext.SaveChangesAsync();
+            }
         }
 
         public async Task Edit(string id, TeamManagementModel model)

@@ -85,6 +85,7 @@ export class TeamTableComponent implements OnInit {
         method: 'get',
         queryParams: {
           userIds: this.filteredMembers.map((f) => f.id),
+          isPrivate: false,
         },
       })
       .subscribe((response) => {

@@ -34,7 +34,9 @@ export class TeamCreateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    
     if (this.ref.data) {
+      console.log(this.ref.data);
       this.teamId = this.ref.data.teamId;
       this.isEdit = true;
       this.name = this.ref.data.name;

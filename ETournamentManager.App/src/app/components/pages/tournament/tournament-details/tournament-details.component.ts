@@ -199,12 +199,17 @@ export class TournamentDetailsComponent {
       .subscribe((response) => {
         this.tournamentTeamsData = response;
 
+        if (this.tournamentData?.tournamentType === TournamentType.SinglePlayer) {
+        }
+
         this.tournamentTeamsData.forEach((t) => {
           this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
             error: (isValid) =>
               (t.imgUrl = isValid
                 ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                : 'assets/images/default-team-img.jpg'),
+                : this.tournamentData?.tournamentType === TournamentType.SinglePlayer
+                  ? 'assets/images/default-user-img.jpg'
+                  : 'assets/images/default-team-img.jpg'),
           });
         });
       });
