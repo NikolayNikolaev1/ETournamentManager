@@ -1,4 +1,5 @@
-@use './assets/styles/fonts';
+@use 'fonts';
+@use 'colors';
 
 @font-face {
   font-family: 'Tournament-Manager';
@@ -27,7 +28,7 @@ body {
   }
 
   a {
-    color: black;
+    color: colors.$text;
     text-decoration: none;
   }
 
@@ -41,7 +42,7 @@ body {
     .loader {
       width: 48px;
       height: 48px;
-      border: 5px solid #fff;
+      border: 5px solid colors.$primary;
       border-bottom-color: transparent;
       border-radius: 50%;
       display: inline-block;
@@ -77,13 +78,13 @@ body {
       height: 25px;
       cursor: pointer;
       // White filter
-      filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg)
-        brightness(107%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg) brightness(107%)
+        contrast(101%);
     }
 
     img.action-icon:hover {
-      filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg)
-        brightness(103%) contrast(104%);
+      filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg) brightness(103%)
+        contrast(104%);
     }
   }
 
@@ -110,7 +111,7 @@ body {
 
   .error-message {
     font-weight: bold;
-    color: red;
+    color: colors.$danger;
   }
 
   #content {
@@ -124,12 +125,12 @@ body {
       padding: 0 60px;
       padding-top: 50px;
       padding-bottom: 80px;
-      background-color: darkturquoise;
+      background-color: colors.$background;
 
       .section-container {
         .title-wrapper {
           .title {
-            color: blueviolet;
+            color: colors.$text;
             font-family: 'Tournament-Manager';
             font-size: 36px;
             font-weight: 400;
@@ -139,8 +140,8 @@ body {
             width: 100%;
             height: 1px;
             margin-top: 8px;
-            background-color: purple;
-            border: 1px solid blueviolet;
+            background-color: colors.$secondary;
+            border: 1px solid colors.$primary;
           }
         }
 
@@ -154,18 +155,18 @@ body {
           font-family: fonts.$global;
           font-style: normal;
           font-weight: 700;
-          color: white;
+          color: colors.$text;
 
           .actions {
             img {
               height: 25px;
-              filter: brightness(0) saturate(100%) invert(14%) sepia(97%) saturate(6303%)
-                hue-rotate(356deg) brightness(100%) contrast(100%);
+              filter: brightness(0) saturate(100%) invert(14%) sepia(97%) saturate(6303%) hue-rotate(356deg)
+                brightness(100%) contrast(100%);
             }
 
             img:hover {
-              filter: brightness(0) saturate(100%) invert(15%) sepia(71%) saturate(3799%)
-                hue-rotate(351deg) brightness(78%) contrast(120%);
+              filter: brightness(0) saturate(100%) invert(15%) sepia(71%) saturate(3799%) hue-rotate(351deg)
+                brightness(78%) contrast(120%);
             }
           }
 
@@ -175,8 +176,8 @@ body {
             gap: 3px;
 
             img {
-              filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%)
-                hue-rotate(349deg) brightness(100%) contrast(104%);
+              filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(349deg)
+                brightness(100%) contrast(104%);
               height: 15px;
               width: 15px;
             }
@@ -188,8 +189,8 @@ body {
         display: flex;
         gap: 15px;
         padding: 30px;
-        color: white;
-        background-color: #90e0ef;
+        color: colors.$text;
+        background-color: colors.$background;
         background-image: url('/assets/images/tournament-banner-img.jpg');
 
         .banner-info-wrapper {
@@ -200,7 +201,7 @@ body {
             margin-top: auto;
 
             .contact-mail {
-              color: lightgray;
+              color: colors.$text;
             }
           }
         }
@@ -215,7 +216,7 @@ body {
         .filter-holder {
           height: 200px;
           width: 185px;
-          background-color: white;
+          background-color: colors.$background;
           border-radius: 10px;
           overflow: scroll;
           overflow-x: hidden;
@@ -230,8 +231,8 @@ body {
               align-items: center;
               gap: 5px;
               padding: 10px;
-              color: black;
-              background-color: blueviolet;
+              color: colors.$text;
+              background-color: colors.$background;
               font-size: 18px;
               font-weight: 400;
               border-radius: 20px;
@@ -241,8 +242,8 @@ body {
 
                 &:hover {
                   cursor: pointer;
-                  filter: brightness(0) saturate(100%) invert(13%) sepia(89%) saturate(7266%)
-                    hue-rotate(6deg) brightness(99%) contrast(115%);
+                  filter: brightness(0) saturate(100%) invert(13%) sepia(89%) saturate(7266%) hue-rotate(6deg)
+                    brightness(99%) contrast(115%);
                 }
               }
             }
@@ -255,10 +256,10 @@ body {
 
 ::-webkit-scrollbar {
   width: 6px;
-  background-color: white;
+  background-color: colors.$primary;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: gray;
+  background-color: colors.$secondary;
   border-radius: 100px;
 }

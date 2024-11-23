@@ -4,10 +4,7 @@
       <app-e-image-upload
         [entityId]="tournamentId"
         [imgUrl]="tournamentImageUrl"
-        [hideActions]="
-          tournamentData.creator.id !== currentUserProfile?.id &&
-          currentUserProfile?.roleName !== 'ADMIN'
-        "
+        [hideActions]="tournamentData.creator.id !== currentUserProfile?.id && currentUserProfile?.roleName !== 'ADMIN'"
       />
       <div class="banner-info-wrapper">
         <h1 class="title">{{ tournamentData.name }}</h1>
@@ -19,23 +16,10 @@
           </a>
         </p>
       </div>
-      @if (
-        tournamentData.creator.id === currentUserProfile?.id ||
-        currentUserProfile?.roleName === 'ADMIN'
-      ) {
+      @if (tournamentData.creator.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN') {
         <div class="action-wrapper">
-          <img
-            class="action-icon"
-            src="assets/images/edit-icon.svg"
-            alt="Edit icon"
-            (click)="onEditClick()"
-          />
-          <img
-            class="action-icon"
-            src="assets/images/delete-icon.svg"
-            alt="Edit icon"
-            (click)="onDeleteClick()"
-          />
+          <img class="action-icon" src="assets/images/edit-icon.svg" alt="Edit icon" (click)="onEditClick()" />
+          <img class="action-icon" src="assets/images/delete-icon.svg" alt="Edit icon" (click)="onDeleteClick()" />
         </div>
       }
     </div>
@@ -43,8 +27,7 @@
     @if (
       roundsData.length === 0 &&
       currentUserProfile !== null &&
-      (tournamentData.creator.id === currentUserProfile.id ||
-        currentUserProfile.roleName === 'ADMIN')
+      (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
     ) {
       <div id="tournament-actions">
         <app-e-input
@@ -77,14 +60,9 @@
           >
             @if (
               !tournamentData.active &&
-              (tournamentData.creator.id === currentUserProfile?.id ||
-                currentUserProfile?.roleName === 'ADMIN')
+              (tournamentData.creator.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN')
             ) {
-              <div
-                actions
-                class="actions"
-                (click)="$event.stopPropagation(); onRemoveTeamClick(currentTeam.id)"
-              >
+              <div actions class="actions" (click)="$event.stopPropagation(); onRemoveTeamClick(currentTeam.id)">
                 <img src="assets/images/close-icon.svg" alt="Close icon" />
               </div>
             }
@@ -109,7 +87,6 @@
       <button (click)="onEndClick()">End Tournament</button>
     }
 
-
     @if (roundsData.length > 0) {
       <div class="bracket-wrapper">
         @if (ranking.length !== 0) {
@@ -133,8 +110,7 @@
           [tournamentId]="tournamentId"
           [canChooseWinner]="
             currentUserProfile !== null &&
-            (tournamentData.creator.id === currentUserProfile.id ||
-              currentUserProfile.roleName === 'ADMIN')
+            (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
           "
         />
       </div>
