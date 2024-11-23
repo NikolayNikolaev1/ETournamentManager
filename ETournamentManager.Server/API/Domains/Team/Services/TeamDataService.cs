@@ -17,6 +17,8 @@
             .Teams
             .Include(t => t.Members)
             .ThenInclude(m => m.Member)
+            .Include(t => t.Tournaments)
+            .ThenInclude(t => t.Tournament)
             .FirstOrDefaultAsync(t => t.Id.ToString() == id);
 
         public async Task<TeamMember?> GetTeamMember(string teamId, string memberId)

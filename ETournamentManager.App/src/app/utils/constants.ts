@@ -48,6 +48,7 @@ export const SERVER_ROUTES = {
     DELETE: 'Tournament/Delete',
     ADD_PARTICIPANT: 'Tournament/AddParticipant',
     REMOVE_PARTICIPANT: 'Tournament/RemoveParticipant',
+    FINISH: 'Tournament/Finish',
   },
   TEAM: {
     CREATE: 'Team/Create',

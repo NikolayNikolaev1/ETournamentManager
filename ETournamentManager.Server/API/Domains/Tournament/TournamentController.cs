@@ -60,6 +60,11 @@
             return Ok();
         }
 
+        [HttpPatch("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
+        public async Task<IActionResult> Finish(string id)
+            => await tournamentService.Finish(id).ReturnOkResult();
+
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]

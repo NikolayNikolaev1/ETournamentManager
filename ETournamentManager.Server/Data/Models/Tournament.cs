@@ -24,6 +24,8 @@
         [Required]
         public bool Active { get; set; } = false;
 
+        public bool Finished { get; set; } = false;
+
         public Guid GameId { get; set; }
 
         public Game Game { get; set; } = null!;

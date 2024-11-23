@@ -15,13 +15,13 @@
                 .HasOne(t => t.Team)
                 .WithMany(t => t.Tournaments)
                 .HasForeignKey(t => t.TeamId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             tournamentTeam
                 .HasOne(t => t.Tournament)
                 .WithMany(t => t.Teams)
                 .HasForeignKey(t => t.TournamentId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -12,6 +12,8 @@
 
         public string Tag { get; set; } = null!;
 
+        public bool Deleted { get; set; }
+
         public int MembersCount { get; set; }
 
         public int TournamentsWon { get; set; }

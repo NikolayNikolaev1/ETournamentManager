@@ -39,6 +39,11 @@
                 throw new BusinessServiceException("Round not found", Status404NotFound);
             }
 
+            if (round.Tournament.Finished)
+            {
+                throw new BusinessServiceException("Tournament finished", Status400BadRequest);
+            }
+
             RoundTeam? roundTeam = await dbContext
                        .RoundTeams
                        .FirstOrDefaultAsync(rp => rp.RoundId == round.Id && rp.TeamId == Guid.Parse(model.WinnerId));
@@ -94,7 +99,7 @@
             }
             else
             {
-                round.Tournament.Active = false;
+                //round.Tournament.Active = false;
             }
 
             await dbContext.SaveChangesAsync();

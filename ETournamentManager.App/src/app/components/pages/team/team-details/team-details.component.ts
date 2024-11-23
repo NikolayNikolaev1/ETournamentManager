@@ -164,8 +164,8 @@ export class TeamDetailsComponent implements OnInit {
         },
       })
       .subscribe((response) => {
-        this.activeTournaments = response.filter((t) => t.active);
-        this.pastTournaments = response.filter((t) => !t.active);
+        this.activeTournaments = response.filter((t) => !t.finished);
+        this.pastTournaments = response.filter((t) => t.finished);
 
         this.activeTournaments.forEach((t) => {
           this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({

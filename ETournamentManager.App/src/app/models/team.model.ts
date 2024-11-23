@@ -12,6 +12,7 @@ export interface TeamBase {
   name: string;
   tag: string;
   imgUrl?: string;
+  finished: boolean;
 }
 
 export default Team;

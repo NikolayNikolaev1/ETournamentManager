@@ -9,7 +9,11 @@
         }
 
         <div id="username-edit-form">
-          <app-e-input [value]="currentUserProfile.username" [label]="'User Name'" (inputChanged)="onUsernameChange($event)"/>
+          <app-e-input
+            [value]="currentUserProfile.username"
+            [label]="'User Name'"
+            (inputChanged)="onUsernameChange($event)"
+          />
           <button id="username-edit-btn" (click)="onChangeUsernameClick()">Change User Name</button>
         </div>
 
@@ -27,23 +31,29 @@
         </div>
 
         <div id="teams-cards-container" class="info-cards-container teams">
-          @for (currentTeam of teamsData; track $index) {
-            <app-e-info-card
-              [cardData]="getTeamInfoCard(currentTeam)"
-              (cardClicked)="onCardSelect(currentTeam.id, '/team')"
-            >
-              <div statsIcons class="stats-info">
-                <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
-                <div class="subtitle">
-                  {{ currentTeam.tournamentsWon }}
-                </div>
+          @if (teamTourLoader) {
+            <div class="loader-wrapper">
+              <span class="loader"></span>
+            </div>
+          } @else {
+            @for (currentTeam of teamsData; track $index) {
+              <app-e-info-card
+                [cardData]="getTeamInfoCard(currentTeam)"
+                (cardClicked)="onCardSelect(currentTeam.id, '/team')"
+              >
+                <div statsIcons class="stats-info">
+                  <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+                  <div class="subtitle">
+                    {{ currentTeam.tournamentsWon }}
+                  </div>
 
-                <img src="assets/images/people-icon.svg" alt="People Icon" />
-                <div class="subtitle">
-                  {{ currentTeam.members.length }}
+                  <img src="assets/images/people-icon.svg" alt="People Icon" />
+                  <div class="subtitle">
+                    {{ currentTeam.members.length }}
+                  </div>
                 </div>
-              </div>
-            </app-e-info-card>
+              </app-e-info-card>
+            }
           }
         </div>
       </div>
@@ -62,18 +72,24 @@
         </div>
 
         <div class="info-cards-container">
-          @for (currentTournament of tournamentsData; track $index) {
-            <app-e-info-card
-              [cardData]="getTournamentCard(currentTournament)"
-              (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
-            >
-              <div statsIcons class="stats-info">
-                <img src="assets/images/people-icon.svg" alt="People Icon" />
-                <div class="subtitle">
-                  {{ currentTournament.teams.length }}
+          @if (teamTourLoader) {
+            <div class="loader-wrapper">
+              <span class="loader"></span>
+            </div>
+          } @else {
+            @for (currentTournament of tournamentsData; track $index) {
+              <app-e-info-card
+                [cardData]="getTournamentCard(currentTournament)"
+                (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
+              >
+                <div statsIcons class="stats-info">
+                  <img src="assets/images/people-icon.svg" alt="People Icon" />
+                  <div class="subtitle">
+                    {{ currentTournament.teams.length }}
+                  </div>
                 </div>
-              </div>
-            </app-e-info-card>
+              </app-e-info-card>
+            }
           }
         </div>
       </div>

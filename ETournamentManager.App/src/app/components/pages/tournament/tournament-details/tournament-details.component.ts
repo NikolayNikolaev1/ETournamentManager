@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
-import Round from 'app/models/round.model';
+import Round, { RoundStage } from 'app/models/round.model';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
@@ -122,8 +122,7 @@ export class TournamentDetailsComponent {
         name: this.tournamentData.name,
         description: this.tournamentData.description,
         minTeamMembers: this.tournamentData.minTeamMembers,
-        type:
-          this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
+        type: this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
         game: this.tournamentData.game,
       },
     });
@@ -133,6 +132,18 @@ export class TournamentDetailsComponent {
     this.apiService
       .request({ url: `${SERVER_ROUTES.TOURNAMENT.DELETE}/${this.tournamentId}`, method: 'delete' })
       .subscribe(() => this.router.navigate(['/profile']));
+  }
+
+  onEndClick() {
+    this.apiService
+      .request({ url: `${SERVER_ROUTES.TOURNAMENT.FINISH}/${this.tournamentId}`, method: 'patch' })
+      .subscribe(() => this.getRanking());
+  }
+  showEndButton() {
+    return (
+      this.roundsData.filter((r) => r.stage === RoundStage.Finals && r.winnerId !== null).length !== 0 &&
+      !this.tournamentData?.finished
+    );
   }
 
   private getRanking() {
@@ -181,7 +192,7 @@ export class TournamentDetailsComponent {
       .subscribe((response) => {
         this.roundsData = response;
 
-        if (!this.tournamentData?.active) {
+        if (this.tournamentData?.finished) {
           this.getRanking();
         }
       });

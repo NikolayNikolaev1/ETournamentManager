@@ -11,6 +11,8 @@
 
         Task Edit(string id, TournamentManagementModel model);
 
+        Task Finish(string id);
+
         Task<ICollection<TournamentListingModel>> GetAll(TournamentQueryParams queryParams);
 
         Task<ICollection<TournamentRoundsModel>> GetAllWithRounds();

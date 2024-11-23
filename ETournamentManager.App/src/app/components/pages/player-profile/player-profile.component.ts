@@ -31,6 +31,7 @@ export class PlayerProfileComponent implements OnInit {
   userImageUrl: string = '';
   getTeamInfoCard = convertTeamInfoCard;
   getTournamentCard = convertTournamentInfoCard;
+  teamTourLoader: boolean = false;
 
   constructor(
     private router: Router,
@@ -52,6 +53,7 @@ export class PlayerProfileComponent implements OnInit {
               : 'assets/images/default-user-img.jpg'),
         });
 
+      this.teamTourLoader = true;
       switch (this.currentUserProfile?.roleName) {
         case Constants.TOURNAMENT_PARTICIPANT_ROLE:
           this.apiService
@@ -64,6 +66,7 @@ export class PlayerProfileComponent implements OnInit {
             })
             .subscribe((response) => {
               this.teamsData = response;
+              this.teamTourLoader = false;
 
               this.teamsData.forEach((t) => {
                 this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
@@ -87,6 +90,7 @@ export class PlayerProfileComponent implements OnInit {
             })
             .subscribe((response) => {
               this.tournamentsData = response;
+              this.teamTourLoader = false;
 
               this.tournamentsData.forEach((t) => {
                 this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({

@@ -16,6 +16,8 @@
 
         public bool IsPrivate { get; set; }
 
+        public bool Deleted { get; set; }
+
         public ICollection<TeamMember> Members { get; set; } = new List<TeamMember>();
 
         public ICollection<TournamentTeam> Tournaments { get; set; } = new List<TournamentTeam>();

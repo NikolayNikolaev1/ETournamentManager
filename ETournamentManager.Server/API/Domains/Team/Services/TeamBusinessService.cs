@@ -113,14 +113,27 @@
                 throw new BusinessServiceException("Can not delete team that has members in it");
             }
 
-            if (!team.Tournaments.Any())
+            if (!team.Tournaments.Any(t => t.Tournament.Finished))
             {
                 TeamMember teamCaptain = dbContext.TeamMembers.First(m => m.TeamId == team.Id && m.IsCaptain);
 
                 dbContext.TeamMembers.Remove(teamCaptain);
                 dbContext.Teams.Remove(team);
                 await dbContext.SaveChangesAsync();
+                return;
             }
+
+            team.Deleted = true;
+
+            ICollection<TournamentTeam> tournamentTeams = await dbContext
+                .TournamentTeams
+                .Include(t => t.Tournament)
+                .Where(t => t.TeamId.Equals(team.Id) && !t.Tournament.Finished)
+                .ToListAsync();
+
+            dbContext.TournamentTeams.RemoveRange(tournamentTeams);
+            dbContext.Teams.Update(team);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task Edit(string id, TeamManagementModel model)
@@ -194,7 +207,7 @@
         {
             Team? team = await teamDataService.GetById(id);
 
-            if (team == null)
+            if (team == null || team.IsPrivate)
             {
                 throw new BusinessServiceException(TEAM_NOT_FOUND, Status404NotFound);
             }

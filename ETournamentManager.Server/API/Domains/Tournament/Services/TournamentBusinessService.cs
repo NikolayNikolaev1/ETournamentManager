@@ -66,7 +66,7 @@
                 throw new BusinessServiceException("User is not creator of tournament.", Status401Unauthorized);
             }
 
-            if (tournament.Active)
+            if (tournament.Active || tournament.Finished)
             {
                 throw new BusinessServiceException("Can not delete started tournaments.");
             }
@@ -102,6 +102,36 @@
             {
                 tournament.Type = model.Type;
             }
+
+            dbContext.Tournaments.Update(tournament);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task Finish(string id)
+        {
+            Tournament? tournament = await tournamentDataService.GetById(id);
+
+            if (tournament == null)
+            {
+                throw new BusinessServiceException(TOURNAMENT_NOT_FOUND, Status404NotFound);
+            }
+
+            if (!tournament.CreatorId.Equals(Guid.Parse(currentUser.Id))
+                && !currentUser.RoleName.Equals(ADMIN))
+            {
+                throw new BusinessServiceException(USER_NOT_CREATOR, Status401Unauthorized);
+            }
+
+            var finalsRound = tournament.Rounds.FirstOrDefault(r => r.Stage == Round.RoundStage.Finals);
+
+            if (!tournament.Active || finalsRound == null || !finalsRound.Teams.Any(t => t.IsWinner))
+            {
+                throw new BusinessServiceException("Tournament can not be ended!", Status400BadRequest);
+
+            }
+
+            tournament.Active = false;
+            tournament.Finished = true;
 
             dbContext.Tournaments.Update(tournament);
             await dbContext.SaveChangesAsync();
@@ -190,7 +220,7 @@
                 throw new BusinessServiceException("Team not found", Status404NotFound);
             }
 
-            if (tournament.Active)
+            if (tournament.Active && tournament.Finished)
             {
                 throw new BusinessServiceException("Can not join an active tournament.");
             }
@@ -227,7 +257,7 @@
                 throw new BusinessServiceException("Team not found in tournament", Status404NotFound);
             }
 
-            if (tournamentTeam.Tournament.Active)
+            if (tournamentTeam.Tournament.Active && tournamentTeam.Tournament.Finished)
             {
                 throw new BusinessServiceException("Can not leave an active tournament.");
             }

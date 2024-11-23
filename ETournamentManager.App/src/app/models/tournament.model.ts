@@ -17,6 +17,7 @@ interface Tournament extends TournamentBase {
 export interface TournamentBase {
   id: string;
   name: string;
+  finished: boolean;
 }
 
 export interface TournamentRounds extends TournamentBase {

@@ -13,6 +13,8 @@
 
         public bool Active { get; set; }
 
+        public bool Finished { get; set; }
+
         public int TournamentType { get; set; }
 
         public int MinTeamMembers { get; set; }

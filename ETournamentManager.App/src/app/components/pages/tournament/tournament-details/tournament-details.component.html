@@ -105,6 +105,11 @@
       </div>
     </div>
 
+    @if (showEndButton()) {
+      <button (click)="onEndClick()">End Tournament</button>
+    }
+
+
     @if (roundsData.length > 0) {
       <div class="bracket-wrapper">
         @if (ranking.length !== 0) {
