@@ -11,6 +11,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  color: colors.$text;
 
   h1,
   h2,
@@ -58,6 +59,15 @@ body {
         transform: rotate(360deg);
       }
     }
+  }
+
+  .circle {
+    position: relative;
+    display: inline-block;
+    height: 14px;
+    min-width: 14px;
+    background-color: colors.$primary;
+    border-radius: 50%;
   }
 
   .image-text {
@@ -130,7 +140,6 @@ body {
       .section-container {
         .title-wrapper {
           .title {
-            color: colors.$text;
             font-family: 'Tournament-Manager';
             font-size: 36px;
             font-weight: 400;
@@ -155,7 +164,6 @@ body {
           font-family: fonts.$global;
           font-style: normal;
           font-weight: 700;
-          color: colors.$text;
 
           .actions {
             img {
@@ -189,7 +197,7 @@ body {
         display: flex;
         gap: 15px;
         padding: 30px;
-        color: colors.$text;
+
         background-color: colors.$background;
         background-image: url('/assets/images/tournament-banner-img.jpg');
 
@@ -201,7 +209,6 @@ body {
             margin-top: auto;
 
             .contact-mail {
-              color: colors.$text;
             }
           }
         }
@@ -231,7 +238,7 @@ body {
               align-items: center;
               gap: 5px;
               padding: 10px;
-              color: colors.$text;
+
               background-color: colors.$background;
               font-size: 18px;
               font-weight: 400;

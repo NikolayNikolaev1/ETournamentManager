@@ -3,21 +3,28 @@
     @if (currentUserProfile.roleName === constants.ADMIN_ROLE) {
       <app-e-admin-management />
     } @else {
-      <div id="profile-edit-wrapper">
-        @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-          <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
-        }
-
-        <div id="username-edit-form">
-          <app-e-input
-            [value]="currentUserProfile.username"
-            [label]="'User Name'"
-            (inputChanged)="onUsernameChange($event)"
-          />
-          <button id="username-edit-btn" (click)="onChangeUsernameClick()">Change User Name</button>
+      <div class="section-container">
+        <div class="title-wrapper">
+          <div class="title">Profile Edit</div>
+          <hr />
         </div>
 
-        <button id="password-change-btn" (click)="onPasswordChangeClick()">Change Password</button>
+        <div id="profile-edit-wrapper">
+          @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
+            <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+          }
+
+          <div id="username-edit-form">
+            <app-e-input
+              [value]="currentUserProfile.username"
+              [label]="'User Name'"
+              (inputChanged)="onUsernameChange($event)"
+            />
+            <button id="username-edit-btn" (click)="onChangeUsernameClick()">Change User Name</button>
+          </div>
+
+          <button id="password-change-btn" (click)="onPasswordChangeClick()">Change Password</button>
+        </div>
       </div>
     }
   }
@@ -59,9 +66,7 @@
       </div>
     }
     @case (
-      [constants.TOURNAMENT_CREATOR_ROLE, constants.ADMIN_ROLE].includes(
-        currentUserProfile?.roleName ?? ''
-      )
+      [constants.TOURNAMENT_CREATOR_ROLE, constants.ADMIN_ROLE].includes(currentUserProfile?.roleName ?? '')
         ? currentUserProfile?.roleName
         : ''
     ) {

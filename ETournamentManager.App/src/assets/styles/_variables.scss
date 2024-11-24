@@ -1,0 +1,11 @@
+$border-radius: 20px;
+$primary-filter: brightness(0) saturate(100%) invert(87%) sepia(36%) saturate(2657%) hue-rotate(173deg) brightness(91%)
+  contrast(81%);
+$secondary-filter: brightness(0) saturate(100%) invert(96%) sepia(4%) saturate(2149%) hue-rotate(151deg) brightness(91%)
+  contrast(100%);
+$bg-filter: brightness(0) saturate(100%) invert(99%) sepia(4%) saturate(737%) hue-rotate(81deg) brightness(96%)
+  contrast(98%);
+$text-filter: brightness(0) saturate(100%) invert(39%) sepia(14%) saturate(1357%) hue-rotate(179deg) brightness(90%)
+  contrast(89%);
+
+$background-gradient: linear-gradient(180deg, rgba(122, 178, 211, 0.6) 0%, rgba(185, 229, 232, 0) 100%);

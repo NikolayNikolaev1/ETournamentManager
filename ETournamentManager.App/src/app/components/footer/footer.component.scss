@@ -1,12 +1,11 @@
+@use 'colors';
+@use 'variables';
+
 #footer-container {
-  // Use for showing footer always.
-  // position: fixed;
-  // bottom: 0;
-  // width: 100%;
   display: flex;
   justify-content: center;
   padding: 15px;
-  background-color: aqua;
+  background-color: colors.$primary;
 
   #project-info {
     display: flex;
@@ -21,5 +20,14 @@
     flex-direction: column;
     gap: 5px;
     align-items: end;
+    color: colors.$background;
+
+    .contact-name {
+      color: colors.$background;
+    }
+
+    .contact-logo {
+      filter: variables.$bg-filter;
+    }
   }
 }

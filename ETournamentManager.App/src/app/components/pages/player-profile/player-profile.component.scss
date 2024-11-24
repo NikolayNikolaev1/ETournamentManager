@@ -1,3 +1,5 @@
+@use 'variables';
+
 #profile-container {
   display: flex;
   flex-direction: column;
@@ -24,7 +26,7 @@
 
   #teams-cards-container {
     background: rgb(80, 50, 145);
-    background: radial-gradient(circle, rgba(80, 50, 145, 1) 3%, rgba(0, 0, 0, 1) 98%);
+    background: variables.$background-gradient;
     border-radius: 20px;
   }
 }

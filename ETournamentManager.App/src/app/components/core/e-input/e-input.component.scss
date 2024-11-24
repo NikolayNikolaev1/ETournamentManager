@@ -1,3 +1,5 @@
+@use 'colors';
+
 .input-container {
   display: flex;
   position: relative;
@@ -32,12 +34,12 @@
   input {
     padding: 10px;
     border-radius: 10px;
-    background-color: lightgray;
+    background-color: colors.$background;
     text-align: center;
   }
 
   input.filled {
-    background-color: lightgreen;
+    background-color: colors.$secondary;
   }
 
   input:focus {
@@ -49,11 +51,11 @@
   }
 
   .invalid {
-    border: 2px solid red;
+    border: 2px solid colors.$danger;
   }
 
   .invalid::placeholder {
-    color: red;
+    color: colors.$danger;
   }
 
   .search-img {

@@ -1,27 +1,33 @@
+@use 'colors';
+@use 'variables';
+
 #nav-container {
   display: flex;
   height: 50px;
-  
+
   ul {
     display: flex;
     gap: 15px;
     position: fixed;
     z-index: 2;
     width: 100%;
-    background-color: aqua;
+    background-color: colors.$secondary;
 
     .nav-item {
       padding: 15px 5px;
       border-radius: 2px;
-    }
 
-    .nav-item:hover {
-      color: white;
-      background-color: blue;
+      #nav-logo {
+        filter: variables.$text-filter;
+      }
 
-      img {
-        filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(2%) hue-rotate(122deg)
-          brightness(105%) contrast(101%);
+      &:hover {
+        color: colors.$primary;
+        background-color: colors.$background;
+
+        #nav-logo {
+          filter: variables.$primary-filter;
+        }
       }
     }
   }

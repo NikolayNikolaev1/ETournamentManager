@@ -1,16 +1,14 @@
 <div
   class="card-container"
   [style.background-image]="
-    'linear-gradient(0deg, rgba(80, 50, 145, 1) 0%, rgba(2, 0, 36, 0) 100%), url(' +
-    infoCard.imageUrl +
-    ')'
+    'linear-gradient(0deg, rgba(80, 50, 145, 1) 0%, rgba(2, 0, 36, 0) 100%), url(' + infoCard.imageUrl + ')'
   "
   [style.background-size]="'cover'"
   (click)="onCardClick(infoCard.id)"
 >
   <div class="card-wrapper">
     <div class="header-icons">
-      <img src="assets/images/trophy-logo.svg" alt="Tyophy Logo" />
+      <img class="card-icon" src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
       <ng-content select="[actions]" />
     </div>
     <div class="information-holder">

@@ -1,7 +1,7 @@
 <div id="nav-container">
   <ul>
-    <li id="nav-logo" class="nav-item hover-transition image-text" routerLink="/">
-      <img src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
+    <li class="nav-item hover-transition image-text" routerLink="/">
+      <img id="nav-logo" src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
       {{ constants.WEBSITE_NAME }}
     </li>
     <li class="nav-item hover-transition" routerLink="/tournaments">Current tournaments</li>
@@ -11,13 +11,9 @@
         <li class="nav-item hover-transition" routerLink="/users">All users</li>
       }
       @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-        <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">
-          Create team
-        </li>
+        <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">Create team</li>
       } @else {
-        <li class="nav-item hover-transition flex-right" (click)="onTournamentCreateClick()">
-          Create tournament
-        </li>
+        <li class="nav-item hover-transition flex-right" (click)="onTournamentCreateClick()">Create tournament</li>
       }
 
       <li

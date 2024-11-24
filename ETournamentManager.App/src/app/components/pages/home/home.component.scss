@@ -1,76 +1,107 @@
 @use 'colors';
+@use 'variables';
+
+.section-container {
+  padding: 20px;
+  background: variables.$background-gradient;
+  border-radius: 20px;
+
+  #section-header {
+    display: flex;
+    gap: 15px;
+
+    #arrows-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+
+      .arrow {
+        height: 25px;
+        filter: variables.$text-filter;
+
+        &:hover {
+          cursor: pointer;
+          filter: variables.$primary-filter;
+        }
+
+        &.left {
+          transform: rotate(180deg);
+        }
+
+        &.disabled {
+          cursor: default;
+          filter: variables.$secondary-filter;
+        }
+      }
+    }
+
+    .circle {
+      background-color: colors.$danger;
+    }
+  }
+}
 
 .tournament-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 450px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
-  border-radius: 20px;
 
-  #tournamnet-title {
-    margin-top: 70px;
+  #tournament-title {
+    margin-top: 20px;
     font-size: 30px;
     font-weight: 700;
-    color: colors.$text;
 
     &:hover {
-      cursor: pointer;
-      color: colors.$secondary;
+      color: colors.$primary;
+      text-decoration: underline;
     }
   }
 
   #game-name {
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 700;
   }
 
-  #team-rounds-holder {
+  #teams-section {
     display: flex;
     justify-content: space-around;
     width: 100%;
 
-    #team-list {
-      display: flex;
-      flex-direction: column;
-      width: 10%;
+    #team-navigation {
+      width: 20%;
       padding: 50px;
-      gap: 15px;
       background-color: colors.$background;
+      border: 1px solid colors.$primary;
+      border-radius: variables.$border-radius;
 
-      .team-name {
-        padding: 5px;
-        color: colors.$text;
-        background-color: colors.$secondary;
-        border: 1px solid colors.$primary;
-        border-radius: 20px;
-      }
-    }
-  }
+      #teams-container {
+        display: flex;
+        flex-direction: column;
 
-  #arrows-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+        gap: 15px;
 
-    .arrow {
-      height: 25px;
+        .team {
+          padding: 5px 15px;
+          background-color: colors.$secondary;
+          border: 1px solid colors.$primary;
+          border-radius: variables.$border-radius;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
 
-      &:hover {
-        cursor: pointer;
-        filter: brightness(0) saturate(100%) invert(100%) sepia(11%) saturate(7480%) hue-rotate(181deg) brightness(118%)
-          contrast(89%);
-      }
-
-      &.left {
-        transform: rotate(180deg);
+          &:hover {
+            color: colors.$secondary;
+            background-color: colors.$primary;
+          }
+        }
       }
 
-      &.disabled {
-        cursor: default;
-        filter: brightness(0) saturate(100%) invert(45%) sepia(0%) saturate(0%) hue-rotate(261deg) brightness(92%)
-          contrast(91%);
+      .section-header {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 700;
       }
     }
   }

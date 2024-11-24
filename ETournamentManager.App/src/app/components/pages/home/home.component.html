@@ -1,41 +1,58 @@
-<div class="tournament-section">
-  @if (startedTournaments.length === 0) {
-    <div class="loader-wrapper">
-      <span class="loader"></span>
-    </div>
-  } @else {
-    <div id="tournamnet-title">{{ startedTournaments[currentTournamnetIndex].name }}</div>
-    <div id="game-name">Game: {{ startedTournaments[currentTournamnetIndex].game }}</div>
-
-    <div id="team-rounds-holder">
-      <div id="team-list">
-        @for (currentTeam of startedTournaments[currentTournamnetIndex].teams; track $index) {
-          <div class="team-name">{{ currentTeam.name }}</div>
-        }
+<div class="section-container">
+  <div class="title-wrapper">
+    <div id="section-header">
+      <div class="title">
+        <span class="circle" [ngStyle]="{ opacity: '0.' + opacity }"></span>
+        Active Tournaments
       </div>
 
-      <app-tournament-bracket
-        [tournamentId]="startedTournaments[currentTournamnetIndex].id"
-        [roundsData]="startedTournaments[currentTournamnetIndex].rounds"
-        [canChooseWinner]="false"
-      />
+      <div id="arrows-container">
+        <img
+          class="arrow left"
+          [ngClass]="{ disabled: currentTournamnetIndex === 0 }"
+          src="assets/images/arrow.svg"
+          alt="Arrow icon"
+          (click)="changeTournament(false)"
+        />
+        <img
+          class="arrow"
+          [ngClass]="{ disabled: currentTournamnetIndex === startedTournaments.length - 1 }"
+          src="assets/images/arrow.svg"
+          alt="Arrow icon"
+          (click)="changeTournament(true)"
+        />
+      </div>
     </div>
+    <hr />
+  </div>
 
-    <div id="arrows-container">
-      <img
-        class="arrow left"
-        [ngClass]="{ disabled: currentTournamnetIndex === 0 }"
-        src="assets/images/arrow.svg"
-        alt="Arrow icon"
-        (click)="changeTournament(false)"
-      />
-      <img
-        class="arrow"
-        [ngClass]="{ disabled: currentTournamnetIndex === startedTournaments.length - 1 }"
-        src="assets/images/arrow.svg"
-        alt="Arrow icon"
-        (click)="changeTournament(true)"
-      />
-    </div>
-  }
+  <div class="tournament-section">
+    @if (startedTournaments.length === 0) {
+      <div class="loader-wrapper">
+        <span class="loader"></span>
+      </div>
+    } @else {
+      <div id="tournament-title" class="hover-transition" (click)="onTournamentClick()">
+        {{ startedTournaments[currentTournamnetIndex].name }}
+      </div>
+      <div id="game-name">Game: {{ startedTournaments[currentTournamnetIndex].game }}</div>
+
+      <div id="teams-section">
+        <div id="team-navigation">
+          <div class="section-header">Teams</div>
+          <div id="teams-container">
+            @for (currentTeam of startedTournaments[currentTournamnetIndex].teams; track $index) {
+              <div class="team hover-transition" (click)="onTeamClick(currentTeam.id)">{{ currentTeam.name }}</div>
+            }
+          </div>
+        </div>
+
+        <app-tournament-bracket
+          [tournamentId]="startedTournaments[currentTournamnetIndex].id"
+          [roundsData]="startedTournaments[currentTournamnetIndex].rounds"
+          [canChooseWinner]="false"
+        />
+      </div>
+    }
+  </div>
 </div>

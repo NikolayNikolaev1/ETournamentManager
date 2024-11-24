@@ -2,12 +2,7 @@
   <input #fileInput type="file" accept="image/jpg" (change)="onFileChange($event)" />
   @if (imageFile === null && imgUrl === null) {
     <div class="upload-container" (click)="triggerFileChange()">
-      <img
-        class="img-upload-icon"
-        src="assets/images/image-upload-icon.svg"
-        alt="Image Upload Icon"
-        width="52"
-      />
+      <img class="img-upload-icon" src="assets/images/image-upload-icon.svg" alt="Image Upload Icon" width="52" />
       <div class="label">
         <h3>Upload Image</h3>
         <h6>Recomended images:</h6>
@@ -16,22 +11,18 @@
     </div>
   } @else {
     <div class="image-container">
-      <img
-        class="uploaded-image"
-        [src]="imgUrl ?? getImageUrl()"
-        alt="Uploaded Image"
-        width="210"
-        height="100"
-      />
+      <img class="uploaded-image" [src]="imgUrl ?? getImageUrl()" alt="Uploaded Image" width="210" height="100" />
       @if (!hideActions) {
         <div class="actions">
           <img
+            class="action-img"
             src="assets/images/edit-icon.svg"
             alt="Edit Icon"
             width="12"
             (click)="triggerFileChange()"
           />
           <img
+            class="action-img"
             src="assets/images/delete-icon.svg"
             alt="Delete Icon"
             width="12"

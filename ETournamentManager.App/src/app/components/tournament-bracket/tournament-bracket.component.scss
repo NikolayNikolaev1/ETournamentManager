@@ -1,3 +1,5 @@
+@use 'colors';
+
 .bracket-container {
   .bracket {
     display: flex;
@@ -35,8 +37,23 @@
           align-items: center;
           width: 100%;
           height: 100%;
-          border: 1px solid black;
+          border: 1px solid colors.$text;
           position: relative;
+
+          &:hover {
+            color: colors.$primary;
+            background-color: colors.$secondary;
+          }
+
+          &.winner {
+            color: colors.$background;
+            background-color: colors.$text;
+          }
+
+          &.looser {
+            color: colors.$background;
+            background-color: colors.$primary;
+          }
 
           span {
             padding-left: 8px;
@@ -48,12 +65,12 @@
 
           .score {
             margin-left: auto;
-          }
-        }
+            color: colors.$danger;
 
-        .team:hover {
-          cursor: pointer;
-          background-color: aqua;
+            &.win {
+              color: colors.$success;
+            }
+          }
         }
 
         .team:first-child {
@@ -74,7 +91,7 @@
         position: absolute;
       }
       .match-lines.progress .line {
-        background: red;
+        background: colors.$primary;
       }
       .match-lines .line.one {
         height: 1px;
