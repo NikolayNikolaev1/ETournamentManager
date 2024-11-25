@@ -4,11 +4,11 @@
       <img id="nav-logo" src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
       {{ constants.WEBSITE_NAME }}
     </li>
-    <li class="nav-item hover-transition" routerLink="/tournaments">Current tournaments</li>
-    <li class="nav-item hover-transition" routerLink="/teams">All teams</li>
+    <li class="nav-item hover-transition" routerLink="/tournaments" routerLinkActive="active">Current tournaments</li>
+    <li class="nav-item hover-transition" routerLink="/teams" routerLinkActive="active">All teams</li>
     @if (currentUser !== null) {
       @if (currentUser.roleName === constants.ADMIN_ROLE) {
-        <li class="nav-item hover-transition" routerLink="/users">All users</li>
+        <li class="nav-item hover-transition" routerLink="/users" routerLinkActive="active">All users</li>
       }
       @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
         <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">Create team</li>
@@ -23,7 +23,7 @@
       >
         Create game
       </li>
-      <li class="nav-item hover-transition" routerLink="/profile">
+      <li class="nav-item hover-transition" routerLink="/profile" routerLinkActive="active">
         {{ currentUser.username | uppercase }}
       </li>
       <li class="nav-item hover-transition" (click)="onLogout()">Logout</li>

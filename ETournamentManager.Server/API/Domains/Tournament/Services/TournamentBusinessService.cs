@@ -257,7 +257,7 @@
                 throw new BusinessServiceException("Team not found in tournament", Status404NotFound);
             }
 
-            if (tournamentTeam.Tournament.Active && tournamentTeam.Tournament.Finished)
+            if (tournamentTeam.Tournament.Active || tournamentTeam.Tournament.Finished)
             {
                 throw new BusinessServiceException("Can not leave an active tournament.");
             }

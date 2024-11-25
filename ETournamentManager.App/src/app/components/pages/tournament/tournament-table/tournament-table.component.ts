@@ -1,3 +1,5 @@
+import { finalize, pipe } from 'rxjs';
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -18,6 +20,7 @@ export class TournamentTableComponent implements OnInit {
   searchGameResult: { id: string; name: string }[] = [];
   filteredCreators: { id: string; userName: string }[] = [];
   filteredGames: { id: string; name: string }[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -106,6 +109,7 @@ export class TournamentTableComponent implements OnInit {
   }
 
   private getTournaments() {
+    this.isLoading = true;
     this.apiService
       .request<Tournament[]>({
         url: SERVER_ROUTES.TOURNAMENT.GET_ALL,
@@ -115,6 +119,7 @@ export class TournamentTableComponent implements OnInit {
           gameIds: this.filteredGames.map((f) => f.id),
         },
       })
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe((response) => {
         this.tournamentsData = response.map((t) => ({
           id: t.id,

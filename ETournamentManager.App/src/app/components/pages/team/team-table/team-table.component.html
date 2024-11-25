@@ -1,34 +1,45 @@
-<div id="teams-page">
-  <div id="filter-section">
-    <div class="filter-holder">
-      <app-e-input
-        label="Member"
-        [isSearch]="true"
-        [searchResult]="getUserNames()"
-        (inputChanged)="getUsersByUsername($event)"
-        (searchResultSelected)="selectFilter('member', $event)"
-      />
-
-      <div class="filters-container">
-        @for (currentFilter of filteredMembers; track $index) {
-          <div class="filter">
-            {{ currentFilter.userName }}
-            <img
-              class="close-img"
-              src="assets/images/close-icon.svg"
-              alt="Close icon"
-              (click)="onFilterRemove('member', currentFilter.id)"
+<div id="table-page">
+  <div id="table-wrapper" class="section-container">
+    <div class="title-wrapper">
+      <div class="title">Teams table</div>
+      <hr />
+    </div>
+    <div id="filter-section">
+      <div class="filter-holder">
+        <div class="filters-container">
+          <div class="search-wrapper">
+            <app-e-input
+              label="Member"
+              [isSearch]="true"
+              [searchResult]="getUserNames()"
+              (inputChanged)="getUsersByUsername($event)"
+              (searchResultSelected)="selectFilter('member', $event)"
             />
           </div>
-        }
+          @for (currentFilter of filteredMembers; track $index) {
+            <div class="filter">
+              {{ currentFilter.userName }}
+              <img
+                class="close-img"
+                src="assets/images/close-icon.svg"
+                alt="Close icon"
+                (click)="onFilterRemove('member', currentFilter.id)"
+              />
+            </div>
+          }
+        </div>
       </div>
     </div>
-  </div>
-  <div id="table-wrapper">
-    <app-e-table
-      [header]="['name', 'tag', 'captain', 'members', 'wins']"
-      [data]="teamsData"
-      (rowClicked)="onTeamClick($event)"
-    />
+    @if (isLoading) {
+      <div class="loader-wrapper">
+        <span class="loader"></span>
+      </div>
+    } @else {
+      <app-e-table
+        [header]="['name', 'tag', 'captain', 'members', 'wins']"
+        [data]="teamsData"
+        (rowClicked)="onTeamClick($event)"
+      />
+    }
   </div>
 </div>

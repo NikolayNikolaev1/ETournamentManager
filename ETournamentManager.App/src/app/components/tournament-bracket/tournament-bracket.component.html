@@ -28,7 +28,7 @@
           >
             <span class="name">{{ currentRound.teams[1].name }}</span>
             @if (currentRound.winnerId !== null) {
-              <span class="score">
+              <span class="score"  [ngClass]="{ win: currentRound.winnerId === currentRound.teams[1].id }">
                 {{ currentRound.winnerId === currentRound.teams[1].id ? 'W' : 'L' }}
               </span>
             }

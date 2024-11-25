@@ -41,8 +41,8 @@
           position: relative;
 
           &:hover {
-            color: colors.$primary;
-            background-color: colors.$secondary;
+            color: colors.$background;
+            background-color: colors.$primary;
           }
 
           &.winner {
@@ -51,8 +51,8 @@
           }
 
           &.looser {
-            color: colors.$background;
-            background-color: colors.$primary;
+            color: colors.$text;
+            background-color: colors.$secondary;
           }
 
           span {
@@ -65,10 +65,10 @@
 
           .score {
             margin-left: auto;
-            color: colors.$danger;
+            color: colors.$text;
 
             &.win {
-              color: colors.$success;
+              color: colors.$background;
             }
           }
         }
@@ -87,11 +87,11 @@
         right: -1px;
       }
       .match-lines .line {
-        background: black;
+        background: colors.$primary;
         position: absolute;
       }
       .match-lines.progress .line {
-        background: colors.$primary;
+        background: colors.$danger;
       }
       .match-lines .line.one {
         height: 1px;

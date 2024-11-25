@@ -2,13 +2,19 @@
   <div class="search-wrapper">
     <input
       [(ngModel)]="value"
-      [ngClass]="{ filled: value.length > 0, invalid }"
+      [ngClass]="{ filled: value.length > 0, invalid, search: isSearch }"
       [type]="type"
       [placeholder]="label"
       (change)="onInputChange()"
       (input)="onInput()"
       (blur)="onInputBlur()"
     />
+
+    @if (isSearch) {
+      <div class="search-img">
+        <img src="assets/images/search-icon.svg" alt="Search icon" width="20" />
+      </div>
+    }
 
     <div class="search-list">
       @for (result of searchResult; track $index) {
@@ -18,9 +24,4 @@
       }
     </div>
   </div>
-  @if (isSearch) {
-    <div class="search-img">
-      <img src="assets/images/search-icon.svg" alt="Search icon" width="20" />
-    </div>
-  }
 </div>

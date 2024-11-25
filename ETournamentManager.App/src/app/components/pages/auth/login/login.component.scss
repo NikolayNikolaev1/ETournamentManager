@@ -1,9 +1,11 @@
+@use 'colors';
+
 .register-link {
   font-style: italic;
-  
+
   a {
     cursor: pointer;
-    color: blue;
+    color: colors.$primary;
     text-decoration: underline;
   }
 }

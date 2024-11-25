@@ -7,5 +7,8 @@ $bg-filter: brightness(0) saturate(100%) invert(99%) sepia(4%) saturate(737%) hu
   contrast(98%);
 $text-filter: brightness(0) saturate(100%) invert(39%) sepia(14%) saturate(1357%) hue-rotate(179deg) brightness(90%)
   contrast(89%);
+$danger-filter: brightness(0) saturate(100%) invert(13%) sepia(75%) saturate(6334%) hue-rotate(353deg) brightness(78%)
+  contrast(82%);
 
 $background-gradient: linear-gradient(180deg, rgba(122, 178, 211, 0.6) 0%, rgba(185, 229, 232, 0) 100%);
+$box-shadow: 2px 2px 12px #00000050;

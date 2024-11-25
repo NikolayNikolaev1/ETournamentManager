@@ -89,6 +89,7 @@
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          box-shadow: variables.$box-shadow;
 
           &:hover {
             color: colors.$secondary;

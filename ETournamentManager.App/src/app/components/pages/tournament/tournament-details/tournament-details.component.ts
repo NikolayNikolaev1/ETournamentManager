@@ -50,7 +50,6 @@ export class TournamentDetailsComponent {
 
     this.tournamentId = this.route.snapshot.paramMap.get('id') ?? '';
     this.getTournamentDetails();
-    this.getRoundsData();
   }
 
   getTeamByName(name: string) {
@@ -172,6 +171,7 @@ export class TournamentDetailsComponent {
       .subscribe((response) => {
         this.tournamentData = response;
 
+        this.getRoundsData();
         this.apiService.request({ method: 'get', url: this.tournamentId, isFile: true }).subscribe({
           error: (isValid) =>
             (this.tournamentImageUrl = isValid

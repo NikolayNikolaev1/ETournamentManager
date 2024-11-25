@@ -17,17 +17,18 @@
       padding: 15px 5px;
       border-radius: 2px;
 
-      #nav-logo {
-        filter: variables.$text-filter;
-      }
-
-      &:hover {
+      &:hover,
+      &.active {
         color: colors.$primary;
         background-color: colors.$background;
 
         #nav-logo {
           filter: variables.$primary-filter;
         }
+      }
+
+      #nav-logo {
+        filter: variables.$text-filter;
       }
     }
   }

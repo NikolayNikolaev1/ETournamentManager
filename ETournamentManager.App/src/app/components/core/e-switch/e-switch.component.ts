@@ -17,7 +17,7 @@ export class ESwitchComponent {
   @Input('on') switchOn = false;
   @Input('label') mainLabel: string = ''
   @Input() switchLabels: { on: string; off: string } | null = null
-  @Input() colors: { on: string; off: string } = { on: 'black', off: 'grey' };
+  @Input() colors: { on: string; off: string } = { on: 'initial', off: 'initial' };
   @Output() toggled = new EventEmitter<boolean | undefined>();
 
   onSwitchClick() {

@@ -30,7 +30,7 @@
         required: true,
       },
     ]"
-    buttonLabel=Register
+    buttonLabel="Register"
     [error]="errorMessage"
     (submitted)="onRegisterClick()"
     (formInputsChanged)="onFormChanged($event)"
@@ -40,7 +40,6 @@
       label="Account Role"
       [on]="true"
       [switchLabels]="{ on: 'Participant', off: 'Creator' }"
-      [colors]="{ on: 'blue', off: 'red' }"
       (toggled)="onRoleChange()"
     />
   </app-e-form>

@@ -1,3 +1,6 @@
+@use 'colors';
+@use 'variables';
+
 .input-label {
   margin-bottom: 5px;
   margin-right: 20px;
@@ -15,14 +18,14 @@
     position: relative;
     height: 25px;
     width: 50px;
-    border-radius: 3px;
+    border-radius: 20px;
 
     &.on {
-      background-color: black;
+      background-color: colors.$text;
     }
 
     &.off {
-      background-color: gray;
+      background-color: colors.$primary;
     }
 
     .toggle {
@@ -34,12 +37,16 @@
       top: 0;
       bottom: 0;
       margin: 1px;
-      border-radius: 100px;
-      box-shadow: 2px 2px 12px #00000050;
+      border-radius: 50%;
+      box-shadow: variables.$box-shadow;
     }
   }
 
   .label {
     font-weight: 700;
+
+    &.off {
+      color: colors.$primary;
+    }
   }
 }

@@ -27,9 +27,7 @@ export class ETableComponent implements OnChanges {
 
   applyFilter() {
     this.filteredData = this.data.filter((item: any) =>
-      Object.values(item).some((val: any) =>
-        val.toString().toLowerCase().includes(this.filterText.toLowerCase())
-      )
+      Object.values(item).some((val: any) => val.toString().toLowerCase().includes(this.filterText.toLowerCase()))
     );
     this.totalPages = Math.ceil(this.filteredData.length / this.pageSize);
     this.currentPage = 1;
@@ -74,7 +72,7 @@ export class ETableComponent implements OnChanges {
     this.rowClicked.emit(id);
   }
 
-  onActrionClick(id: string, action: string) {
+  onActionClick(id: string, action: string) {
     this.actionClicked.emit({ id, action });
   }
 }

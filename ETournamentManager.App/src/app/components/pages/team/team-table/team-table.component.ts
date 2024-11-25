@@ -1,14 +1,12 @@
+import { finalize } from 'rxjs';
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import Team from 'app/models/team.model';
 import User from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
-import {
-  SERVER_ROUTES,
-  TOURNAMENT_CREATOR_ROLE,
-  TOURNAMENT_PARTICIPANT_ROLE,
-} from 'app/utils/constants';
+import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE, TOURNAMENT_PARTICIPANT_ROLE } from 'app/utils/constants';
 
 @Component({
   selector: 'app-team-table',
@@ -19,6 +17,7 @@ export class TeamTableComponent implements OnInit {
   teamsData: any = [];
   searchUsersResult: { id: string; userName: string }[] = [];
   filteredMembers: { id: string; userName: string }[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -79,6 +78,7 @@ export class TeamTableComponent implements OnInit {
   }
 
   private getTeams() {
+    this.isLoading = true;
     this.apiService
       .request<Team[]>({
         url: SERVER_ROUTES.TEAM.GET_ALL,
@@ -88,6 +88,7 @@ export class TeamTableComponent implements OnInit {
           isPrivate: false,
         },
       })
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe((response) => {
         this.teamsData = response.map((t) => ({
           id: t.id,

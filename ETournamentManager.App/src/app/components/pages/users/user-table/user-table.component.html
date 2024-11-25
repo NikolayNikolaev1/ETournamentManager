@@ -1,8 +1,25 @@
-<div id="table-wrapper">
-  <app-e-table
-    [header]="['username', 'email', 'role']"
-    [actions]="['status']"
-    [data]="usersData"
-    (actionClicked)="onUserStatusChange($event)"
-  />
+<div id="table-page">
+  <div id="table-wrapper" class="section-container">
+    <div class="title-wrapper">
+      <div class="title">Users table</div>
+      <hr />
+    </div>
+    <div id="filter-section">
+      <div class="filter-holder">
+        <div class="filters-container"></div>
+      </div>
+    </div>
+    @if (isLoading) {
+      <div class="loader-wrapper">
+        <span class="loader"></span>
+      </div>
+    } @else {
+      <app-e-table
+        [header]="['username', 'email', 'role']"
+        [actions]="['status']"
+        [data]="usersData"
+        (actionClicked)="onUserStatusChange($event)"
+      />
+    }
+  </div>
 </div>

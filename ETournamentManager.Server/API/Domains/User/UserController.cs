@@ -14,7 +14,7 @@
     public class UserController(IUserBusinessService userService) : ControllerBase
     {
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = ADMIN)]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(ICollection<UserListingModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll([FromQuery] UserQueryParamsModel queryParams)
             => await userService.GetAll(queryParams).ReturnOkResult();

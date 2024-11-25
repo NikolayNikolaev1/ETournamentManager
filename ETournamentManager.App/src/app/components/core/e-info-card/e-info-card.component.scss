@@ -11,6 +11,11 @@
   border-radius: 10px;
   font-family: fonts.$global;
   color: colors.$background;
+  opacity: 0.9;
+
+  &:hover {
+    box-shadow: variables.$box-shadow;
+  }
 
   .card-wrapper {
     display: flex;

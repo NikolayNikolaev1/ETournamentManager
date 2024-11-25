@@ -1,19 +1,18 @@
 <div class="input-label">
-  {{mainLabel}}
+  {{ mainLabel }}
 </div>
 <div class="switch-container">
   @if (switchLabels !== null) {
-  <div class="label" [ngStyle]="{color: !switchOn ? colors.off : 'black'}">
-    {{switchLabels.off}}
-  </div>
+    <div class="label off">
+      {{ switchLabels.off }}
+    </div>
   }
-  <div class="switch" [ngClass]="switchOn ? 'on' : 'off'"
-    [ngStyle]="{ 'background-color': switchOn ? colors.on : colors.off }" (click)="onSwitchClick()">
+  <div class="switch" [ngClass]="switchOn ? 'on' : 'off'" (click)="onSwitchClick()">
     <div class="toggle" [@toggleTrigger]="switchOn ? 'on' : 'off'"></div>
   </div>
   @if (switchLabels !== null) {
-  <div class="label" [ngStyle]="{color: switchOn ? colors.on : 'black'}">
-    {{switchLabels.on}}
-  </div>
+    <div class="label">
+      {{ switchLabels.on }}
+    </div>
   }
 </div>
