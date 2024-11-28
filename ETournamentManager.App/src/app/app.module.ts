@@ -24,19 +24,18 @@ import { PlayerProfileComponent } from 'app/components/pages/player-profile/play
 import { TeamCreateComponent } from 'app/components/pages/team/team-create/team-create.component';
 import { TeamDetailsComponent } from 'app/components/pages/team/team-details/team-details.component';
 import { TournamentCreateComponent } from 'app/components/pages/tournament/tournament-create/tournament-create.component';
-import { TeamsSectionComponent } from 'app/components/teams-section/teams-section.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
 
 import { EAdminManagementComponent } from './components/core/e-admin-management/e-admin-management.component';
 import { EImageUploadComponent } from './components/core/e-image-upload/e-image-upload.component';
 import { EInfoCardComponent } from './components/core/e-info-card/e-info-card.component';
-import { TournamentDetailsComponent } from './components/pages/tournament/tournament-details/tournament-details.component';
-import { TournamentBracketComponent } from './components/tournament-bracket/tournament-bracket.component';
-import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
 import { ETableComponent } from './components/core/e-table/e-table.component';
-import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 import { PasswordChangeComponent } from './components/pages/auth/password-change/password-change.component';
+import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
+import { TournamentDetailsComponent } from './components/pages/tournament/tournament-details/tournament-details.component';
+import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
 import { UserTableComponent } from './components/pages/users/user-table/user-table.component';
+import { TournamentBracketComponent } from './components/tournament-bracket/tournament-bracket.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { UserTableComponent } from './components/pages/users/user-table/user-tab
     HomeComponent,
     FooterComponent,
     PlayerProfileComponent,
-    TeamsSectionComponent,
     LoginComponent,
     NotFoundComponent,
     RegisterComponent,

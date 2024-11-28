@@ -41,6 +41,10 @@ body {
     text-decoration: none;
   }
 
+  button {
+    color: colors.$text;
+  }
+
   .loader-wrapper {
     display: flex;
     justify-content: center;
@@ -95,14 +99,11 @@ body {
     img.action-icon {
       height: 25px;
       cursor: pointer;
-      // White filter
-      filter: brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(2%) hue-rotate(14deg) brightness(107%)
-        contrast(101%);
+      filter: variables.$secondary-filter;
     }
 
     img.action-icon:hover {
-      filter: brightness(0) saturate(100%) invert(91%) sepia(77%) saturate(4111%) hue-rotate(105deg) brightness(103%)
-        contrast(104%);
+      filter: variables.$text-filter;
     }
   }
 
@@ -148,6 +149,11 @@ body {
       background-color: colors.$background;
 
       .section-container {
+        padding: 20px;
+        border-radius: 20px;
+        background: variables.$background-gradient;
+        box-shadow: variables.$box-shadow;
+
         .title-wrapper {
           .title {
             font-family: 'Tournament-Manager';
@@ -207,9 +213,19 @@ body {
         display: flex;
         gap: 15px;
         padding: 30px;
+        background-color: variables.$background-gradient;
 
-        background-color: colors.$background;
-        background-image: url('/assets/images/tournament-banner-img.jpg');
+        background: linear-gradient(
+          45deg,
+          rgba(74, 98, 138, 1) 11%,
+          rgba(130, 185, 214, 1) 28%,
+          rgba(223, 242, 235, 1) 51%,
+          rgba(122, 178, 211, 1) 86%
+        );
+
+        border-radius: variables.$border-radius;
+        border: 1px solid colors.$primary;
+        box-shadow: variables.$box-shadow;
 
         .banner-info-wrapper {
           display: flex;
@@ -217,6 +233,10 @@ body {
 
           .contact {
             margin-top: auto;
+
+            .contact-mail:hover {
+              color: colors.$background;
+            }
           }
         }
       }

@@ -2,10 +2,6 @@
 @use 'variables';
 
 .section-container {
-  padding: 20px;
-  background: variables.$background-gradient;
-  border-radius: 20px;
-
   #section-header {
     display: flex;
     gap: 15px;

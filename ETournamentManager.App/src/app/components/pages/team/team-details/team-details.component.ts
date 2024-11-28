@@ -29,8 +29,13 @@ export class TeamDetailsComponent implements OnInit {
   searchUsernames: string[] = [];
   currentUserProfile: UserProfile | null = null;
   teamMembersData: UserBase[] = [];
+  teamTournaments: Tournament[] = [];
   activeTournaments: Tournament[] = [];
-  pastTournaments: Tournament[] = [];
+  finishedTournaments: Tournament[] = [];
+  futureTournaments: Tournament[] = [];
+  filteredTournaments: Tournament[] = [];
+  selectedTournamentFilter: string = '';
+  isMember: boolean = false;
   getUserInfoCard = convertUserInfoCard;
   getTournamentInfoCard = convertTournamentInfoCard;
 
@@ -116,6 +121,50 @@ export class TeamDetailsComponent implements OnInit {
       .subscribe(() => this.router.navigate(['/profile']));
   }
 
+  onExitClick() {
+    if (this.currentUserProfile === null || this.currentUserProfile.id === this.teamData?.captain.id) return;
+
+    this.apiService
+      .request<null, { teamId: string; memberId: string }>({
+        url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
+        method: 'patch',
+        body: {
+          teamId: this.teamId,
+          memberId: this.currentUserProfile.id,
+        },
+      })
+      .subscribe(() => this.router.navigate(['/profile']));
+  }
+
+  onLeaveTournamentClick(tournamentId: string) {
+    this.apiService
+      .request<null, { tournamentId: string; teamId: string }>({
+        url: `${SERVER_ROUTES.TOURNAMENT.REMOVE_PARTICIPANT}`,
+        method: 'patch',
+        body: {
+          tournamentId: tournamentId,
+          teamId: this.teamId,
+        },
+      })
+      .subscribe(() => (this.teamTournaments = this.teamTournaments.filter((t) => t.id !== tournamentId)));
+  }
+
+  onTournamentNavSelect(filter: string) {
+    this.selectedTournamentFilter = filter;
+
+    switch (filter) {
+      case 'active':
+        this.filteredTournaments = this.teamTournaments.filter((t) => t.active);
+        break;
+      case 'past':
+        this.filteredTournaments = this.teamTournaments.filter((t) => t.finished);
+        break;
+      case 'future':
+        this.filteredTournaments = this.teamTournaments.filter((t) => !t.active && !t.finished);
+        break;
+    }
+  }
+
   private getTeamDetails() {
     this.apiService
       .request<Team>({
@@ -141,16 +190,18 @@ export class TeamDetailsComponent implements OnInit {
           });
         });
 
-        this.apiService
-          .request({ method: 'get', url: this.teamData.captain.id, isFile: true })
-          .subscribe({
-            error: (isValid) =>
-              (this.teamData!.captain.imgUrl = isValid
-                ? `${environment.apiUrl}/UploadImages/${this.teamData!.captain.id}.jpg`
-                : 'assets/images/default-user-img.jpg'),
-          });
+        this.apiService.request({ method: 'get', url: this.teamData.captain.id, isFile: true }).subscribe({
+          error: (isValid) =>
+            (this.teamData!.captain.imgUrl = isValid
+              ? `${environment.apiUrl}/UploadImages/${this.teamData!.captain.id}.jpg`
+              : 'assets/images/default-user-img.jpg'),
+        });
 
         this.teamMembersData = [this.teamData.captain, ...this.teamData.members];
+
+        this.isMember =
+          this.currentUserProfile !== null &&
+          this.teamMembersData.map((m) => m.id).includes(this.currentUserProfile.id);
       });
   }
 
@@ -164,10 +215,7 @@ export class TeamDetailsComponent implements OnInit {
         },
       })
       .subscribe((response) => {
-        this.activeTournaments = response.filter((t) => !t.finished);
-        this.pastTournaments = response.filter((t) => t.finished);
-
-        this.activeTournaments.forEach((t) => {
+        response.forEach((t) => {
           this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
             error: (isValid) =>
               (t.imgUrl = isValid
@@ -176,14 +224,28 @@ export class TeamDetailsComponent implements OnInit {
           });
         });
 
-        this.pastTournaments.forEach((t) => {
-          this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
-            error: (isValid) =>
-              (t.imgUrl = isValid
-                ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                : 'assets/images/default-tournament-img.jpg'),
-          });
-        });
+        this.teamTournaments = response;
+
+        this.activeTournaments = this.teamTournaments.filter((t) => t.active);
+        this.finishedTournaments = this.teamTournaments.filter((t) => t.finished);
+        this.futureTournaments = this.teamTournaments.filter((t) => !t.active && !t.finished);
+
+        if (this.activeTournaments.length > 0) {
+          this.filteredTournaments = this.activeTournaments;
+          this.selectedTournamentFilter = 'active';
+          return;
+        }
+
+        if (this.finishedTournaments.length > 0) {
+          this.filteredTournaments = this.finishedTournaments;
+          this.selectedTournamentFilter = 'past';
+          return;
+        }
+
+        if (this.teamTournaments.length > 0) {
+          this.filteredTournaments = this.teamTournaments;
+          this.selectedTournamentFilter = 'future';
+        }
       });
   }
 }

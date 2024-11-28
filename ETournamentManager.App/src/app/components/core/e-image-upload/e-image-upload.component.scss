@@ -10,6 +10,7 @@
   border: 1px solid colors.$primary;
   border-radius: 5px;
   background-color: colors.$background;
+  box-shadow: variables.$box-shadow;
 
   input {
     display: none;

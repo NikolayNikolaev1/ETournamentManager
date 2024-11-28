@@ -11,15 +11,15 @@
         <h4 class="description">{{ tournamentData.description }}</h4>
         <p class="contact">
           For tournament details - Contact:
-          <a class="contact-mail" [href]="'mailto:' + tournamentData.creator.email">
+          <a class="contact-mail hover-transition" [href]="'mailto:' + tournamentData.creator.email">
             {{ tournamentData.creator.email }}
           </a>
         </p>
       </div>
       @if (tournamentData.creator.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN') {
         <div class="action-wrapper">
-          <img class="action-icon" src="assets/images/edit-icon.svg" alt="Edit icon" (click)="onEditClick()" />
-          <img class="action-icon" src="assets/images/delete-icon.svg" alt="Edit icon" (click)="onDeleteClick()" />
+          <img class="action-icon hover-transition" src="assets/images/edit-icon.svg" alt="Edit icon" (click)="onEditClick()" />
+          <img class="action-icon hover-transition" src="assets/images/delete-icon.svg" alt="Edit icon" (click)="onDeleteClick()" />
         </div>
       }
     </div>

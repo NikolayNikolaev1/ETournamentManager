@@ -1,8 +1,51 @@
-.cards-container {
-  background: linear-gradient(0deg, rgb(80, 50, 145) 0%, rgba(2, 0, 36, 0) 100%);
-  border-radius: 20px;
-}
+@use 'colors';
+@use 'variables';
 
-.edit-wrapper {
-  margin-left: auto;
+#team-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  .edit-wrapper {
+    margin-left: auto;
+  }
+
+  #tournament-nav {
+    display: flex;
+
+    #tabs-container {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin-left: auto;
+      width: 25%;
+
+      .tab-item {
+        text-align: center;
+        width: 33%;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        background-color: colors.$secondary;
+        border: 3px solid colors.$primary;
+        border-radius: 20px;
+        box-shadow: variables.$box-shadow;
+
+        &:hover:not(:disabled, .active) {
+          color: colors.$secondary;
+          background-color: colors.$primary;
+        }
+
+        &:disabled {
+          background-color: colors.$disabled;
+          color: colors.$text;
+          border-color: colors.$text;
+        }
+
+        &.active {
+          background-color: colors.$background;
+        }
+      }
+    }
+  }
 }
