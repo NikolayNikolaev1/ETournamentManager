@@ -32,8 +32,28 @@
   @switch (currentUserProfile?.roleName) {
     @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
       <div class="section-container">
-        <div class="title-wrapper">
-          <div class="title">My Teams</div>
+        <div class="header-wrapper">
+          <div id="section-nav">
+            <div class="title">My Teams - {{ selectedTeamFilter }}</div>
+            <div id="tabs-container">
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTeamFilter === 'captain' }"
+                [disabled]="ownedTeams.length === 0"
+                (click)="onTeamNavSelect('captain')"
+              >
+                Captain
+              </button>
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTeamFilter === 'member' }"
+                [disabled]="joinedTeams.length === 0"
+                (click)="onTeamNavSelect('member')"
+              >
+                Member
+              </button>
+            </div>
+          </div>
           <hr />
         </div>
 
@@ -43,7 +63,7 @@
               <span class="loader"></span>
             </div>
           } @else {
-            @for (currentTeam of teamsData; track $index) {
+            @for (currentTeam of filteredTeams; track $index) {
               <app-e-info-card
                 [cardData]="getTeamInfoCard(currentTeam)"
                 (cardClicked)="onCardSelect(currentTeam.id, '/team')"

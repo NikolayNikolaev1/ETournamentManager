@@ -9,43 +9,4 @@
   .edit-wrapper {
     margin-left: auto;
   }
-
-  #tournament-nav {
-    display: flex;
-
-    #tabs-container {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      margin-left: auto;
-      width: 25%;
-
-      .tab-item {
-        text-align: center;
-        width: 33%;
-        padding: 10px;
-        font-size: 18px;
-        font-weight: 700;
-        background-color: colors.$secondary;
-        border: 3px solid colors.$primary;
-        border-radius: 20px;
-        box-shadow: variables.$box-shadow;
-
-        &:hover:not(:disabled, .active) {
-          color: colors.$secondary;
-          background-color: colors.$primary;
-        }
-
-        &:disabled {
-          background-color: colors.$disabled;
-          color: colors.$text;
-          border-color: colors.$text;
-        }
-
-        &.active {
-          background-color: colors.$background;
-        }
-      }
-    }
-  }
 }

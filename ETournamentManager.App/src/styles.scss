@@ -154,7 +154,7 @@ body {
         background: variables.$background-gradient;
         box-shadow: variables.$box-shadow;
 
-        .title-wrapper {
+        .header-wrapper {
           .title {
             font-family: 'Tournament-Manager';
             font-size: 36px;
@@ -167,6 +167,46 @@ body {
             margin-top: 8px;
             background-color: colors.$primary;
             border: 1px solid colors.$primary;
+          }
+
+          #section-nav {
+            display: flex;
+
+            #tabs-container {
+              display: flex;
+              justify-content: end;
+              align-items: center;
+              gap: 15px;
+              margin-left: auto;
+              width: 25%;
+
+              .tab-item {
+                text-align: center;
+                width: 33%;
+                padding: 10px;
+                font-size: 18px;
+                font-weight: 700;
+                background-color: colors.$secondary;
+                border: 3px solid colors.$primary;
+                border-radius: 20px;
+                box-shadow: variables.$box-shadow;
+
+                &:hover:not(:disabled, .active) {
+                  color: colors.$secondary;
+                  background-color: colors.$primary;
+                }
+
+                &:disabled {
+                  background-color: colors.$disabled;
+                  color: colors.$text;
+                  border-color: colors.$text;
+                }
+
+                &.active {
+                  background-color: colors.$background;
+                }
+              }
+            }
           }
         }
 

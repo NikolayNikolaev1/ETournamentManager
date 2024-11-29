@@ -27,6 +27,10 @@ export class PlayerProfileComponent implements OnInit {
   currentUserProfile: UserProfile | null = null;
   currentUserSub!: Subscription;
   teamsData: Team[] = [];
+  ownedTeams: Team[] = [];
+  joinedTeams: Team[] = [];
+  filteredTeams: Team[] = [];
+  selectedTeamFilter: string = '';
   tournamentsData: Tournament[] = [];
   userImageUrl: string = '';
   getTeamInfoCard = convertTeamInfoCard;
@@ -44,14 +48,12 @@ export class PlayerProfileComponent implements OnInit {
     this.authService.currentUser$.subscribe((profile) => {
       this.currentUserProfile = profile;
 
-      this.apiService
-        .request({ method: 'get', url: this.currentUserProfile!.id, isFile: true })
-        .subscribe({
-          error: (isValid) =>
-            (this.userImageUrl = isValid
-              ? `${environment.apiUrl}/UploadImages/${this.currentUserProfile!.id}.jpg`
-              : 'assets/images/default-user-img.jpg'),
-        });
+      this.apiService.request({ method: 'get', url: this.currentUserProfile!.id, isFile: true }).subscribe({
+        error: (isValid) =>
+          (this.userImageUrl = isValid
+            ? `${environment.apiUrl}/UploadImages/${this.currentUserProfile!.id}.jpg`
+            : 'assets/images/default-user-img.jpg'),
+      });
 
       this.teamTourLoader = true;
       switch (this.currentUserProfile?.roleName) {
@@ -66,6 +68,20 @@ export class PlayerProfileComponent implements OnInit {
             })
             .subscribe((response) => {
               this.teamsData = response;
+              console.log({
+                tester: this.teamsData.filter(
+                  (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
+                ),
+              });
+
+              this.ownedTeams = this.teamsData.filter(
+                (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
+              );
+
+              this.joinedTeams = this.teamsData.filter(
+                (t) => t.captain.id.toLowerCase() !== this.currentUserProfile!.id.toLowerCase()
+              );
+
               this.teamTourLoader = false;
 
               this.teamsData.forEach((t) => {
@@ -76,6 +92,17 @@ export class PlayerProfileComponent implements OnInit {
                       : 'assets/images/default-team-img.jpg'),
                 });
               });
+
+              if (this.ownedTeams.length > 0) {
+                this.filteredTeams = this.ownedTeams;
+                this.selectedTeamFilter = 'captain';
+                return;
+              }
+
+              if (this.joinedTeams.length > 0) {
+                this.filteredTeams = this.joinedTeams;
+                this.selectedTeamFilter = 'member';
+              }
             });
           break;
         case Constants.TOURNAMENT_CREATOR_ROLE:
@@ -130,6 +157,25 @@ export class PlayerProfileComponent implements OnInit {
 
   onPasswordChangeClick() {
     this.dialog.open(PasswordChangeComponent);
+  }
+
+  onTeamNavSelect(filter: string) {
+    if (this.currentUserProfile === null) return;
+
+    this.selectedTeamFilter = filter;
+
+    switch (filter) {
+      case 'captain':
+        this.filteredTeams = this.teamsData.filter(
+          (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
+        );
+        break;
+      case 'member':
+        this.filteredTeams = this.teamsData.filter(
+          (t) => t.captain.id.toLowerCase() !== this.currentUserProfile!.id.toLowerCase()
+        );
+        break;
+    }
   }
 
   // getTeamInfoCard(team: Team): InfoCard {
