@@ -5,22 +5,29 @@
   flex-direction: column;
   gap: 20px;
 
-  #profile-edit-wrapper {
+  #profile-section {
     display: flex;
     gap: 20px;
+    margin-bottom: 15px;
+  }
 
-    #username-edit-form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
+  #username-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 
-      #username-edit-btn {
-        height: 40px;
-        background-color: yellow;
-        color: red;
-        border-radius: 20px;
+    .edit-icon {
+      height: 25px;
+      filter: variables.$bg-filter;
+
+      &:hover {
+        cursor: pointer;
+        filter: variables.$text-filter;
       }
+    }
+
+    #config-icon {
+      margin-left: auto;
     }
   }
 }

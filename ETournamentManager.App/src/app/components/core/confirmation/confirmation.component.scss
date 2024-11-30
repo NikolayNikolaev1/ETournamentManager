@@ -1,0 +1,16 @@
+.confirmation-container {
+  padding: 50px;
+
+  .title {
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+}

@@ -1,0 +1,14 @@
+@use 'colors';
+@use 'variables';
+
+.btn {
+  width: 100%;
+  max-width: 200px;
+  max-height: 80px;
+  padding: 10px 30px;
+  font-weight: 600;
+  background-color: colors.$primary;
+  border: 1px solid colors.$text;
+  border-radius: 10px;
+  box-shadow: variables.$box-shadow;
+}

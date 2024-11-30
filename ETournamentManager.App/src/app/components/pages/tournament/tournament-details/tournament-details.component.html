@@ -18,8 +18,37 @@
       </div>
       @if (tournamentData.creator.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN') {
         <div class="action-wrapper">
-          <img class="action-icon hover-transition" src="assets/images/edit-icon.svg" alt="Edit icon" (click)="onEditClick()" />
-          <img class="action-icon hover-transition" src="assets/images/delete-icon.svg" alt="Edit icon" (click)="onDeleteClick()" />
+          @if (roundsData.length === 0 && tournamentData.teams.length < 8) {
+            <app-e-input
+              label="Add Participant"
+              [isSearch]="true"
+              [searchResult]="searchTeamNames"
+              (inputChanged)="getTeamByName($event)"
+              (searchResultSelected)="selectTeam($event)"
+            />
+          } @else {
+            <app-e-button (click)="onStartClick()">Start</app-e-button>
+          }
+
+          @if (showEndButton()) {
+            <app-e-button (click)="onEndClick()">End</app-e-button>
+          }
+
+          <div class="error-message" [ngStyle]="{ 'align-self': 'center' }">
+            {{ startTournamentError }}
+          </div>
+          <img
+            class="action-icon hover-transition"
+            src="assets/images/edit-icon.svg"
+            alt="Edit icon"
+            (click)="onEditClick()"
+          />
+          <img
+            class="action-icon hover-transition"
+            src="assets/images/delete-icon.svg"
+            alt="Edit icon"
+            (click)="onDeleteClick()"
+          />
         </div>
       }
     </div>
@@ -37,17 +66,11 @@
           (inputChanged)="getTeamByName($event)"
           (searchResultSelected)="selectTeam($event)"
         />
-
-        <button id="start-tournament" (click)="onStartClick()">Start Tournament</button>
-
-        <div class="error-message" [ngStyle]="{ 'align-self': 'center' }">
-          {{ startTournamentError }}
-        </div>
       </div>
     }
 
     <div class="section-container">
-      <div class="title-wrapper">
+      <div class="header-wrapper">
         <div class="title">Participent Teams</div>
         <hr />
       </div>
@@ -84,12 +107,8 @@
       </div>
     </div>
 
-    @if (showEndButton()) {
-      <button (click)="onEndClick()">End Tournament</button>
-    }
-
     <div id="results-section" class="section-container">
-      <div class="title-wrapper">
+      <div class="header-wrapper">
         <div class="title">Bracket</div>
         <hr />
       </div>

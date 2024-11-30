@@ -1,123 +1,140 @@
 <div id="profile-container">
   @if (currentUserProfile !== null) {
-    @if (currentUserProfile.roleName === constants.ADMIN_ROLE) {
-      <app-e-admin-management />
-    } @else {
-      <div class="section-container">
-        <div class="title-wrapper">
-          <div class="title">Profile Edit</div>
-          <hr />
-        </div>
+    @switch (currentUserProfile.roleName) {
+      @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
+        <div class="section-container">
+          <div class="header-wrapper">
+            <div id="username-wrapper">
+              @if (showUsernameEdit) {
+                <img
+                  class="edit-icon"
+                  src="assets/images/save-icon.svg"
+                  alt="Edit icon"
+                  (click)="onChangeUsernameClick()"
+                />
+                <app-e-input
+                  label="Change username"
+                  [value]="currentUserProfile.username"
+                  (inputChanged)="newUsername = $event"
+                />
+              } @else {
+                <img
+                  class="edit-icon"
+                  src="assets/images/edit-icon.svg"
+                  alt="Edit icon"
+                  (click)="showUsernameEdit = !showUsernameEdit"
+                />
+                <div class="title">{{ currentUserProfile.username }}</div>
+              }
 
-        <div id="profile-edit-wrapper">
-          @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-            <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
-          }
-
-          <div id="username-edit-form">
-            <app-e-input
-              [value]="currentUserProfile.username"
-              [label]="'User Name'"
-              (inputChanged)="onUsernameChange($event)"
-            />
-            <button id="username-edit-btn" (click)="onChangeUsernameClick()">Change User Name</button>
+              <img
+                id="config-icon"
+                class="edit-icon hover-transition"
+                src="assets/images/config-icon.svg"
+                alt="Config icon"
+                (click)="onPasswordChangeClick()"
+              />
+            </div>
+            <hr />
           </div>
 
-          <button id="password-change-btn" (click)="onPasswordChangeClick()">Change Password</button>
-        </div>
-      </div>
-    }
-  }
-
-  @switch (currentUserProfile?.roleName) {
-    @case (constants.TOURNAMENT_PARTICIPANT_ROLE) {
-      <div class="section-container">
-        <div class="header-wrapper">
-          <div id="section-nav">
-            <div class="title">My Teams - {{ selectedTeamFilter }}</div>
-            <div id="tabs-container">
-              <button
-                class="tab-item hover-transition"
-                [ngClass]="{ active: selectedTeamFilter === 'captain' }"
-                [disabled]="ownedTeams.length === 0"
-                (click)="onTeamNavSelect('captain')"
-              >
-                Captain
-              </button>
-              <button
-                class="tab-item hover-transition"
-                [ngClass]="{ active: selectedTeamFilter === 'member' }"
-                [disabled]="joinedTeams.length === 0"
-                (click)="onTeamNavSelect('member')"
-              >
-                Member
-              </button>
-            </div>
+          <div id="profile-section">
+            @if (currentUserProfile.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
+              <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+            }
           </div>
-          <hr />
-        </div>
-
-        <div id="teams-cards-container" class="info-cards-container teams">
-          @if (teamTourLoader) {
-            <div class="loader-wrapper">
-              <span class="loader"></span>
+          <div class="header-wrapper">
+            <div id="section-nav">
+              <div class="title">My Teams - {{ selectedTeamFilter }}</div>
+              <div id="tabs-container">
+                <button
+                  class="tab-item hover-transition"
+                  [ngClass]="{ active: selectedTeamFilter === 'captain' }"
+                  [disabled]="ownedTeams.length === 0"
+                  (click)="onTeamNavSelect('captain')"
+                >
+                  Captain
+                </button>
+                <button
+                  class="tab-item hover-transition"
+                  [ngClass]="{ active: selectedTeamFilter === 'member' }"
+                  [disabled]="joinedTeams.length === 0"
+                  (click)="onTeamNavSelect('member')"
+                >
+                  Member
+                </button>
+              </div>
             </div>
-          } @else {
-            @for (currentTeam of filteredTeams; track $index) {
-              <app-e-info-card
-                [cardData]="getTeamInfoCard(currentTeam)"
-                (cardClicked)="onCardSelect(currentTeam.id, '/team')"
-              >
-                <div statsIcons class="stats-info">
-                  <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
-                  <div class="subtitle">
-                    {{ currentTeam.tournamentsWon }}
-                  </div>
+            <hr />
+          </div>
 
-                  <img src="assets/images/people-icon.svg" alt="People Icon" />
-                  <div class="subtitle">
-                    {{ currentTeam.members.length }}
-                  </div>
-                </div>
-              </app-e-info-card>
-            }
-          }
-        </div>
-      </div>
-    }
-    @case (
-      [constants.TOURNAMENT_CREATOR_ROLE, constants.ADMIN_ROLE].includes(currentUserProfile?.roleName ?? '')
-        ? currentUserProfile?.roleName
-        : ''
-    ) {
-      <div class="section-container">
-        <div class="title-wrapper">
-          <div class="title">My Tournaments</div>
-          <hr />
-        </div>
+          <div id="teams-cards-container" class="info-cards-container teams">
+            @if (isLoading) {
+              <div class="loader-wrapper">
+                <span class="loader"></span>
+              </div>
+            } @else {
+              @for (currentTeam of filteredTeams; track $index) {
+                <app-e-info-card
+                  [cardData]="getTeamInfoCard(currentTeam)"
+                  (cardClicked)="onCardSelect(currentTeam.id, '/team')"
+                >
+                  @if (selectedTeamFilter === 'member') {
+                    <div actions class="actions" (click)="$event.stopPropagation(); onExitClick(currentTeam.id)">
+                      <img src="assets/images/exit.svg" alt="Exit icon" />
+                    </div>
+                  }
+                  <div statsIcons class="stats-info">
+                    <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+                    <div class="subtitle">
+                      {{ currentTeam.tournamentsWon }}
+                    </div>
 
-        <div class="info-cards-container">
-          @if (teamTourLoader) {
-            <div class="loader-wrapper">
-              <span class="loader"></span>
-            </div>
-          } @else {
-            @for (currentTournament of tournamentsData; track $index) {
-              <app-e-info-card
-                [cardData]="getTournamentCard(currentTournament)"
-                (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
-              >
-                <div statsIcons class="stats-info">
-                  <img src="assets/images/people-icon.svg" alt="People Icon" />
-                  <div class="subtitle">
-                    {{ currentTournament.teams.length }}
+                    <img src="assets/images/people-icon.svg" alt="People Icon" />
+                    <div class="subtitle">
+                      {{ currentTeam.members.length }}
+                    </div>
                   </div>
-                </div>
-              </app-e-info-card>
+                </app-e-info-card>
+              }
             }
-          }
+          </div>
         </div>
-      </div>
+      }
+      @case (
+        [constants.TOURNAMENT_CREATOR_ROLE, constants.ADMIN_ROLE].includes(currentUserProfile.roleName)
+          ? currentUserProfile.roleName
+          : ''
+      ) {
+        <div class="section-container">
+          <div class="header-wrapper">
+            <div class="title">My Tournaments</div>
+            <hr />
+          </div>
+
+          <div class="info-cards-container">
+            @if (isLoading) {
+              <div class="loader-wrapper">
+                <span class="loader"></span>
+              </div>
+            } @else {
+              @for (currentTournament of tournamentsData; track $index) {
+                <app-e-info-card
+                  [cardData]="getTournamentCard(currentTournament)"
+                  (cardClicked)="onCardSelect(currentTournament.id, '/tournament')"
+                >
+                  <div statsIcons class="stats-info">
+                    <img src="assets/images/people-icon.svg" alt="People Icon" />
+                    <div class="subtitle">
+                      {{ currentTournament.teams.length }}
+                    </div>
+                  </div>
+                </app-e-info-card>
+              }
+            }
+          </div>
+        </div>
+      }
     }
   }
 </div>

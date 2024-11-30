@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
@@ -35,7 +36,9 @@ export class PlayerProfileComponent implements OnInit {
   userImageUrl: string = '';
   getTeamInfoCard = convertTeamInfoCard;
   getTournamentCard = convertTournamentInfoCard;
-  teamTourLoader: boolean = false;
+  isLoading: boolean = false;
+  showUsernameEdit: boolean = false;
+  newUsername: string = '';
 
   constructor(
     private router: Router,
@@ -55,7 +58,7 @@ export class PlayerProfileComponent implements OnInit {
             : 'assets/images/default-user-img.jpg'),
       });
 
-      this.teamTourLoader = true;
+      this.isLoading = true;
       switch (this.currentUserProfile?.roleName) {
         case Constants.TOURNAMENT_PARTICIPANT_ROLE:
           this.apiService
@@ -82,7 +85,7 @@ export class PlayerProfileComponent implements OnInit {
                 (t) => t.captain.id.toLowerCase() !== this.currentUserProfile!.id.toLowerCase()
               );
 
-              this.teamTourLoader = false;
+              this.isLoading = false;
 
               this.teamsData.forEach((t) => {
                 this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
@@ -117,7 +120,7 @@ export class PlayerProfileComponent implements OnInit {
             })
             .subscribe((response) => {
               this.tournamentsData = response;
-              this.teamTourLoader = false;
+              this.isLoading = false;
 
               this.tournamentsData.forEach((t) => {
                 this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
@@ -142,17 +145,20 @@ export class PlayerProfileComponent implements OnInit {
   }
 
   onChangeUsernameClick() {
-    if (!this.currentUserProfile) return;
+    if (this.currentUserProfile === null || this.newUsername.length === 0) return;
 
     this.apiService
       .request<null, { username: string }>({
         method: 'patch',
         url: Constants.SERVER_ROUTES.USER.EDIT_USERNAME,
         body: {
-          username: this.currentUserProfile?.username,
+          username: this.newUsername,
         },
       })
-      .subscribe();
+      .subscribe(() => {
+        this.currentUserProfile!.username = this.newUsername;
+        this.showUsernameEdit = false;
+      });
   }
 
   onPasswordChangeClick() {
@@ -178,20 +184,29 @@ export class PlayerProfileComponent implements OnInit {
     }
   }
 
-  // getTeamInfoCard(team: Team): InfoCard {
-  //   return {
-  //     id: team.id,
-  //     name: team.name,
-  //     subname: team.tag,
-  //     imageUrl: team.imgUrl ?? '',
-  //   };
-  // }
+  onExitClick(selectedTeamId: string) {
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to leave the team?',
+        event: () => {
+          if (this.currentUserProfile === null) return;
 
-  // getTournamentCard(tournament: Tournament): InfoCard {
-  //   return {
-  //     id: tournament.id,
-  //     name: tournament.name,
-  //     imageUrl: tournament.imgUrl ?? '',
-  //   };
-  // }
+          this.apiService
+            .request<null, { teamId: string; memberId: string }>({
+              url: Constants.SERVER_ROUTES.TEAM.REMOVE_MEMBER,
+              method: 'patch',
+              body: {
+                teamId: selectedTeamId,
+                memberId: this.currentUserProfile.id,
+              },
+            })
+            .subscribe(() => {
+              this.teamsData = this.teamsData.filter((t) => t.id !== selectedTeamId);
+
+              this.onTeamNavSelect('member');
+            });
+        },
+      },
+    });
+  }
 }

@@ -115,16 +115,22 @@ export class TournamentDetailsComponent {
   onEditClick() {
     if (!this.tournamentData) return;
 
-    this.dialog.open(TournamentCreateComponent, {
-      data: {
-        tournamentId: this.tournamentId,
-        name: this.tournamentData.name,
-        description: this.tournamentData.description,
-        minTeamMembers: this.tournamentData.minTeamMembers,
-        type: this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
-        game: this.tournamentData.game,
-      },
-    });
+    const dialogRef = this.dialog
+      .open(TournamentCreateComponent, {
+        data: {
+          tournamentId: this.tournamentId,
+          name: this.tournamentData.name,
+          description: this.tournamentData.description,
+          minTeamMembers: this.tournamentData.minTeamMembers,
+          type: this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
+          game: this.tournamentData.game,
+        },
+      })
+      .afterClosed$.subscribe(() => {
+        this.getTournamentDetails();
+
+        dialogRef.unsubscribe();
+      });
   }
 
   onDeleteClick() {
