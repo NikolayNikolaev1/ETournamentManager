@@ -22,7 +22,7 @@
                   class="edit-icon"
                   src="assets/images/edit-icon.svg"
                   alt="Edit icon"
-                  (click)="showUsernameEdit = !showUsernameEdit"
+                  (click)="newUsername = currentUserProfile.username; showUsernameEdit = !showUsernameEdit"
                 />
                 <div class="title">{{ currentUserProfile.username }}</div>
               }
@@ -108,6 +108,37 @@
       ) {
         <div class="section-container">
           <div class="header-wrapper">
+            <div id="username-wrapper">
+              @if (showUsernameEdit) {
+                <img
+                  class="edit-icon"
+                  src="assets/images/save-icon.svg"
+                  alt="Edit icon"
+                  (click)="onChangeUsernameClick()"
+                />
+                <app-e-input
+                  label="Change username"
+                  [value]="currentUserProfile.username"
+                  (inputChanged)="newUsername = $event"
+                />
+              } @else {
+                <img
+                  class="edit-icon"
+                  src="assets/images/edit-icon.svg"
+                  alt="Edit icon"
+                  (click)="newUsername = currentUserProfile.username; showUsernameEdit = !showUsernameEdit"
+                />
+                <div class="title">{{ currentUserProfile.username }}</div>
+              }
+              <img
+                id="config-icon"
+                class="edit-icon hover-transition"
+                src="assets/images/config-icon.svg"
+                alt="Config icon"
+                (click)="onPasswordChangeClick()"
+              />
+            </div>
+            <hr />
             <div class="title">My Tournaments</div>
             <hr />
           </div>

@@ -2,6 +2,9 @@ import { finalize } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
+import { DialogService } from '@ngneat/dialog';
+
+import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import User from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE } from 'app/utils/constants';
@@ -13,7 +16,12 @@ import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE } from 'app/utils/constants';
 })
 export class UserTableComponent implements OnInit {
   usersData: { id: string; username: string; email: string; role: string; status: boolean }[] = [];
-  constructor(private apiService: ApiService) {}
+
+  constructor(
+    private apiService: ApiService,
+    private dialog: DialogService
+  ) {}
+
   isLoading: boolean = false;
 
   ngOnInit() {
@@ -21,25 +29,32 @@ export class UserTableComponent implements OnInit {
   }
 
   onUserStatusChange({ id, action }: { id: string; action: string }) {
-    if (action === 'status') {
-      this.apiService
-        .request<
-          null,
-          {
-            id: string;
-          }
-        >({ method: 'patch', url: SERVER_ROUTES.USER.CHANGE_STATUS, body: { id } })
-        .subscribe(() => {
-          this.usersData = this.usersData.map((u) =>
-            u.id === id
-              ? {
-                  ...u,
-                  status: !u.status,
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to change the user status?',
+        event: () => {
+          if (action === 'status') {
+            this.apiService
+              .request<
+                null,
+                {
+                  id: string;
                 }
-              : u
-          );
-        });
-    }
+              >({ method: 'patch', url: SERVER_ROUTES.USER.CHANGE_STATUS, body: { id } })
+              .subscribe(() => {
+                this.usersData = this.usersData.map((u) =>
+                  u.id === id
+                    ? {
+                        ...u,
+                        status: !u.status,
+                      }
+                    : u
+                );
+              });
+          }
+        },
+      },
+    });
   }
 
   private getUsers() {

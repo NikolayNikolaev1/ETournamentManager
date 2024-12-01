@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import Round, { RoundStage } from 'app/models/round.model';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
@@ -84,15 +85,22 @@ export class TournamentDetailsComponent {
   }
 
   onStartClick() {
-    this.apiService
-      .request<Round[]>({
-        method: 'post',
-        url: `${SERVER_ROUTES.ROUND.GENERATE}/${this.tournamentId}`,
-      })
-      .subscribe({
-        next: (response) => (this.roundsData = response),
-        error: (errorMessage) => (this.startTournamentError = errorMessage),
-      });
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to start this tournament?',
+        event: () => {
+          this.apiService
+            .request<Round[]>({
+              method: 'post',
+              url: `${SERVER_ROUTES.ROUND.GENERATE}/${this.tournamentId}`,
+            })
+            .subscribe({
+              next: (response) => (this.roundsData = response),
+              error: (errorMessage) => (this.startTournamentError = errorMessage),
+            });
+        },
+      },
+    });
   }
 
   onCardSelect(id: string, route: string) {
@@ -100,16 +108,23 @@ export class TournamentDetailsComponent {
   }
 
   onRemoveTeamClick(teamId: string) {
-    this.apiService
-      .request<null, { tournamentId: string; teamId: string }>({
-        url: SERVER_ROUTES.TOURNAMENT.REMOVE_PARTICIPANT,
-        method: 'patch',
-        body: {
-          tournamentId: this.tournamentId,
-          teamId,
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to remove this participant from the tournament?',
+        event: () => {
+          this.apiService
+            .request<null, { tournamentId: string; teamId: string }>({
+              url: SERVER_ROUTES.TOURNAMENT.REMOVE_PARTICIPANT,
+              method: 'patch',
+              body: {
+                tournamentId: this.tournamentId,
+                teamId,
+              },
+            })
+            .subscribe(() => this.getTournamentDetails());
         },
-      })
-      .subscribe(() => this.getTournamentDetails());
+      },
+    });
   }
 
   onEditClick() {
@@ -134,15 +149,29 @@ export class TournamentDetailsComponent {
   }
 
   onDeleteClick() {
-    this.apiService
-      .request({ url: `${SERVER_ROUTES.TOURNAMENT.DELETE}/${this.tournamentId}`, method: 'delete' })
-      .subscribe(() => this.router.navigate(['/profile']));
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to delete this tournament?',
+        event: () => {
+          this.apiService
+            .request({ url: `${SERVER_ROUTES.TOURNAMENT.DELETE}/${this.tournamentId}`, method: 'delete' })
+            .subscribe(() => this.router.navigate(['/profile']));
+        },
+      },
+    });
   }
 
   onEndClick() {
-    this.apiService
-      .request({ url: `${SERVER_ROUTES.TOURNAMENT.FINISH}/${this.tournamentId}`, method: 'patch' })
-      .subscribe(() => this.getRanking());
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to end this tournament?',
+        event: () => {
+          this.apiService
+            .request({ url: `${SERVER_ROUTES.TOURNAMENT.FINISH}/${this.tournamentId}`, method: 'patch' })
+            .subscribe(() => this.getRanking());
+        },
+      },
+    });
   }
   showEndButton() {
     return (

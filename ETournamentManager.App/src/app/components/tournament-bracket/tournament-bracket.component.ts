@@ -1,8 +1,12 @@
 import { Component, Input } from '@angular/core';
 
+import { DialogService } from '@ngneat/dialog';
+
 import Round from 'app/models/round.model';
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
+
+import { ConfirmationComponent } from '../core/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-tournament-bracket',
@@ -15,7 +19,10 @@ export class TournamentBracketComponent {
   @Input() canChooseWinner: boolean = false;
   finalsRoundData: Round | null = null;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private dialog: DialogService
+  ) {}
 
   getFinalsRoundData() {
     this.finalsRoundData = this.roundsData[6] ? this.roundsData[6] : null;
@@ -31,18 +38,25 @@ export class TournamentBracketComponent {
       return;
     }
 
-    this.apiService
-      .request<null, { roundId: string; winnerId: string }>({
-        method: 'patch',
-        url: SERVER_ROUTES.ROUND.END,
-        body: {
-          roundId: roundId,
-          winnerId: teamId,
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to choose this winner?',
+        event: () => {
+          this.apiService
+            .request<null, { roundId: string; winnerId: string }>({
+              method: 'patch',
+              url: SERVER_ROUTES.ROUND.END,
+              body: {
+                roundId: roundId,
+                winnerId: teamId,
+              },
+            })
+            .subscribe(() => {
+              this.getRoundsData();
+            });
         },
-      })
-      .subscribe(() => {
-        this.getRoundsData();
-      });
+      },
+    });
   }
 
   private getRoundsData() {

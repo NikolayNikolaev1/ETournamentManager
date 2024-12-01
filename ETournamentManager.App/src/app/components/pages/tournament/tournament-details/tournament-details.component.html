@@ -53,22 +53,6 @@
       }
     </div>
 
-    @if (
-      roundsData.length === 0 &&
-      currentUserProfile !== null &&
-      (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
-    ) {
-      <div id="tournament-actions">
-        <app-e-input
-          label="Add team"
-          [isSearch]="true"
-          [searchResult]="searchTeamNames"
-          (inputChanged)="getTeamByName($event)"
-          (searchResultSelected)="selectTeam($event)"
-        />
-      </div>
-    }
-
     <div class="section-container">
       <div class="header-wrapper">
         <div class="title">Participent Teams</div>

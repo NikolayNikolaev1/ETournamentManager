@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
@@ -86,16 +87,23 @@ export class TeamDetailsComponent implements OnInit {
   }
 
   onRemoveMemberClick(memberId: string) {
-    this.apiService
-      .request<null, { memberId: string; teamId: string }>({
-        url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
-        method: 'patch',
-        body: {
-          teamId: this.teamId,
-          memberId,
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to remove this member from the team?',
+        event: () => {
+          this.apiService
+            .request<null, { memberId: string; teamId: string }>({
+              url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
+              method: 'patch',
+              body: {
+                teamId: this.teamId,
+                memberId,
+              },
+            })
+            .subscribe(() => this.getTeamDetails());
         },
-      })
-      .subscribe(() => this.getTeamDetails());
+      },
+    });
   }
 
   onTournamentCardSelect(tournamentId: string) {
@@ -116,37 +124,58 @@ export class TeamDetailsComponent implements OnInit {
   }
 
   onDeleteClick() {
-    this.apiService
-      .request({ url: `${SERVER_ROUTES.TEAM.DELETE}/${this.teamId}`, method: 'delete' })
-      .subscribe(() => this.router.navigate(['/profile']));
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to delete the team?',
+        event: () => {
+          this.apiService
+            .request({ url: `${SERVER_ROUTES.TEAM.DELETE}/${this.teamId}`, method: 'delete' })
+            .subscribe(() => this.router.navigate(['/profile']));
+        },
+      },
+    });
   }
 
   onExitClick() {
-    if (this.currentUserProfile === null || this.currentUserProfile.id === this.teamData?.captain.id) return;
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to leave this team?',
+        event: () => {
+          if (this.currentUserProfile === null || this.currentUserProfile.id === this.teamData?.captain.id) return;
 
-    this.apiService
-      .request<null, { teamId: string; memberId: string }>({
-        url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
-        method: 'patch',
-        body: {
-          teamId: this.teamId,
-          memberId: this.currentUserProfile.id,
+          this.apiService
+            .request<null, { teamId: string; memberId: string }>({
+              url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
+              method: 'patch',
+              body: {
+                teamId: this.teamId,
+                memberId: this.currentUserProfile.id,
+              },
+            })
+            .subscribe(() => this.router.navigate(['/profile']));
         },
-      })
-      .subscribe(() => this.router.navigate(['/profile']));
+      },
+    });
   }
 
   onLeaveTournamentClick(tournamentId: string) {
-    this.apiService
-      .request<null, { tournamentId: string; teamId: string }>({
-        url: `${SERVER_ROUTES.TOURNAMENT.REMOVE_PARTICIPANT}`,
-        method: 'patch',
-        body: {
-          tournamentId: tournamentId,
-          teamId: this.teamId,
+    this.dialog.open(ConfirmationComponent, {
+      data: {
+        title: 'Are you sure you want to leave the tournament?',
+        event: () => {
+          this.apiService
+            .request<null, { tournamentId: string; teamId: string }>({
+              url: `${SERVER_ROUTES.TOURNAMENT.REMOVE_PARTICIPANT}`,
+              method: 'patch',
+              body: {
+                tournamentId: tournamentId,
+                teamId: this.teamId,
+              },
+            })
+            .subscribe(() => (this.teamTournaments = this.teamTournaments.filter((t) => t.id !== tournamentId)));
         },
-      })
-      .subscribe(() => (this.teamTournaments = this.teamTournaments.filter((t) => t.id !== tournamentId)));
+      },
+    });
   }
 
   onTournamentNavSelect(filter: string) {
@@ -201,7 +230,7 @@ export class TeamDetailsComponent implements OnInit {
 
         this.isMember =
           this.currentUserProfile !== null &&
-          this.teamMembersData.map((m) => m.id).includes(this.currentUserProfile.id);
+          this.teamData.members.map((m) => m.id).includes(this.currentUserProfile.id);
       });
   }
 

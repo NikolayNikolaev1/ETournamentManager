@@ -14,7 +14,6 @@ import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import * as Constants from 'app/utils/constants';
 import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-card-converter';
-import { InfoCard } from 'app/utils/types';
 
 import { PasswordChangeComponent } from '../auth/password-change/password-change.component';
 
@@ -71,11 +70,6 @@ export class PlayerProfileComponent implements OnInit {
             })
             .subscribe((response) => {
               this.teamsData = response;
-              console.log({
-                tester: this.teamsData.filter(
-                  (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
-                ),
-              });
 
               this.ownedTeams = this.teamsData.filter(
                 (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
