@@ -16,6 +16,7 @@ import * as Constants from 'app/utils/constants';
 import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-card-converter';
 
 import { PasswordChangeComponent } from '../auth/password-change/password-change.component';
+import { ThemePickerComponent } from 'app/components/theme-picker/theme-picker.component';
 
 @Component({
   selector: 'app-player-profile',
@@ -157,6 +158,10 @@ export class PlayerProfileComponent implements OnInit {
 
   onPasswordChangeClick() {
     this.dialog.open(PasswordChangeComponent);
+  }
+
+  onThemeChangeClick() {
+    this.dialog.open(ThemePickerComponent);
   }
 
   onTeamNavSelect(filter: string) {

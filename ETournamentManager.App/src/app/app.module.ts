@@ -38,6 +38,7 @@ import { UserTableComponent } from './components/pages/users/user-table/user-tab
 import { TournamentBracketComponent } from './components/tournament-bracket/tournament-bracket.component';
 import { EButtonComponent } from './components/core/e-button/e-button.component';
 import { ConfirmationComponent } from './components/core/confirmation/confirmation.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ConfirmationComponent } from './components/core/confirmation/confirmati
     UserTableComponent,
     EButtonComponent,
     ConfirmationComponent,
+    ThemePickerComponent,
   ],
   imports: [
     BrowserModule,

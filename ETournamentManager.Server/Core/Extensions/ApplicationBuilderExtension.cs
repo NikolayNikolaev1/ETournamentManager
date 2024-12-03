@@ -55,7 +55,30 @@
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
             // Checks for database changes and migrates them everytime the program runs.
-            serviceScope.ServiceProvider.GetService<ETournamentManagerDbContext>()!.Database.Migrate();
+            var dbContext = serviceScope.ServiceProvider.GetService<ETournamentManagerDbContext>();
+            dbContext!.Database.Migrate();
+
+            if (dbContext.Branding.Count() == 0)
+            {
+                Task.Run(async () =>
+                {
+                    await dbContext.Branding.AddAsync(new Branding
+                    {
+                        PlatformName = "ETournamentManager",
+                        PrimaryColor = "7ab2d3",
+                        SecondaryColor = "b9e5e8",
+                        TextColor = "4a628a",
+                        BackgroundColor = "dff2eb",
+                        AccessTeamDetails = true,
+                        AccessTournamentDetails = true,
+                        AccessTeamTable = true,
+                        AccessTournamentTable = true,
+                        ContactLink = "",
+                        ContactEmail = ""
+                    });
+                    await dbContext.SaveChangesAsync();
+                }).Wait();
+            }
 
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<Role>>();

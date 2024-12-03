@@ -24,6 +24,8 @@
 
         public DbSet<RoundTeam> RoundTeams { get; set; }
 
+        public DbSet<Branding> Branding { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

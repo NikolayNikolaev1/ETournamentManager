@@ -1,0 +1,28 @@
+<div id="theme-section">
+  <h1 id="title">Change Theme</h1>
+
+  <div id="themes-container">
+    @for (currentTheme of themes; track $index) {
+      <div
+        class="theme-holder"
+        [ngClass]="{ active: selectedThemeIndex === $index }"
+        (click)="selectedThemeIndex = $index"
+      >
+        <div class="color" [ngStyle]="{ 'background-color': currentTheme.primary }">
+          <div class="color-name">Primary</div>
+        </div>
+        <div class="color" [ngStyle]="{ 'background-color': currentTheme.secondary }">
+          <div class="color-name">Secondary</div>
+        </div>
+        <div class="color" [ngStyle]="{ 'background-color': currentTheme.text }">
+          <div class="color-name">Text</div>
+        </div>
+        <div class="color" [ngStyle]="{ 'background-color': currentTheme.background }">
+          <div class="color-name">Background</div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <app-e-button (click)="onSaveClick()">Save</app-e-button>
+</div>

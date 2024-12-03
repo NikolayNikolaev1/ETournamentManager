@@ -1,0 +1,53 @@
+@use 'colors';
+@use 'variables' as *;
+
+#theme-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  padding: 80px;
+  background-color: var(--background-color);
+
+  #title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  #themes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-height: 300px;
+    padding: 30px;
+    // background-color: var(--primary-color);
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .theme-holder {
+      padding: 20px;
+      background-color: var(--background-color);
+      box-shadow: $box-shadow;
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--secondary-color);
+      }
+
+      &.active {
+        background-color: var(--primary-color);
+      }
+
+      .color {
+        padding: 10px;
+        border: 1px solid var(--primary-color);
+
+        .color-name:hover {
+          cursor: pointer;
+          color: var(--background-color);
+        }
+      }
+    }
+  }
+}

@@ -69,4 +69,10 @@ export const SERVER_ROUTES = {
     UPLOAD: 'Image/Upload',
     DELETE: 'Image/Delete',
   },
+  BRANDING: {
+    GET: 'Branding/Get',
+    UPDATE_INFO: 'Branding/UpdateInfo',
+    UPDATE_ACCESS: 'Branding/UpdateAccess',
+    UPDATE_THEME: 'Branding/UpdateTheme',
+  },
 };
