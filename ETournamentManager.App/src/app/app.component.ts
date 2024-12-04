@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getUserProfile();
-    this.brandingService.get();
+    this.brandingService.getBranding();
     this.updateTheme();
   }
 

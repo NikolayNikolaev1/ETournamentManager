@@ -17,7 +17,13 @@ import { TeamTableComponent } from './components/pages/team/team-table/team-tabl
 import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
 import { UserTableComponent } from './components/pages/users/user-table/user-table.component';
 import { adminGuard } from './guards/admin.guard';
-import { authGuard, permissionGuard } from './guards/auth.,guard';
+import {
+  authGuard,
+  teamDetailsGuard,
+  teamTableGuard,
+  tournamnetDetailsGuard,
+  tournamnetTableGuard,
+} from './guards/auth.,guard';
 
 const routes: Routes = [
   {
@@ -32,21 +38,24 @@ const routes: Routes = [
   {
     path: 'tournament/:id',
     component: TournamentDetailsComponent,
+    canActivate: [tournamnetDetailsGuard],
   },
   {
     path: 'tournaments',
     component: TournamentTableComponent,
+    canActivate: [tournamnetTableGuard],
   },
   {
     path: 'team/:id',
     component: TeamDetailsComponent,
     pathMatch: 'full',
-    canActivate: [permissionGuard],
+    canActivate: [teamDetailsGuard],
   },
   {
     path: 'teams',
     component: TeamTableComponent,
     pathMatch: 'full',
+    canActivate: [teamTableGuard],
   },
   {
     path: 'users',

@@ -39,6 +39,7 @@ import { TournamentBracketComponent } from './components/tournament-bracket/tour
 import { EButtonComponent } from './components/core/e-button/e-button.component';
 import { ConfirmationComponent } from './components/core/confirmation/confirmation.component';
 import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
+import { AccessManagementComponent } from './components/access-management/access-management.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ThemePickerComponent } from './components/theme-picker/theme-picker.com
     EButtonComponent,
     ConfirmationComponent,
     ThemePickerComponent,
+    AccessManagementComponent,
   ],
   imports: [
     BrowserModule,

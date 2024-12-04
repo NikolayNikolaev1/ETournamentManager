@@ -17,6 +17,7 @@ import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-c
 
 import { PasswordChangeComponent } from '../auth/password-change/password-change.component';
 import { ThemePickerComponent } from 'app/components/theme-picker/theme-picker.component';
+import { AccessManagementComponent } from 'app/components/access-management/access-management.component';
 
 @Component({
   selector: 'app-player-profile',
@@ -162,6 +163,10 @@ export class PlayerProfileComponent implements OnInit {
 
   onThemeChangeClick() {
     this.dialog.open(ThemePickerComponent);
+  }
+
+  onAccessChangeClick() {
+    this.dialog.open(AccessManagementComponent)
   }
 
   onTeamNavSelect(filter: string) {

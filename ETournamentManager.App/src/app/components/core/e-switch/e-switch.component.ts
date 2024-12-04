@@ -15,8 +15,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ESwitchComponent {
   @Input('on') switchOn = false;
-  @Input('label') mainLabel: string = ''
-  @Input() switchLabels: { on: string; off: string } | null = null
+  @Input('label') mainLabel: string = '';
+  @Input() switchLabels: { on: string; off: string } = { on: 'On', off: 'Off' };
   @Input() colors: { on: string; off: string } = { on: 'initial', off: 'initial' };
   @Output() toggled = new EventEmitter<boolean | undefined>();
 
