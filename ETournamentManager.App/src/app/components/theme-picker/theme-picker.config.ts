@@ -32,10 +32,10 @@ export const THEMES: ThemeColors[] = [
     background: '#71C9CE',
   },
   {
-    primary: '#E3FDFD',
-    secondary: '#CBF1F5',
-    text: '#A6E3E9',
-    background: '#71C9CE',
+    primary: '#08D9D6',
+    secondary: '#FF2E63',
+    text: '#252A34',
+    background: '#EAEAEA',
   },
   {
     primary: '#F9F7F7',

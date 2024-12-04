@@ -7,7 +7,7 @@
   gap: 30px;
   align-items: center;
   padding: 80px;
-  background-color: var(--background-color);
+  background-color: colors.$background;
 
   #title {
     font-size: 16px;
@@ -20,32 +20,32 @@
     gap: 30px;
     max-height: 300px;
     padding: 30px;
-    // background-color: var(--primary-color);
+    // background-color: colors.$primary;
     overflow: scroll;
     overflow-y: auto;
     overflow-x: hidden;
 
     .theme-holder {
       padding: 20px;
-      background-color: var(--background-color);
+      background-color: colors.$background;
       box-shadow: $box-shadow;
 
       &:hover {
         cursor: pointer;
-        background-color: var(--secondary-color);
+        background-color: colors.$secondary;
       }
 
       &.active {
-        background-color: var(--primary-color);
+        background-color: colors.$primary;
       }
 
       .color {
         padding: 10px;
-        border: 1px solid var(--primary-color);
+        border: 1px solid colors.$primary;
 
         .color-name:hover {
           cursor: pointer;
-          color: var(--background-color);
+          color: colors.$background;
         }
       }
     }

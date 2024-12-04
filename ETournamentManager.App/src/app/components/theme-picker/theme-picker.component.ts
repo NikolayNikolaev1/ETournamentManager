@@ -29,6 +29,6 @@ export class ThemePickerComponent {
           backgroundColor: background,
         },
       })
-      .subscribe();
+      .subscribe(() => location.reload());
   }
 }
