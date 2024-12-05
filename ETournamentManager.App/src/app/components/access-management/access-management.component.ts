@@ -41,12 +41,12 @@ export class AccessManagementComponent implements OnInit, OnDestroy {
 
   onSaveClick() {
     this.brandingService
-      .updateAccessRequest(
-        this.accessTeamDetails,
-        this.accessTeamTable,
-        this.accessTournamentTable,
-        this.accessTournamentDetails
-      )
+      .updateAccessRequest({
+        accessTeamDetails: this.accessTeamDetails,
+        accessTeamTable: this.accessTeamTable,
+        accessTournamentTable: this.accessTournamentTable,
+        accessTournamentDetails: this.accessTournamentDetails,
+      })
       .subscribe(() => {
         this.brandingService.updateAccessPermissions({
           accessTeamDetails: this.accessTeamDetails,

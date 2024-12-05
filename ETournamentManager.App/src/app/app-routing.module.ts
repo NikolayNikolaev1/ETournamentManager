@@ -1,17 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from 'app/components/pages/auth/login/login.component';
-import { RegisterComponent } from 'app/components/pages/auth/register/register.component';
-import { GameCreateComponent } from 'app/components/pages/game/game-create/game-create.component';
 import { HomeComponent } from 'app/components/pages/home/home.component';
 import { NotFoundComponent } from 'app/components/pages/not-found/not-found.component';
 import { PlayerProfileComponent } from 'app/components/pages/player-profile/player-profile.component';
-import { TeamCreateComponent } from 'app/components/pages/team/team-create/team-create.component';
 import { TeamDetailsComponent } from 'app/components/pages/team/team-details/team-details.component';
-import { TournamentCreateComponent } from 'app/components/pages/tournament/tournament-create/tournament-create.component';
 import { TournamentDetailsComponent } from 'app/components/pages/tournament/tournament-details/tournament-details.component';
-import { CLIENT_ROUTES } from 'app/utils/constants';
 
 import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
@@ -21,9 +15,9 @@ import {
   authGuard,
   teamDetailsGuard,
   teamTableGuard,
-  tournamnetDetailsGuard,
-  tournamnetTableGuard,
-} from './guards/auth.,guard';
+  tournamentDetailsGuard,
+  tournamentTableGuard,
+} from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -38,12 +32,12 @@ const routes: Routes = [
   {
     path: 'tournament/:id',
     component: TournamentDetailsComponent,
-    canActivate: [tournamnetDetailsGuard],
+    canActivate: [tournamentDetailsGuard],
   },
   {
     path: 'tournaments',
     component: TournamentTableComponent,
-    canActivate: [tournamnetTableGuard],
+    canActivate: [tournamentTableGuard],
   },
   {
     path: 'team/:id',

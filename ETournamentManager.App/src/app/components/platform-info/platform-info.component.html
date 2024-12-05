@@ -1,0 +1,28 @@
+<div id="dialog-container">
+  <app-e-form
+    title="Platform info"
+    [inputFields]="[
+      {
+        name: 'name',
+        value: name,
+        label: 'PLatform name',
+        required: true,
+      },
+      {
+        name: 'url',
+        value: url,
+        label: 'Url link',
+        required: true,
+      },
+      {
+        name: 'email',
+        value: email,
+        label: 'Email link',
+        required: true,
+      },
+    ]"
+    buttonLabel="Login"
+    (submitted)="onSubmit()"
+    (formInputsChanged)="onFormChange($event)"
+  />
+</div>

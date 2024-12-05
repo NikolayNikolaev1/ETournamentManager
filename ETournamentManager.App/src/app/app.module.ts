@@ -40,6 +40,7 @@ import { EButtonComponent } from './components/core/e-button/e-button.component'
 import { ConfirmationComponent } from './components/core/confirmation/confirmation.component';
 import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { AccessManagementComponent } from './components/access-management/access-management.component';
+import { PlatformInfoComponent } from './components/platform-info/platform-info.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { AccessManagementComponent } from './components/access-management/access
     ConfirmationComponent,
     ThemePickerComponent,
     AccessManagementComponent,
+    PlatformInfoComponent,
   ],
   imports: [
     BrowserModule,

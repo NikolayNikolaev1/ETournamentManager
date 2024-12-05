@@ -4,3 +4,9 @@ export type AccessManagementModel = {
   accessTournamentTable: boolean;
   accessTournamentDetails: boolean;
 };
+
+export type InfoManagementModel = {
+  platformName: string;
+  urlLink: string;
+  emailLink: string;
+};
