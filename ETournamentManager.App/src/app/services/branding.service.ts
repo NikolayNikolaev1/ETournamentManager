@@ -28,9 +28,8 @@ export class BrandingService {
 
   constructor(private apiService: ApiService) {}
 
-  updateAccessPermissions(permissions: AccessManagementModel) {
-    this.accessSubject.next(permissions);
-  }
+  updateAccessPermissions = (permissions: AccessManagementModel) => this.accessSubject.next(permissions);
+  updatePlatformInfo = (platformInfo: InfoManagementModel) => this.platformInfoSubject.next(platformInfo);
 
   getBranding() {
     this.apiService

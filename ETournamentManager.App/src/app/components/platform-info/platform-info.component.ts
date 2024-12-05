@@ -20,5 +20,13 @@ export class PlatformInfoComponent {
     this.email = email;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.brandingService.updatePlatformInfoRequest({
+      platformName: this.name,
+      urlLink: this.url,
+      emailLink: this.email,
+    }).subscribe(() => {
+      
+    });
+  }
 }
