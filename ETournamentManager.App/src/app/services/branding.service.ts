@@ -20,8 +20,8 @@ export class BrandingService {
   });
   private platformInfoSubject = new BehaviorSubject<InfoManagementModel>({
     platformName: '',
-    urlLink: '',
-    emailLink: '',
+    contactLink: '',
+    contactEmail: '',
   });
   accessPermissions$ = this.accessSubject.asObservable();
   platformInfo$ = this.platformInfoSubject.asObservable();
@@ -34,16 +34,30 @@ export class BrandingService {
   getBranding() {
     this.apiService
       .request<BrandingListingModel>({ url: SERVER_ROUTES.BRANDING.GET, method: 'get' })
-      .subscribe((response) => {
-        const { accessTeamDetails, accessTeamTable, accessTournamentDetails, accessTournamentTable } = response;
-
-        this.accessSubject.next({
-          accessTeamTable,
+      .subscribe(
+        ({
           accessTeamDetails,
+          accessTeamTable,
           accessTournamentDetails,
           accessTournamentTable,
-        });
-      });
+          platformName,
+          contactLink,
+          contactEmail,
+        }) => {
+          this.accessSubject.next({
+            accessTeamTable,
+            accessTeamDetails,
+            accessTournamentDetails,
+            accessTournamentTable,
+          });
+
+          this.platformInfoSubject.next({
+            contactEmail,
+            contactLink,
+            platformName,
+          });
+        }
+      );
   }
 
   updateAccessRequest = (model: AccessManagementModel) =>

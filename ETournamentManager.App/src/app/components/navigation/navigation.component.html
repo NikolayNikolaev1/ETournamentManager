@@ -2,7 +2,7 @@
   <ul>
     <li class="nav-item hover-transition image-text" routerLink="/">
       <img id="nav-logo" src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
-      {{ constants.WEBSITE_NAME }}
+      {{ platformName || constants.WEBSITE_NAME }}
     </li>
     <li class="nav-item hover-transition" routerLink="/tournaments" routerLinkActive="active">Current tournaments</li>
     <li class="nav-item hover-transition" routerLink="/teams" routerLinkActive="active">All teams</li>

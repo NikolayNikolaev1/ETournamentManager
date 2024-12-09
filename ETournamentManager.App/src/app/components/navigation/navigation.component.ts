@@ -7,6 +7,7 @@ import { DialogService } from '@ngneat/dialog';
 
 import UserProfile from 'app/models/user-profile.model';
 import { AuthService } from 'app/services/auth.service';
+import { BrandingService } from 'app/services/branding.service';
 import * as Constants from 'app/utils/constants';
 
 import { LoginComponent } from '../pages/auth/login/login.component';
@@ -24,22 +25,28 @@ export class NavigationComponent implements OnInit, OnDestroy {
   private dialog = inject(DialogService);
   constants = Constants;
   currentUser: UserProfile | null = null;
+  platformName: string = '';
   currentUserSub!: Subscription;
+  infoSub!: Subscription;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private brandingService: BrandingService
   ) {}
 
   ngOnInit() {
+    this.brandingService.platformInfo$.subscribe(({ platformName }) => (this.platformName = platformName));
+
     setTimeout(() => {
-      this.currentUserSub = this.authService.currentUser$.subscribe(
-        (profile) => (this.currentUser = profile)
-      );
+      this.currentUserSub = this.authService.currentUser$.subscribe((profile) => (this.currentUser = profile));
     }, 100);
   }
 
-  ngOnDestroy = () => this.currentUserSub.unsubscribe();
+  ngOnDestroy() {
+    this.currentUserSub.unsubscribe();
+    this.infoSub.unsubscribe();
+  }
 
   onLogout() {
     this.router.navigate(['/']);

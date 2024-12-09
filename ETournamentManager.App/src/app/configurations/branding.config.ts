@@ -7,6 +7,6 @@ export type AccessManagementModel = {
 
 export type InfoManagementModel = {
   platformName: string;
-  urlLink: string;
-  emailLink: string;
+  contactLink: string;
+  contactEmail: string;
 };
