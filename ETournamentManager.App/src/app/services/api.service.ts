@@ -1,10 +1,11 @@
-import { environment } from 'environments/environment.development';
-import { catchError, throwError } from 'rxjs';
-
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { environment } from 'environments/environment.development';
+import { catchError, throwError } from 'rxjs';
+
+import { IMAGE_URL } from 'app/configurations/image.config';
 import { CLIENT_VALIDATION_ERROR_TITLE } from 'app/utils/constants';
 
 type QueryParams = {
@@ -47,7 +48,7 @@ export class ApiService {
 
     if (isFile) {
       if (method === 'get') {
-        requestUrl = `${environment.apiUrl}/UploadImages/${url}.jpg`;
+        requestUrl = IMAGE_URL(url);
       } else if (method === 'post') {
         const { entityId, file } = body as { entityId: string; file: any };
         formData.append('file', file);
@@ -83,8 +84,7 @@ export class ApiService {
     console.error(`Backend returned code ${error.status}, body was: `, error.error);
 
     // // Return an observable with a user-facing error message.
-    if (error.error?.title === CLIENT_VALIDATION_ERROR_TITLE)
-      return throwError(() => error.error.detail);
+    if (error.error?.title === CLIENT_VALIDATION_ERROR_TITLE) return throwError(() => error.error.detail);
 
     // The backend returned an unsuccessful response code.
     // The response body may contain clues as to what went wrong.

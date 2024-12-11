@@ -1,8 +1,17 @@
-<div class="image-upload-wrapper" [ngClass]="{ 'image-selected': imageFile !== null }">
+<div
+  class="image-upload-wrapper"
+  [ngClass]="{ 'image-selected': imageFile !== null, 'invalid': errorMessage.length !== 0 }"
+>
   <input #fileInput type="file" accept="image/jpg" (change)="onFileChange($event)" />
-  @if (imageFile === null && imgUrl === null) {
+  @if ((imageFile === null && imgUrl === null) || errorMessage.length !== 0) {
     <div class="upload-container" (click)="triggerFileChange()">
-      <img class="img-upload-icon" src="assets/images/image-upload-icon.svg" alt="Image Upload Icon" width="52" />
+      <img
+        class="img-upload-icon"
+        [ngClass]="{ invalid: errorMessage.length !== 0 }"
+        src="assets/images/image-upload-icon.svg"
+        alt="Image Upload Icon"
+        width="52"
+      />
       <div class="label">
         <h3>Upload Image</h3>
         <h6>Recomended images:</h6>
@@ -33,3 +42,9 @@
     </div>
   }
 </div>
+
+@if (errorMessage.length !== 0) {
+  <div class="upload-error">
+    {{ errorMessage }}
+  </div>
+}

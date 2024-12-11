@@ -131,26 +131,17 @@
                 <div class="title">{{ currentUserProfile.username }}</div>
               }
               @if (currentUserProfile.roleName === constants.ADMIN_ROLE) {
-                <img
-                  id="config-icon"
-                  class="edit-icon hover-transition"
-                  src="assets/images/config-icon.svg"
-                  alt="Config icon"
-                  (click)="onPlatformInfoChange()"
-                />
-                <img
-                  class="edit-icon hover-transition"
-                  src="assets/images/config-icon.svg"
-                  alt="Config icon"
-                  (click)="onAccessChangeClick()"
-                />
+                <div id="config-container">
+                  @for (config of platformConfigs; track $index) {
+                    <img
+                      class="edit-icon hover-transition"
+                      src="assets/images/config-icon.svg"
+                      alt="Config icon"
+                      (click)="onPlatformConfigClick(config)"
+                    />
+                  }
+                </div>
               }
-              <img
-                class="edit-icon hover-transition"
-                src="assets/images/config-icon.svg"
-                alt="Config icon"
-                (click)="onThemeChangeClick()"
-              />
             </div>
             <hr />
             <div class="title">My Tournaments</div>

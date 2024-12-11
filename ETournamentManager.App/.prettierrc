@@ -6,7 +6,7 @@
   "semi": true,
   "singleQuote": true,
   "printWidth": 120,
-  "importOrder": ["^@angular/(.*)$", "^@(.*)$", "^app/(.*)$", "^[./]"],
+  "importOrder": ["^@angular/(.*)$", "^@(.*)$", "^(?!app).*$", "^app/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "bracketSpacing": true,

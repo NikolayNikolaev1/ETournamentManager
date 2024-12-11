@@ -1,32 +1,32 @@
-import { environment } from 'environments/environment.development';
-import { Subscription } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { Subscription } from 'rxjs';
+
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
+import { PasswordChangeComponent } from 'app/components/dialogs/password-change/password-change.component';
+import { PLATFORM_CONFIGS, PlatformConfig } from 'app/components/pages/profile/profile.config';
+import { DEFAULT_IMG_PATHS } from 'app/configurations/image.config';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
+import { ImageService } from 'app/services/image.service';
 import * as Constants from 'app/utils/constants';
+import { GLOBAL_CONSTANTS } from 'app/utils/constants';
 import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-card-converter';
 
-import { PasswordChangeComponent } from '../auth/password-change/password-change.component';
-import { ThemePickerComponent } from 'app/components/theme-picker/theme-picker.component';
-import { AccessManagementComponent } from 'app/components/access-management/access-management.component';
-import { PlatformInfoComponent } from 'app/components/platform-info/platform-info.component';
-
 @Component({
-  selector: 'app-player-profile',
-  templateUrl: './player-profile.component.html',
-  styleUrl: './player-profile.component.scss',
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.scss',
 })
-export class PlayerProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   constants = Constants;
+  userRoles = GLOBAL_CONSTANTS.ROLES;
   currentUserProfile: UserProfile | null = null;
   currentUserSub!: Subscription;
   teamsData: Team[] = [];
@@ -41,24 +41,25 @@ export class PlayerProfileComponent implements OnInit {
   isLoading: boolean = false;
   showUsernameEdit: boolean = false;
   newUsername: string = '';
+  platformConfigs = PLATFORM_CONFIGS;
 
   constructor(
     private router: Router,
     private dialog: DialogService,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((profile) => {
       this.currentUserProfile = profile;
 
-      this.apiService.request({ method: 'get', url: this.currentUserProfile!.id, isFile: true }).subscribe({
-        error: (isValid) =>
-          (this.userImageUrl = isValid
-            ? `${environment.apiUrl}/UploadImages/${this.currentUserProfile!.id}.jpg`
-            : 'assets/images/default-user-img.jpg'),
-      });
+      if (this.currentUserProfile?.roleName === this.userRoles.TOURNAMENT_PARTICIPANT) {
+        this.imageService
+          .getImageUrl(this.currentUserProfile.id, DEFAULT_IMG_PATHS.USER)
+          .subscribe((url) => (this.userImageUrl = url));
+      }
 
       this.isLoading = true;
       switch (this.currentUserProfile?.roleName) {
@@ -84,14 +85,9 @@ export class PlayerProfileComponent implements OnInit {
 
               this.isLoading = false;
 
-              this.teamsData.forEach((t) => {
-                this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
-                  error: (isValid) =>
-                    (t.imgUrl = isValid
-                      ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                      : 'assets/images/default-team-img.jpg'),
-                });
-              });
+              this.teamsData.forEach((t) =>
+                this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TEAM).subscribe((url) => (t.imgUrl = url))
+              );
 
               if (this.ownedTeams.length > 0) {
                 this.filteredTeams = this.ownedTeams;
@@ -119,14 +115,9 @@ export class PlayerProfileComponent implements OnInit {
               this.tournamentsData = response;
               this.isLoading = false;
 
-              this.tournamentsData.forEach((t) => {
-                this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
-                  error: (isValid) =>
-                    (t.imgUrl = isValid
-                      ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                      : 'assets/images/default-tournament-img.jpg'),
-                });
-              });
+              this.tournamentsData.forEach((t) =>
+                this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TOURNAMENT).subscribe((url) => (t.imgUrl = url))
+              );
             });
           break;
       }
@@ -158,20 +149,12 @@ export class PlayerProfileComponent implements OnInit {
       });
   }
 
+  onPlatformConfigClick(config: PlatformConfig) {
+    this.dialog.open(config.component);
+  }
+
   onPasswordChangeClick() {
     this.dialog.open(PasswordChangeComponent);
-  }
-
-  onThemeChangeClick() {
-    this.dialog.open(ThemePickerComponent);
-  }
-
-  onAccessChangeClick() {
-    this.dialog.open(AccessManagementComponent)
-  }
-  
-  onPlatformInfoChange() {
-    this.dialog.open(PlatformInfoComponent)
   }
 
   onTeamNavSelect(filter: string) {

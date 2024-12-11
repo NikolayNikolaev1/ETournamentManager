@@ -6,16 +6,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '@ngneat/dialog';
 
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
+import { DEFAULT_IMG_PATHS } from 'app/configurations/image.config';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
 import User, { UserBase } from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
+import { ImageService } from 'app/services/image.service';
 import { SERVER_ROUTES, TOURNAMENT_PARTICIPANT_ROLE } from 'app/utils/constants';
 import { convertTournamentInfoCard, convertUserInfoCard } from 'app/utils/info-card-converter';
 
-import { TeamCreateComponent } from '../team-create/team-create.component';
+import { TeamManagementComponent } from '../../../dialogs/team-management/team-management.component';
 
 @Component({
   selector: 'app-team-details',
@@ -45,7 +47,8 @@ export class TeamDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: DialogService,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
@@ -113,7 +116,7 @@ export class TeamDetailsComponent implements OnInit {
   onEditClick() {
     if (!this.teamData) return;
 
-    this.dialog.open(TeamCreateComponent, {
+    this.dialog.open(TeamManagementComponent, {
       data: {
         teamId: this.teamId,
         name: this.teamData.name,
@@ -203,27 +206,16 @@ export class TeamDetailsComponent implements OnInit {
       .subscribe((response) => {
         this.teamData = response;
 
-        this.apiService.request({ method: 'get', url: this.teamId, isFile: true }).subscribe({
-          error: (isValid) =>
-            (this.teamImageUrl = isValid
-              ? `${environment.apiUrl}/UploadImages/${this.teamId}.jpg`
-              : 'assets/images/default-team-img.jpg'),
-        });
+        this.imageService
+          .getImageUrl(this.teamId, DEFAULT_IMG_PATHS.TEAM)
+          .subscribe((url) => (this.teamImageUrl = url));
+
+        this.imageService
+          .getImageUrl(this.teamData.captain.id, DEFAULT_IMG_PATHS.USER)
+          .subscribe((url) => (this.teamData!.captain.imgUrl = url));
 
         this.teamData.members.forEach((t) => {
-          this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
-            error: (isValid) =>
-              (t.imgUrl = isValid
-                ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                : 'assets/images/default-user-img.jpg'),
-          });
-        });
-
-        this.apiService.request({ method: 'get', url: this.teamData.captain.id, isFile: true }).subscribe({
-          error: (isValid) =>
-            (this.teamData!.captain.imgUrl = isValid
-              ? `${environment.apiUrl}/UploadImages/${this.teamData!.captain.id}.jpg`
-              : 'assets/images/default-user-img.jpg'),
+          this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.USER).subscribe((url) => (t.imgUrl = url));
         });
 
         this.teamMembersData = [this.teamData.captain, ...this.teamData.members];
@@ -245,12 +237,7 @@ export class TeamDetailsComponent implements OnInit {
       })
       .subscribe((response) => {
         response.forEach((t) => {
-          this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
-            error: (isValid) =>
-              (t.imgUrl = isValid
-                ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                : 'assets/images/default-tournament-img.jpg'),
-          });
+          this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TOURNAMENT).subscribe((url) => (t.imgUrl = url));
         });
 
         this.teamTournaments = response;

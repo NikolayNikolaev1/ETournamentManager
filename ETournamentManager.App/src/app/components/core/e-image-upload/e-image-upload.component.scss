@@ -12,6 +12,11 @@
   background-color: colors.$background;
   box-shadow: variables.$box-shadow;
 
+  &.invalid {
+    color: colors.$danger;
+    border: 1px solid colors.$danger;
+  }
+
   input {
     display: none;
   }
@@ -23,6 +28,10 @@
 
     .img-upload-icon {
       filter: variables.$text-filter;
+
+      &.invalid {
+        filter: variables.$danger-filter;
+      }
     }
 
     .label {
@@ -80,4 +89,12 @@
 .image-selected {
   cursor: default;
   background-color: colors.$background;
+}
+
+.upload-error {
+  font-size: 12px;
+  font-weight: 700;
+  color: colors.$danger;
+  text-align: center;
+  margin-top: 5px;
 }

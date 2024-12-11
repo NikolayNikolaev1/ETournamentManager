@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from 'app/components/pages/home/home.component';
 import { NotFoundComponent } from 'app/components/pages/not-found/not-found.component';
-import { PlayerProfileComponent } from 'app/components/pages/player-profile/player-profile.component';
+import { ProfileComponent } from 'app/components/pages/profile/profile.component';
 import { TeamDetailsComponent } from 'app/components/pages/team/team-details/team-details.component';
 import { TournamentDetailsComponent } from 'app/components/pages/tournament/tournament-details/tournament-details.component';
 
 import { TeamTableComponent } from './components/pages/team/team-table/team-table.component';
 import { TournamentTableComponent } from './components/pages/tournament/tournament-table/tournament-table.component';
-import { UserTableComponent } from './components/pages/users/user-table/user-table.component';
+import { UserTableComponent } from './components/dialogs/user-table/user-table.component';
 import { adminGuard } from './guards/admin.guard';
 import {
   authGuard,
@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: PlayerProfileComponent,
+    component: ProfileComponent,
     canActivate: [authGuard],
   },
   {

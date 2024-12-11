@@ -11,14 +11,14 @@ import {
   TOURNAMENT_CREATE_FORM,
   TOURNAMENT_CREATE_REQUEST_BODY,
   TournamentType,
-} from './tournament-create.configuration';
+} from './tournament-management.configuration';
 
 @Component({
-  selector: 'app-tournament-create',
-  templateUrl: './tournament-create.component.html',
-  styleUrl: './tournament-create.component.scss',
+  selector: 'app-tournament-management',
+  templateUrl: './tournament-management.component.html',
+  styleUrl: './tournament-management.component.scss',
 })
-export class TournamentCreateComponent implements OnInit {
+export class TournamentManagementComponent implements OnInit {
   name: string = '';
   description: string = '';
   type: TournamentType = TournamentType.SinglePlayer;

@@ -6,14 +6,14 @@ import { DialogRef, DialogService } from '@ngneat/dialog';
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
 
-import { TEAM_CREATE_FORM_MODEL } from './team-create.configuration';
+import { TEAM_CREATE_FORM_MODEL } from './team-management.configuration';
 
 @Component({
-  selector: 'app-team-create',
-  templateUrl: './team-create.component.html',
-  styleUrl: './team-create.component.scss',
+  selector: 'app-team-management',
+  templateUrl: './team-management.component.html',
+  styleUrl: './team-management.component.scss',
 })
-export class TeamCreateComponent implements OnInit {
+export class TeamManagementComponent implements OnInit {
   name: string = '';
   tag: string = '';
   description: string = '';

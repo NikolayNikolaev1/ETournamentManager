@@ -60,7 +60,7 @@
       </div>
 
       <div class="info-cards-container">
-        @for (currentTeam of tournamentTeamsData; track $index) {
+        @for (currentTeam of tournamentData.teams; track $index) {
           <app-e-info-card
             [cardData]="getTeamInfoCard(currentTeam)"
             (cardClicked)="onCardSelect(currentTeam.id, '/team')"
@@ -83,7 +83,7 @@
 
               <img src="assets/images/people-icon.svg" alt="People Icon" />
               <div class="subtitle">
-                {{ currentTeam.members.length }}
+                {{ currentTeam.membersCount }}
               </div>
             </div>
           </app-e-info-card>

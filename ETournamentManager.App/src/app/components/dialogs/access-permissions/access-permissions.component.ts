@@ -4,15 +4,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { DialogService } from '@ngneat/dialog';
 
-import { ApiService } from 'app/services/api.service';
 import { BrandingService } from 'app/services/branding.service';
 
 @Component({
-  selector: 'app-access-management',
-  templateUrl: './access-management.component.html',
-  styleUrl: './access-management.component.scss',
+  selector: 'app-access-permissions',
+  templateUrl: './access-permissions.component.html',
+  styleUrl: './access-permissions.component.scss',
 })
-export class AccessManagementComponent implements OnInit, OnDestroy {
+export class AccessPermissionsComponent implements OnInit, OnDestroy {
   accessTeamDetails: boolean = false;
   accessTeamTable: boolean = false;
   accessTournamentTable: boolean = false;

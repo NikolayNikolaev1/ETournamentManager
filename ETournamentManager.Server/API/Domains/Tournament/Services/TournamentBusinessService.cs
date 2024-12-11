@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament.Services
 {
+    using API.Domains.Team.Models;
     using API.Domains.Team.Services;
     using Auth.Models;
     using Auth.Services;
@@ -205,7 +206,7 @@
         public async Task<TournamentListingModel> GetById(string id)
             => mapper.Map<TournamentListingModel>(await tournamentDataService.GetById(id));
 
-        public async Task<TournamentListingModel> Join(TournamentTeamModel model)
+        public async Task<TeamBaseModel> Join(TournamentTeamModel model)
         {
             Tournament? tournament = await tournamentDataService.GetById(model.TournamentId);
             Team? team = await teamDataService.GetById(model.TeamId);
@@ -245,7 +246,7 @@
             });
             await dbContext.SaveChangesAsync();
 
-            return mapper.Map<TournamentListingModel>(tournament);
+            return mapper.Map<TeamBaseModel>(team);
         }
 
         public async Task Leave(TournamentTeamModel model)

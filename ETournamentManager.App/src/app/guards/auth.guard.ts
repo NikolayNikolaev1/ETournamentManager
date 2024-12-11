@@ -5,7 +5,7 @@ import { CanActivateFn } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
-import { LoginComponent } from 'app/components/pages/auth/login/login.component';
+import { LoginComponent } from 'app/components/dialogs/login/login.component';
 import { AuthService } from 'app/services/auth.service';
 import { BrandingService } from 'app/services/branding.service';
 

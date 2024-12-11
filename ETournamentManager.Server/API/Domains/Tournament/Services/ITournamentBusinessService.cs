@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament.Services
 {
+    using API.Domains.Team.Models;
     using Core.Common.Data.Interfaces;
     using Models;
 
@@ -19,7 +20,7 @@
 
         Task<TournamentListingModel> GetById(string id);
 
-        Task<TournamentListingModel> Join(TournamentTeamModel model);
+        Task<TeamBaseModel> Join(TournamentTeamModel model);
 
         Task Leave(TournamentTeamModel model);
     }

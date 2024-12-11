@@ -5,6 +5,7 @@
 
     using static Core.Common.Constants.AuthConfig;
     using static Core.Common.Constants.ErrorMessages;
+    using static StatusCodes;
 
     public class ImageService : IImageService
     {
@@ -20,14 +21,22 @@
 
             if (!extensions.Contains(fileExtension))
             {
-                throw new BusinessServiceException(INVALID_IMAGE_FILE_EXTENSION);
+                throw new BusinessServiceException(
+                    INVALID_IMAGE_FILE_EXTENSION,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "file",
+                    Status400BadRequest);
             }
 
             long size = file.Length;
 
             if (size > mbToBitesCalcluation)
             {
-                throw new BusinessServiceException(INVALID_IMAGE_FILE_SIZE);
+                throw new BusinessServiceException(
+                    INVALID_IMAGE_FILE_SIZE,
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "file",
+                    Status400BadRequest);
             }
 
             using FileStream stream = new FileStream(@$"{path}\{model.EntityId}{fileExtension}", FileMode.Create);

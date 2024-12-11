@@ -26,7 +26,9 @@
       }
     }
 
-    #config-icon {
+    #config-container {
+      display: flex;
+      gap: 15px;
       margin-left: auto;
     }
   }

@@ -1,3 +1,11 @@
+export const GLOBAL_CONSTANTS = {
+  ROLES: {
+    ADMIN: 'ADMIN',
+    TOURNAMENT_CREATOR: 'TOURNAMENT_CREATOR',
+    TOURNAMENT_PARTICIPANT: 'TOURNAMENT_PARTICIPANT',
+  },
+};
+
 export const WEBSITE_NAME: string = 'Tournament Manager';
 export const TOKEN_KEY_NAME: string = 'jwt_token';
 

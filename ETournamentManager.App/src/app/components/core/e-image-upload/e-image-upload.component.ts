@@ -1,7 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
-import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES } from 'app/utils/constants';
+import { ImageService } from 'app/services/image.service';
 
 @Component({
   selector: 'app-e-image-upload',
@@ -12,46 +11,35 @@ export class EImageUploadComponent {
   @Input() entityId: string = '';
   @Input() imgUrl: string | null = null;
   @Input() hideActions: boolean = false;
-  @Output() changedImage = new EventEmitter<File | null>();
   imageFile: File | null = null;
+  errorMessage: string = '';
 
   @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
-  constructor(private apiServie: ApiService) {}
+  constructor(private imageService: ImageService) {}
 
-  getImageUrl() {
-    return window.URL.createObjectURL(this.imageFile!);
-  }
+  getImageUrl = () => window.URL.createObjectURL(this.imageFile!);
 
   triggerFileChange() {
+    this.errorMessage = '';
     this.imgUrl = null;
     this.fileInputRef.nativeElement.click();
   }
 
   onFileChange(event: Event) {
-    this.imageFile = (event.target as HTMLInputElement).files?.item(0) ?? null;
-    this.changedImage.emit(this.imageFile);
+    this.imageFile = (event.target as HTMLInputElement).files?.item(0)!;
 
-    this.apiServie
-      .request<null, { entityId: string; file: any }>({
-        method: 'post',
-        url: SERVER_ROUTES.IMAGE.UPLOAD,
-        body: {
-          entityId: this.entityId,
-          file: this.imageFile,
-        },
-        isFile: true,
-      })
-      .subscribe();
+    this.imageService.upload(this.entityId, this.imageFile).subscribe({
+      error: (error) => {
+        this.errorMessage = error;
+        this.imageFile = null;
+      },
+    });
   }
 
   onDeleteClick() {
     this.imgUrl = null;
-    this.apiServie
-      .request({ url: `${SERVER_ROUTES.IMAGE.DELETE}/${this.entityId}`, method: 'delete' })
-      .subscribe(() => {
-        this.imageFile = null;
-        this.changedImage.emit(null);
-      });
+
+    this.imageService.delete(this.entityId).subscribe(() => (this.imageFile = null));
   }
 }

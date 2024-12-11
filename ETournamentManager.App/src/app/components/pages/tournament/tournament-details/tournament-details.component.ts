@@ -1,22 +1,22 @@
-import { environment } from 'environments/environment.development';
-
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { TournamentManagementComponent } from '../tournament-management/tournament-management.component';
+import { TournamentType } from '../tournament-management/tournament-management.configuration';
+
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
+import { DEFAULT_IMG_PATHS } from 'app/configurations/image.config';
 import Round, { RoundStage } from 'app/models/round.model';
-import Team from 'app/models/team.model';
+import Team, { TeamBase } from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
 import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
+import { ImageService } from 'app/services/image.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
 import { convertTeamInfoCard } from 'app/utils/info-card-converter';
-
-import { TournamentCreateComponent } from '../tournament-create/tournament-create.component';
-import { TournamentType } from '../tournament-create/tournament-create.configuration';
 
 @Component({
   selector: 'app-tournament-details',
@@ -43,7 +43,8 @@ export class TournamentDetailsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
@@ -73,7 +74,7 @@ export class TournamentDetailsComponent {
 
   selectTeam(index: number) {
     this.apiService
-      .request<Tournament, { tournamentId: string; teamId: string }>({
+      .request<TeamBase, { tournamentId: string; teamId: string }>({
         method: 'patch',
         url: SERVER_ROUTES.TOURNAMENT.ADD_PARTICIPANT,
         body: {
@@ -81,7 +82,21 @@ export class TournamentDetailsComponent {
           teamId: this.searchTeams[index].id,
         },
       })
-      .subscribe((response) => (this.tournamentData = response));
+      .subscribe((response) => {
+        const newParticipant = response;
+
+        this.imageService
+          .getImageUrl(
+            newParticipant.id,
+            this.tournamentData?.tournamentType === TournamentType.SinglePlayer
+              ? DEFAULT_IMG_PATHS.USER
+              : DEFAULT_IMG_PATHS.TEAM
+          )
+          .subscribe((url) => {
+            newParticipant.imgUrl = url;
+            this.tournamentData?.teams.push(newParticipant);
+          });
+      });
   }
 
   onStartClick() {
@@ -131,7 +146,7 @@ export class TournamentDetailsComponent {
     if (!this.tournamentData) return;
 
     const dialogRef = this.dialog
-      .open(TournamentCreateComponent, {
+      .open(TournamentManagementComponent, {
         data: {
           tournamentId: this.tournamentId,
           name: this.tournamentData.name,
@@ -207,14 +222,21 @@ export class TournamentDetailsComponent {
         this.tournamentData = response;
 
         this.getRoundsData();
-        this.apiService.request({ method: 'get', url: this.tournamentId, isFile: true }).subscribe({
-          error: (isValid) =>
-            (this.tournamentImageUrl = isValid
-              ? `${environment.apiUrl}/UploadImages/${this.tournamentId}.jpg`
-              : 'assets/images/default-tournament-img.jpg'),
-        });
 
-        this.getTournamentTeams();
+        this.imageService
+          .getImageUrl(this.tournamentId, DEFAULT_IMG_PATHS.TOURNAMENT)
+          .subscribe((url) => (this.tournamentImageUrl = url));
+
+        this.tournamentData.teams.forEach((t) => {
+          this.imageService
+            .getImageUrl(
+              t.id,
+              this.tournamentData?.tournamentType === TournamentType.SinglePlayer
+                ? DEFAULT_IMG_PATHS.USER
+                : DEFAULT_IMG_PATHS.TEAM
+            )
+            .subscribe((url) => (t.imgUrl = url));
+        });
       });
   }
 
@@ -230,34 +252,6 @@ export class TournamentDetailsComponent {
         if (this.tournamentData?.finished) {
           this.getRanking();
         }
-      });
-  }
-
-  private getTournamentTeams() {
-    this.apiService
-      .request<Team[]>({
-        url: SERVER_ROUTES.TEAM.GET_ALL,
-        method: 'get',
-        queryParams: {
-          tournamentIds: [this.tournamentId],
-        },
-      })
-      .subscribe((response) => {
-        this.tournamentTeamsData = response;
-
-        if (this.tournamentData?.tournamentType === TournamentType.SinglePlayer) {
-        }
-
-        this.tournamentTeamsData.forEach((t) => {
-          this.apiService.request({ method: 'get', url: t.id, isFile: true }).subscribe({
-            error: (isValid) =>
-              (t.imgUrl = isValid
-                ? `${environment.apiUrl}/UploadImages/${t.id}.jpg`
-                : this.tournamentData?.tournamentType === TournamentType.SinglePlayer
-                  ? 'assets/images/default-user-img.jpg'
-                  : 'assets/images/default-team-img.jpg'),
-          });
-        });
       });
   }
 }

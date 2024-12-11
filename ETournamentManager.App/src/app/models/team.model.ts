@@ -3,7 +3,6 @@ import { UserBase } from './user.model';
 interface Team extends TeamBase {
   description: string;
   members: UserBase[];
-  tournamentsWon: number;
   captain: UserBase;
 }
 
@@ -13,6 +12,8 @@ export interface TeamBase {
   tag: string;
   imgUrl?: string;
   finished: boolean;
+  tournamentsWon: number;
+  membersCount: number;
 }
 
 export default Team;

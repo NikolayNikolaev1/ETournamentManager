@@ -5,16 +5,15 @@ import { Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { LoginComponent } from 'app/components/dialogs/login/login.component';
+import { RegisterComponent } from 'app/components/dialogs/register/register.component';
+import { GameCreateComponent } from 'app/components/dialogs/game-create/game-create.component';
+import { TeamManagementComponent } from 'app/components/dialogs/team-management/team-management.component';
+import { TournamentManagementComponent } from 'app/components/pages/tournament/tournament-management/tournament-management.component';
 import UserProfile from 'app/models/user-profile.model';
 import { AuthService } from 'app/services/auth.service';
 import { BrandingService } from 'app/services/branding.service';
 import * as Constants from 'app/utils/constants';
-
-import { LoginComponent } from '../pages/auth/login/login.component';
-import { RegisterComponent } from '../pages/auth/register/register.component';
-import { GameCreateComponent } from '../pages/game/game-create/game-create.component';
-import { TeamCreateComponent } from '../pages/team/team-create/team-create.component';
-import { TournamentCreateComponent } from '../pages/tournament/tournament-create/tournament-create.component';
 
 @Component({
   selector: 'app-navigation',
@@ -66,7 +65,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   onTeamCreateClick() {
-    this.dialog.open(TeamCreateComponent);
+    this.dialog.open(TeamManagementComponent);
   }
 
   onGameCreateClick() {
@@ -74,6 +73,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   onTournamentCreateClick() {
-    this.dialog.open(TournamentCreateComponent);
+    this.dialog.open(TournamentManagementComponent);
   }
 }
