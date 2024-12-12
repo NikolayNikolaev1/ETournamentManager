@@ -1,10 +1,9 @@
-﻿using AutoMapper.QueryableExtensions;
-
-namespace API.Domains.User.Services
+﻿namespace API.Domains.User.Services
 {
     using Auth.Models;
     using Auth.Services;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Core.Exceptions;
     using Data;
     using Data.Models;
@@ -13,8 +12,10 @@ namespace API.Domains.User.Services
     using Models;
     using System.Collections.Generic;
 
+    using static Core.Common.Constants.ErrorMessages;
     using static Core.Common.Constants.ErrorMessages.Auth;
     using static Core.Common.Constants.Roles;
+    using static StatusCodes;
 
     public class UserBusinessService(
         ETournamentManagerDbContext dbContext,
@@ -69,6 +70,17 @@ namespace API.Domains.User.Services
             if (user == null)
             {
                 throw new BusinessServiceException(USER_NOT_FOUND);
+            }
+
+            var existingUser = await userManager.FindByNameAsync(userName);
+
+            if (existingUser != null && existingUser != user)
+            {
+                throw new BusinessServiceException(
+                    "Username taken",
+                    CLIENT_VALIDATION_ERROR_TITLE,
+                    "username",
+                    Status400BadRequest);
             }
 
             await userManager.SetUserNameAsync(user, userName);

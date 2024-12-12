@@ -1,4 +1,4 @@
-export type TEAM_CREATE_FORM_MODEL = {
+export type TEAM_MANAGEMENT_FORM_MODEL = {
   name: string;
   tag: string;
   description: string;

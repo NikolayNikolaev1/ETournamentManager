@@ -76,7 +76,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Edit(string id, TournamentManagementModel model)
+        public async Task<TournamentListingModel> Edit(string id, TournamentManagementModel model)
         {
             Tournament? tournament = await tournamentDataService.GetById(id);
 
@@ -106,6 +106,8 @@
 
             dbContext.Tournaments.Update(tournament);
             await dbContext.SaveChangesAsync();
+
+            return mapper.Map<TournamentListingModel>(tournament);
         }
 
         public async Task Finish(string id)

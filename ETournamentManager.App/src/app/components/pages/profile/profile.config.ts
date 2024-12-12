@@ -6,6 +6,10 @@ export type PlatformConfig = {
   component: any;
 };
 
+export type ChangeUsernameRequest = {
+  username: string;
+};
+
 export const PLATFORM_CONFIGS: PlatformConfig[] = [
   { component: AccessPermissionsComponent },
   { component: ThemePickerComponent },

@@ -9,7 +9,7 @@ export type TOURNAMENT_CREATE_FORM = {
   minTeamMembers: number;
 };
 
-export type TOURNAMENT_CREATE_REQUEST_BODY = {
+export type TOURNAMENT_MANAGEMENT_REQUEST_BODY = {
   name: string;
   description?: string;
   type: TournamentType;

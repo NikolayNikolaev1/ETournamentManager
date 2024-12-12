@@ -1,13 +1,13 @@
-import { Subscription } from 'rxjs';
-
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { Subscription } from 'rxjs';
+
+import { GameCreateComponent } from 'app/components/dialogs/game-create/game-create.component';
 import { LoginComponent } from 'app/components/dialogs/login/login.component';
 import { RegisterComponent } from 'app/components/dialogs/register/register.component';
-import { GameCreateComponent } from 'app/components/dialogs/game-create/game-create.component';
 import { TeamManagementComponent } from 'app/components/dialogs/team-management/team-management.component';
 import { TournamentManagementComponent } from 'app/components/pages/tournament/tournament-management/tournament-management.component';
 import UserProfile from 'app/models/user-profile.model';

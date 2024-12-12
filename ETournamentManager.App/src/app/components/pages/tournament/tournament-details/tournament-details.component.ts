@@ -1,12 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
-import { TournamentManagementComponent } from '../tournament-management/tournament-management.component';
-import { TournamentType } from '../tournament-management/tournament-management.configuration';
-
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
+import { TournamentManagementComponent } from 'app/components/pages/tournament/tournament-management/tournament-management.component';
+import { TournamentType } from 'app/components/pages/tournament/tournament-management/tournament-management.configuration';
 import { DEFAULT_IMG_PATHS } from 'app/configurations/image.config';
 import Round, { RoundStage } from 'app/models/round.model';
 import Team, { TeamBase } from 'app/models/team.model';
@@ -15,7 +14,7 @@ import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import { ImageService } from 'app/services/image.service';
-import { SERVER_ROUTES } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES, USER_ROLES } from 'app/utils/constants';
 import { convertTeamInfoCard } from 'app/utils/info-card-converter';
 
 @Component({
@@ -26,29 +25,33 @@ import { convertTeamInfoCard } from 'app/utils/info-card-converter';
 export class TournamentDetailsComponent {
   tournamentId: string = '';
   tournamentData: Tournament | null = null;
+  currentUserProfile: UserProfile | null = null;
+  hasCreatorPermissions: boolean = false;
   tournamentImageUrl: string = '';
-  tournamentTeamsData: Team[] = [];
   roundsData: Round[] = [];
   searchTeams: Team[] = [];
   searchTeamNames: string[] = [];
-  currentUserProfile: UserProfile | null = null;
   startTournamentError: string = '';
   ranking: { place: string; name: string }[] = [];
-
   getTeamInfoCard = convertTeamInfoCard;
-
-  private dialog = inject(DialogService);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private dialogService: DialogService,
     private apiService: ApiService,
     private authService: AuthService,
     private imageService: ImageService
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe((profile) => (this.currentUserProfile = profile));
+    this.authService.currentUser$.subscribe((profile) => {
+      this.currentUserProfile = profile;
+
+      this.hasCreatorPermissions =
+        this.currentUserProfile?.id === this.tournamentData?.creator.id ||
+        this.currentUserProfile?.roleName === USER_ROLES.ADMIN;
+    });
 
     this.tournamentId = this.route.snapshot.paramMap.get('id') ?? '';
     this.getTournamentDetails();
@@ -100,7 +103,7 @@ export class TournamentDetailsComponent {
   }
 
   onStartClick() {
-    this.dialog.open(ConfirmationComponent, {
+    this.dialogService.open(ConfirmationComponent, {
       data: {
         title: 'Are you sure you want to start this tournament?',
         event: () => {
@@ -118,12 +121,14 @@ export class TournamentDetailsComponent {
     });
   }
 
-  onCardSelect(id: string, route: string) {
-    this.router.navigate([route, id]);
+  onCardSelect(id: string) {
+    if (this.tournamentData === null || this.tournamentData.tournamentType === TournamentType.SinglePlayer) return;
+
+    this.router.navigate([CLIENT_ROUTES.TEAM_DETAILS(), id]);
   }
 
   onRemoveTeamClick(teamId: string) {
-    this.dialog.open(ConfirmationComponent, {
+    this.dialogService.open(ConfirmationComponent, {
       data: {
         title: 'Are you sure you want to remove this participant from the tournament?',
         event: () => {
@@ -145,26 +150,21 @@ export class TournamentDetailsComponent {
   onEditClick() {
     if (!this.tournamentData) return;
 
-    const dialogRef = this.dialog
-      .open(TournamentManagementComponent, {
-        data: {
-          tournamentId: this.tournamentId,
-          name: this.tournamentData.name,
-          description: this.tournamentData.description,
-          minTeamMembers: this.tournamentData.minTeamMembers,
-          type: this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
-          game: this.tournamentData.game,
-        },
-      })
-      .afterClosed$.subscribe(() => {
-        this.getTournamentDetails();
-
-        dialogRef.unsubscribe();
-      });
+    this.dialogService.open(TournamentManagementComponent, {
+      data: {
+        tournamentId: this.tournamentId,
+        name: this.tournamentData.name,
+        description: this.tournamentData.description,
+        minTeamMembers: this.tournamentData.minTeamMembers,
+        type: this.tournamentData.teams.length === 0 ? this.tournamentData.tournamentType : undefined,
+        game: this.tournamentData.game,
+        onEdit: (data: Tournament) => (this.tournamentData = { ...data, teams: this.tournamentData!.teams }),
+      },
+    });
   }
 
   onDeleteClick() {
-    this.dialog.open(ConfirmationComponent, {
+    this.dialogService.open(ConfirmationComponent, {
       data: {
         title: 'Are you sure you want to delete this tournament?',
         event: () => {
@@ -177,7 +177,7 @@ export class TournamentDetailsComponent {
   }
 
   onEndClick() {
-    this.dialog.open(ConfirmationComponent, {
+    this.dialogService.open(ConfirmationComponent, {
       data: {
         title: 'Are you sure you want to end this tournament?',
         event: () => {
@@ -220,6 +220,10 @@ export class TournamentDetailsComponent {
       })
       .subscribe((response) => {
         this.tournamentData = response;
+
+        this.hasCreatorPermissions =
+          this.currentUserProfile?.id === this.tournamentData.creator.id ||
+          this.currentUserProfile?.roleName === USER_ROLES.ADMIN;
 
         this.getRoundsData();
 

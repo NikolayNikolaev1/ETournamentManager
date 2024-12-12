@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { TournamentRounds } from 'app/models/tournament.model';
 import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES } from 'app/utils/constants';
+import { GLOBAL_CONSTANTS, SERVER_ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-home',
@@ -11,16 +10,14 @@ import { SERVER_ROUTES } from 'app/utils/constants';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  clientRoutes = GLOBAL_CONSTANTS.CLIENT_ROUTES;
   startedTournaments: TournamentRounds[] = [];
   currentTournamnetIndex: number = 0;
   opacity: number = 0;
   opacityUp: boolean = true;
-  liveInterval: any;
+  liveInterval: NodeJS.Timeout | null = null;
 
-  constructor(
-    private router: Router,
-    private apiServie: ApiService
-  ) {}
+  constructor(private apiServie: ApiService) {}
 
   ngOnInit(): void {
     this.apiServie
@@ -45,7 +42,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    clearInterval(this.liveInterval);
+    if (this.liveInterval !== null) {
+      clearInterval(this.liveInterval);
+    }
   }
 
   changeTournament(forward: boolean) {
@@ -53,18 +52,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       (forward && this.currentTournamnetIndex === this.startedTournaments.length - 1) ||
       (!forward && this.currentTournamnetIndex === 0)
     ) {
-      console.log({ tester: 'sad' });
       return;
     }
 
     forward ? this.currentTournamnetIndex++ : this.currentTournamnetIndex--;
-  }
-
-  onTeamClick(id: string) {
-    this.router.navigate([`team/${id}`]);
-  }
-
-  onTournamentClick() {
-    this.router.navigate([`tournament/${this.startedTournaments[this.currentTournamnetIndex].id}`]);
   }
 }

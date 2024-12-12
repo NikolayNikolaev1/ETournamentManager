@@ -32,7 +32,11 @@
         <span class="loader"></span>
       </div>
     } @else {
-      <div id="tournament-title" class="hover-transition" (click)="onTournamentClick()">
+      <div
+        id="tournament-title"
+        class="hover-transition"
+        [routerLink]="clientRoutes.TOURNAMENT_DETAILS(startedTournaments[currentTournamnetIndex].id)"
+      >
         {{ startedTournaments[currentTournamnetIndex].name }}
       </div>
       <div id="game-name">Game: {{ startedTournaments[currentTournamnetIndex].game }}</div>
@@ -42,7 +46,9 @@
           <div class="section-header">Teams</div>
           <div id="teams-container">
             @for (currentTeam of startedTournaments[currentTournamnetIndex].teams; track $index) {
-              <div class="team hover-transition" (click)="onTeamClick(currentTeam.id)">{{ currentTeam.name }}</div>
+              <div class="team hover-transition" [routerLink]="[clientRoutes.TEAM_DETAILS(currentTeam.id)]">
+                {{ currentTeam.name }}
+              </div>
             }
           </div>
         </div>

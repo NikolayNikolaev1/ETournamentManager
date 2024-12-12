@@ -1,8 +1,8 @@
-import { finalize } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
 
 import { DialogService } from '@ngneat/dialog';
+
+import { finalize } from 'rxjs';
 
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import User from 'app/models/user.model';
@@ -69,7 +69,7 @@ export class UserTableComponent implements OnInit {
             username: u.userName,
             email: u.email,
             role: u.roleName === TOURNAMENT_CREATOR_ROLE ? 'Creator' : 'Participant',
-            status: u.disabled,
+            status: !u.disabled,
           })))
       );
   }

@@ -4,7 +4,7 @@
       <app-e-image-upload
         [entityId]="tournamentId"
         [imgUrl]="tournamentImageUrl"
-        [hideActions]="tournamentData.creator.id !== currentUserProfile?.id && currentUserProfile?.roleName !== 'ADMIN'"
+        [hideActions]="!hasCreatorPermissions"
       />
       <div class="banner-info-wrapper">
         <h1 class="title">{{ tournamentData.name }}</h1>
@@ -16,7 +16,7 @@
           </a>
         </p>
       </div>
-      @if (tournamentData.creator.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN') {
+      @if (hasCreatorPermissions) {
         <div class="action-wrapper">
           @if (roundsData.length === 0 && tournamentData.teams.length < 8) {
             <app-e-input
@@ -53,84 +53,78 @@
       }
     </div>
 
-    <div class="section-container">
-      <div class="header-wrapper">
-        <div class="title">Participent Teams</div>
-        <hr />
-      </div>
+    @if (tournamentData.teams.length > 0) {
+      <div class="section-container">
+        <div class="header-wrapper">
+          <div class="title">Participent Teams</div>
+          <hr />
+        </div>
 
-      <div class="info-cards-container">
-        @for (currentTeam of tournamentData.teams; track $index) {
-          <app-e-info-card
-            [cardData]="getTeamInfoCard(currentTeam)"
-            (cardClicked)="onCardSelect(currentTeam.id, '/team')"
-          >
-            @if (
-              !tournamentData.active &&
-              !tournamentData.finished &&
-              (tournamentData.creator.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN')
-            ) {
-              <div actions class="actions" (click)="$event.stopPropagation(); onRemoveTeamClick(currentTeam.id)">
-                <img src="assets/images/close-icon.svg" alt="Close icon" />
+        <div class="info-cards-container">
+          @for (currentTeam of tournamentData.teams; track $index) {
+            <app-e-info-card [cardData]="getTeamInfoCard(currentTeam)" (cardClicked)="onCardSelect($event)">
+              @if (!tournamentData.active && !tournamentData.finished && hasCreatorPermissions) {
+                <div actions class="actions" (click)="$event.stopPropagation(); onRemoveTeamClick(currentTeam.id)">
+                  <img src="assets/images/close-icon.svg" alt="Close icon" />
+                </div>
+              }
+
+              <div statsIcons class="stats-info">
+                <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+                <div class="subtitle">
+                  {{ currentTeam.tournamentsWon }}
+                </div>
+
+                <img src="assets/images/people-icon.svg" alt="People Icon" />
+                <div class="subtitle">
+                  {{ currentTeam.membersCount }}
+                </div>
+              </div>
+            </app-e-info-card>
+          }
+        </div>
+      </div>
+    }
+
+    @if (roundsData.length > 0) {
+      <div id="results-section" class="section-container">
+        <div class="header-wrapper">
+          <div class="title">Bracket</div>
+          <hr />
+        </div>
+        @if (roundsData.length > 0) {
+          <div class="bracket-wrapper">
+            @if (ranking.length !== 0) {
+              <div id="tournament-ranking-wrapper">
+                @for (currentPlace of ranking; track $index) {
+                  <div
+                    class="ranking-row hover-transition"
+                    [ngClass]="{
+                      first: $index === 7,
+                      second: $index === 6,
+                      third: [5, 4].includes($index),
+                      fifth: [0, 1, 2, 3].includes($index),
+                    }"
+                  >
+                    <div class="name">
+                      {{ currentPlace.name }}
+                    </div>
+                    <div class="place">
+                      {{ currentPlace.place }}
+                    </div>
+                  </div>
+                }
               </div>
             }
 
-            <div statsIcons class="stats-info">
-              <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
-              <div class="subtitle">
-                {{ currentTeam.tournamentsWon }}
-              </div>
-
-              <img src="assets/images/people-icon.svg" alt="People Icon" />
-              <div class="subtitle">
-                {{ currentTeam.membersCount }}
-              </div>
-            </div>
-          </app-e-info-card>
+            <app-tournament-bracket
+              [roundsData]="roundsData"
+              [tournamentId]="tournamentId"
+              [canChooseWinner]="hasCreatorPermissions"
+            />
+          </div>
         }
       </div>
-    </div>
-
-    <div id="results-section" class="section-container">
-      <div class="header-wrapper">
-        <div class="title">Bracket</div>
-        <hr />
-      </div>
-      @if (roundsData.length > 0) {
-        <div class="bracket-wrapper">
-          @if (ranking.length !== 0) {
-            <div id="tournament-ranking-wrapper">
-              @for (currentPlace of ranking; track $index) {
-                <div
-                  class="ranking-row hover-transition"
-                  [ngClass]="{
-                    first: $index === 7,
-                    second: $index === 6,
-                    third: [5, 4].includes($index),
-                    fifth: [0, 1, 2, 3].includes($index),
-                  }"
-                >
-                  <div class="name">
-                    {{ currentPlace.name }}
-                  </div>
-                  <div class="place">
-                    {{ currentPlace.place }}
-                  </div>
-                </div>
-              }
-            </div>
-          }
-
-          <app-tournament-bracket
-            [roundsData]="roundsData"
-            [tournamentId]="tournamentId"
-            [canChooseWinner]="
-              currentUserProfile !== null &&
-              (tournamentData.creator.id === currentUserProfile.id || currentUserProfile.roleName === 'ADMIN')
-            "
-          />
-        </div>
-      }
-    </div>
+    }
   }
 </div>

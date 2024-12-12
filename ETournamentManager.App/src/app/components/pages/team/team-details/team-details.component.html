@@ -1,11 +1,7 @@
 <div id="team-container">
   @if (teamData !== null) {
     <div id="banner-header">
-      <app-e-image-upload
-        [entityId]="teamId"
-        [imgUrl]="teamImageUrl"
-        [hideActions]="teamData.captain.id !== currentUserProfile?.id && currentUserProfile?.roleName !== 'ADMIN'"
-      />
+      <app-e-image-upload [entityId]="teamId" [imgUrl]="teamImageUrl" [hideActions]="!hasCaptainPermissions" />
       <div class="banner-info-wrapper">
         <h1 class="title">{{ teamData.name }}</h1>
         <h4 class="description">{{ teamData.description }}</h4>
@@ -18,7 +14,7 @@
       </div>
 
       <div class="action-wrapper">
-        @if (teamData.captain.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN') {
+        @if (hasCaptainPermissions) {
           <app-e-input
             label="Add user to team"
             [isSearch]="true"
@@ -57,18 +53,15 @@
       </div>
 
       <div class="info-cards-container">
-        @for (currentMember of teamMembersData; track $index) {
+        @for (currentMember of [teamData.captain].concat(teamData.members); track $index) {
           <app-e-info-card [cardData]="getUserInfoCard(currentMember)">
-            @if (
-              (teamData.captain.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN') &&
-              currentMember.id.toLowerCase() !== teamData.captain.id
-            ) {
+            @if (hasCaptainPermissions && currentMember.id !== teamData.captain.id) {
               <div actions class="actions" (click)="$event.stopPropagation(); onRemoveMemberClick(currentMember.id)">
                 <img src="assets/images/close-icon.svg" alt="Close icon" />
               </div>
             }
 
-            @if (currentMember.id === this.teamData.captain.id.toLowerCase()) {
+            @if (currentMember.id === this.teamData.captain.id) {
               <div statsIcons class="stats-info">
                 <img src="assets/images/crown-icon.svg" alt="Captain icon" />
                 <div class="subtitle">Captain</div>
@@ -79,7 +72,7 @@
       </div>
     </div>
 
-    @if (teamTournaments.length !== 0) {
+    @if (teamTournaments.length > 0) {
       <div class="section-container">
         <div class="header-wrapper">
           <div id="section-nav">
@@ -118,12 +111,9 @@
           @for (currentTournament of filteredTournaments; track $index) {
             <app-e-info-card
               [cardData]="getTournamentInfoCard(currentTournament)"
-              (cardClicked)="onTournamentCardSelect($event)"
+              [routerLink]="clientRoutes.TOURNAMENT_DETAILS(currentTournament.id)"
             >
-              @if (
-                selectedTournamentFilter === 'future' &&
-                (teamData.captain.id === currentUserProfile?.id || currentUserProfile?.roleName === 'ADMIN')
-              ) {
+              @if (selectedTournamentFilter === 'future' && hasCaptainPermissions) {
                 <div
                   actions
                   class="actions"

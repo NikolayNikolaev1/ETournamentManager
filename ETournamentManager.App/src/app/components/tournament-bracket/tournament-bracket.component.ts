@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import Round from 'app/models/round.model';
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
-
-import { ConfirmationComponent } from '../core/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-tournament-bracket',
@@ -51,9 +50,7 @@ export class TournamentBracketComponent {
                 winnerId: teamId,
               },
             })
-            .subscribe(() => {
-              this.getRoundsData();
-            });
+            .subscribe(() => this.getRoundsData());
         },
       },
     });

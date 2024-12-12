@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 import { DialogRef, DialogService } from '@ngneat/dialog';
 
+import { TEAM_MANAGEMENT_FORM_MODEL } from 'app/components/dialogs/team-management/team-management.configuration';
+import Team from 'app/models/team.model';
 import { ApiService } from 'app/services/api.service';
 import { SERVER_ROUTES } from 'app/utils/constants';
-
-import { TEAM_CREATE_FORM_MODEL } from './team-management.configuration';
 
 @Component({
   selector: 'app-team-management',
@@ -24,19 +24,18 @@ export class TeamManagementComponent implements OnInit {
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private readonly dialogService: DialogService,
+    private dialogService: DialogService,
     private ref: DialogRef<{
       teamId: string;
       name: string;
       tag: string;
       description: string;
+      onEdit?: (data: Team) => void;
     }>
   ) {}
 
   ngOnInit() {
-    
     if (this.ref.data) {
-      console.log(this.ref.data);
       this.teamId = this.ref.data.teamId;
       this.isEdit = true;
       this.name = this.ref.data.name;
@@ -45,18 +44,16 @@ export class TeamManagementComponent implements OnInit {
     }
   }
 
-  onFormChanged({ name, tag, description }: TEAM_CREATE_FORM_MODEL) {
+  onFormChanged({ name, tag, description }: TEAM_MANAGEMENT_FORM_MODEL) {
     this.name = name;
     this.tag = tag;
     this.description = description;
   }
 
-  onCreateClick() {
+  onSubmitClick() {
     this.apiService
-      .request<string, TEAM_CREATE_FORM_MODEL>({
-        url: this.isEdit
-          ? `${SERVER_ROUTES.TEAM.UPDATE}/${this.teamId}`
-          : SERVER_ROUTES.TEAM.CREATE,
+      .request<Team, TEAM_MANAGEMENT_FORM_MODEL>({
+        url: this.isEdit ? `${SERVER_ROUTES.TEAM.UPDATE}/${this.teamId}` : SERVER_ROUTES.TEAM.CREATE,
         method: this.isEdit ? 'patch' : 'post',
         body: {
           name: this.name,
@@ -65,10 +62,10 @@ export class TeamManagementComponent implements OnInit {
         },
       })
       .subscribe({
-        next: (id) => {
-          this.dialogService.closeAll();
+        next: (response) => {
+          if (this.ref.data.onEdit !== undefined) this.ref.data.onEdit(response);
 
-          this.router.navigate(['/team', id]);
+          this.dialogService.closeAll();
         },
         error: (error) => (this.errorMessage = error),
       });

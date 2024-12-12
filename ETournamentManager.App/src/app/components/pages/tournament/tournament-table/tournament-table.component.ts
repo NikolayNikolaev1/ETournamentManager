@@ -1,13 +1,14 @@
-import { finalize, pipe } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { finalize } from 'rxjs';
+
+import { TournamentTableData } from 'app/components/pages/tournament/tournament-table/tournament-table.config';
 import Game from 'app/models/game.model';
 import Tournament from 'app/models/tournament.model';
 import User from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE } from 'app/utils/constants';
 
 @Component({
   selector: 'app-tournament-table',
@@ -15,7 +16,7 @@ import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE } from 'app/utils/constants';
   styleUrl: './tournament-table.component.scss',
 })
 export class TournamentTableComponent implements OnInit {
-  tournamentsData: any = [];
+  tournamentsData: TournamentTableData[] = [];
   searchUsersResult: { id: string; userName: string }[] = [];
   searchGameResult: { id: string; name: string }[] = [];
   filteredCreators: { id: string; userName: string }[] = [];
@@ -105,7 +106,7 @@ export class TournamentTableComponent implements OnInit {
   }
 
   onTournamentClick(id: string) {
-    this.router.navigate(['/tournament', id]);
+    this.router.navigate([CLIENT_ROUTES.TOURNAMENT_DETAILS(), id]);
   }
 
   private getTournaments() {

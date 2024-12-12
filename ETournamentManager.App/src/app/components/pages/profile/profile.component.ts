@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
-import { Subscription } from 'rxjs';
-
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import { PasswordChangeComponent } from 'app/components/dialogs/password-change/password-change.component';
-import { PLATFORM_CONFIGS, PlatformConfig } from 'app/components/pages/profile/profile.config';
+import { ChangeUsernameRequest, PLATFORM_CONFIGS, PlatformConfig } from 'app/components/pages/profile/profile.config';
 import { DEFAULT_IMG_PATHS } from 'app/configurations/image.config';
 import Team from 'app/models/team.model';
 import Tournament from 'app/models/tournament.model';
@@ -15,8 +12,7 @@ import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import { ImageService } from 'app/services/image.service';
-import * as Constants from 'app/utils/constants';
-import { GLOBAL_CONSTANTS } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES, USER_ROLES } from 'app/utils/constants';
 import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-card-converter';
 
 @Component({
@@ -25,26 +21,26 @@ import { convertTeamInfoCard, convertTournamentInfoCard } from 'app/utils/info-c
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
-  constants = Constants;
-  userRoles = GLOBAL_CONSTANTS.ROLES;
+  userRoles = USER_ROLES;
+  clientRoutes = CLIENT_ROUTES;
+  platformConfigs = PLATFORM_CONFIGS;
   currentUserProfile: UserProfile | null = null;
-  currentUserSub!: Subscription;
+  userImageUrl: string = '';
+  isParticipant: boolean = false;
+  isLoading: boolean = false;
+  showUsernameEdit: boolean = false;
+  newUsername: string = '';
+  usernameErrorMsg: string = '';
+  selectedTeamFilter: string = '';
   teamsData: Team[] = [];
   ownedTeams: Team[] = [];
   joinedTeams: Team[] = [];
   filteredTeams: Team[] = [];
-  selectedTeamFilter: string = '';
   tournamentsData: Tournament[] = [];
-  userImageUrl: string = '';
   getTeamInfoCard = convertTeamInfoCard;
   getTournamentCard = convertTournamentInfoCard;
-  isLoading: boolean = false;
-  showUsernameEdit: boolean = false;
-  newUsername: string = '';
-  platformConfigs = PLATFORM_CONFIGS;
 
   constructor(
-    private router: Router,
     private dialog: DialogService,
     private apiService: ApiService,
     private authService: AuthService,
@@ -53,99 +49,47 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((profile) => {
-      this.currentUserProfile = profile;
+      if (profile === null) return;
 
-      if (this.currentUserProfile?.roleName === this.userRoles.TOURNAMENT_PARTICIPANT) {
+      this.isLoading = true;
+      this.currentUserProfile = profile;
+      this.newUsername = this.currentUserProfile.username;
+
+      this.isParticipant = this.currentUserProfile.roleName === USER_ROLES.TOURNAMENT_PARTICIPANT;
+
+      if (this.currentUserProfile.roleName === USER_ROLES.TOURNAMENT_PARTICIPANT) {
         this.imageService
           .getImageUrl(this.currentUserProfile.id, DEFAULT_IMG_PATHS.USER)
           .subscribe((url) => (this.userImageUrl = url));
+
+        this.getUserTeams(this.currentUserProfile.id);
+        return;
       }
 
-      this.isLoading = true;
-      switch (this.currentUserProfile?.roleName) {
-        case Constants.TOURNAMENT_PARTICIPANT_ROLE:
-          this.apiService
-            .request<Team[]>({
-              method: 'get',
-              url: Constants.SERVER_ROUTES.TEAM.GET_ALL,
-              queryParams: {
-                userIds: [this.currentUserProfile.id],
-              },
-            })
-            .subscribe((response) => {
-              this.teamsData = response;
-
-              this.ownedTeams = this.teamsData.filter(
-                (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
-              );
-
-              this.joinedTeams = this.teamsData.filter(
-                (t) => t.captain.id.toLowerCase() !== this.currentUserProfile!.id.toLowerCase()
-              );
-
-              this.isLoading = false;
-
-              this.teamsData.forEach((t) =>
-                this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TEAM).subscribe((url) => (t.imgUrl = url))
-              );
-
-              if (this.ownedTeams.length > 0) {
-                this.filteredTeams = this.ownedTeams;
-                this.selectedTeamFilter = 'captain';
-                return;
-              }
-
-              if (this.joinedTeams.length > 0) {
-                this.filteredTeams = this.joinedTeams;
-                this.selectedTeamFilter = 'member';
-              }
-            });
-          break;
-        case Constants.TOURNAMENT_CREATOR_ROLE:
-        case Constants.ADMIN_ROLE:
-          this.apiService
-            .request<Tournament[]>({
-              method: 'get',
-              url: Constants.SERVER_ROUTES.TOURNAMENT.GET_ALL,
-              queryParams: {
-                userIds: [this.currentUserProfile.id],
-              },
-            })
-            .subscribe((response) => {
-              this.tournamentsData = response;
-              this.isLoading = false;
-
-              this.tournamentsData.forEach((t) =>
-                this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TOURNAMENT).subscribe((url) => (t.imgUrl = url))
-              );
-            });
-          break;
-      }
+      this.getUserTournaments(this.currentUserProfile.id);
     });
   }
 
-  onCardSelect(id: string, route: string) {
-    this.router.navigate([route, id]);
-  }
-
-  onUsernameChange(newUsername: string) {
-    if (this.currentUserProfile) this.currentUserProfile.username = newUsername;
-  }
-
-  onChangeUsernameClick() {
-    if (this.currentUserProfile === null || this.newUsername.length === 0) return;
+  onUserNameSaveClick() {
+    if (this.newUsername.length === 0) return;
 
     this.apiService
-      .request<null, { username: string }>({
+      .request<null, ChangeUsernameRequest>({
         method: 'patch',
-        url: Constants.SERVER_ROUTES.USER.EDIT_USERNAME,
+        url: SERVER_ROUTES.USER.EDIT_USERNAME,
         body: {
           username: this.newUsername,
         },
       })
-      .subscribe(() => {
-        this.currentUserProfile!.username = this.newUsername;
-        this.showUsernameEdit = false;
+      .subscribe({
+        next: () => {
+          this.currentUserProfile!.username = this.newUsername;
+          this.showUsernameEdit = false;
+        },
+        error: (error) => {
+          this.usernameErrorMsg = error;
+          this.newUsername = '';
+        },
       });
   }
 
@@ -185,7 +129,7 @@ export class ProfileComponent implements OnInit {
 
           this.apiService
             .request<null, { teamId: string; memberId: string }>({
-              url: Constants.SERVER_ROUTES.TEAM.REMOVE_MEMBER,
+              url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
               method: 'patch',
               body: {
                 teamId: selectedTeamId,
@@ -200,5 +144,63 @@ export class ProfileComponent implements OnInit {
         },
       },
     });
+  }
+
+  private getUserTeams(userId: string) {
+    this.apiService
+      .request<Team[]>({
+        method: 'get',
+        url: SERVER_ROUTES.TEAM.GET_ALL,
+        queryParams: {
+          userIds: [userId],
+        },
+      })
+      .subscribe((response) => {
+        this.teamsData = response;
+
+        this.ownedTeams = this.teamsData.filter(
+          (t) => t.captain.id.toLowerCase() === this.currentUserProfile!.id.toLowerCase()
+        );
+
+        this.joinedTeams = this.teamsData.filter(
+          (t) => t.captain.id.toLowerCase() !== this.currentUserProfile!.id.toLowerCase()
+        );
+
+        this.isLoading = false;
+
+        this.teamsData.forEach((t) =>
+          this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TEAM).subscribe((url) => (t.imgUrl = url))
+        );
+
+        if (this.ownedTeams.length > 0) {
+          this.filteredTeams = this.ownedTeams;
+          this.selectedTeamFilter = 'captain';
+          return;
+        }
+
+        if (this.joinedTeams.length > 0) {
+          this.filteredTeams = this.joinedTeams;
+          this.selectedTeamFilter = 'member';
+        }
+      });
+  }
+
+  private getUserTournaments(userId: string) {
+    this.apiService
+      .request<Tournament[]>({
+        method: 'get',
+        url: SERVER_ROUTES.TOURNAMENT.GET_ALL,
+        queryParams: {
+          userIds: [userId],
+        },
+      })
+      .subscribe((response) => {
+        this.tournamentsData = response;
+        this.isLoading = false;
+
+        this.tournamentsData.forEach((t) =>
+          this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.TOURNAMENT).subscribe((url) => (t.imgUrl = url))
+        );
+      });
   }
 }

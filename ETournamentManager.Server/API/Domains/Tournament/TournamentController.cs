@@ -39,12 +39,9 @@
 
         [HttpPatch("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
-        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(typeof(TournamentListingModel), Status200OK)]
         public async Task<IActionResult> Update(string id, [FromBody] TournamentManagementModel model)
-        {
-            await tournamentService.Edit(id, model);
-            return Ok();
-        }
+            => await tournamentService.Edit(id, model).ReturnOkResult();
 
         [HttpPatch]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]

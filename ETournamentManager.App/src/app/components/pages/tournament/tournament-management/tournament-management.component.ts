@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 
 import { DialogRef, DialogService } from '@ngneat/dialog';
 
-import Game from 'app/models/game.model';
-import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES } from 'app/utils/constants';
-
 import {
   TOURNAMENT_CREATE_FORM,
-  TOURNAMENT_CREATE_REQUEST_BODY,
+  TOURNAMENT_MANAGEMENT_REQUEST_BODY,
   TournamentType,
-} from './tournament-management.configuration';
+} from 'app/components/pages/tournament/tournament-management/tournament-management.configuration';
+import Game from 'app/models/game.model';
+import Tournament from 'app/models/tournament.model';
+import { ApiService } from 'app/services/api.service';
+import { SERVER_ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-tournament-management',
@@ -42,6 +42,7 @@ export class TournamentManagementComponent implements OnInit {
       minTeamMembers: number;
       type?: number;
       game: Game;
+      onEdit?: (data: Tournament) => void;
     }>
   ) {}
 
@@ -70,8 +71,7 @@ export class TournamentManagementComponent implements OnInit {
   }
 
   onTypeChange() {
-    this.type =
-      this.type === TournamentType.SinglePlayer ? TournamentType.Team : TournamentType.SinglePlayer;
+    this.type = this.type === TournamentType.SinglePlayer ? TournamentType.Team : TournamentType.SinglePlayer;
   }
 
   onSubmitClick() {
@@ -82,10 +82,8 @@ export class TournamentManagementComponent implements OnInit {
     }
 
     this.apiService
-      .request<string, TOURNAMENT_CREATE_REQUEST_BODY>({
-        url: this.isEdit
-          ? `${SERVER_ROUTES.TOURNAMENT.UPDATE}/${this.tournamentId}`
-          : SERVER_ROUTES.TOURNAMENT.CREATE,
+      .request<Tournament, TOURNAMENT_MANAGEMENT_REQUEST_BODY>({
+        url: this.isEdit ? `${SERVER_ROUTES.TOURNAMENT.UPDATE}/${this.tournamentId}` : SERVER_ROUTES.TOURNAMENT.CREATE,
         method: this.isEdit ? 'patch' : 'post',
         body: {
           name: this.name,
@@ -96,9 +94,10 @@ export class TournamentManagementComponent implements OnInit {
         },
       })
       .subscribe({
-        next: (id) => {
+        next: (response) => {
+          if (this.ref.data.onEdit !== undefined) this.ref.data.onEdit(response);
+
           this.dialogService.closeAll();
-          this.router.navigate(['/tournament', id]);
         },
         error: (error) => (this.errorMessage = error),
       });

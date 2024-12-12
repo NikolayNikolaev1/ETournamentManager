@@ -14,11 +14,11 @@ export class EInputComponent implements OnInit {
   @Input({ required: true }) label: string = '';
   @Input() type: InputType = 'text';
   @Input() required: boolean = false;
+  @Input() invalid: boolean = false;
   @Input() isSearch: boolean = false;
   @Input() searchResult: string[] = [];
   @Output() inputChanged = new EventEmitter<string>();
   @Output() searchResultSelected = new EventEmitter<number>();
-  invalid: boolean = false;
   searchValue = new Subject<string>();
 
   ngOnInit() {

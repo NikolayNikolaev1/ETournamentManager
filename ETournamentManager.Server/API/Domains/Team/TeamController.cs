@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
+    using User.Models;
 
     using static Core.Common.Constants.Roles;
 
@@ -21,7 +22,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]TeamQueryParamsModel queryParams)
+        public async Task<IActionResult> GetAll([FromQuery] TeamQueryParamsModel queryParams)
             => await teamService.GetAll(queryParams).ReturnOkResult();
 
         [HttpPost]
@@ -34,7 +35,7 @@
 
         [HttpPatch("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TeamListingModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(string id, [FromBody] TeamManagementModel model)
@@ -42,7 +43,7 @@
 
         [HttpPatch]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_PARTICIPANT}")]
-        [ProducesResponseType(typeof(TeamListingModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserBaseModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddMember([FromBody] TeamMemberModel model)
             => await teamService.AddMember(model).ReturnOkResult();
 

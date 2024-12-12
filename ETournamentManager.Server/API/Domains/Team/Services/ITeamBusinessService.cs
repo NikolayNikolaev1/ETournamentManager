@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Team.Services
 {
+    using API.Domains.User.Models;
     using Core.Common.Data.Interfaces;
     using Models;
 
@@ -9,13 +10,13 @@
 
         Task Delete(string id);
 
-        Task Edit(string id, TeamManagementModel model);
+        Task<TeamListingModel> Edit(string id, TeamManagementModel model);
 
         Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams);
 
         Task<TeamListingModel> GetById(string id);
 
-        Task<TeamListingModel> AddMember(TeamMemberModel model);
+        Task<UserBaseModel> AddMember(TeamMemberModel model);
 
         Task<TeamListingModel> RemoveMember(TeamMemberModel model);
     }

@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Team.Services
 {
+    using API.Domains.User.Models;
     using Auth.Models;
     using Auth.Services;
     using AutoMapper;
@@ -27,7 +28,7 @@
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
 
-        public async Task<TeamListingModel> AddMember(TeamMemberModel model)
+        public async Task<UserBaseModel> AddMember(TeamMemberModel model)
         {
             Team? team = await teamDataService.GetById(model.TeamId);
             User? user = await userDataService.GetById(model.MemberId);
@@ -61,7 +62,7 @@
             });
             await dbContext.SaveChangesAsync();
 
-            return mapper.Map<TeamListingModel>(team);
+            return mapper.Map<UserBaseModel>(user);
         }
 
         public async Task<string> Create(TeamManagementModel model)
@@ -136,7 +137,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Edit(string id, TeamManagementModel model)
+        public async Task<TeamListingModel> Edit(string id, TeamManagementModel model)
         {
             Team? team = await teamDataService.GetById(id);
 
@@ -158,6 +159,8 @@
 
             dbContext.Teams.Update(team);
             await dbContext.SaveChangesAsync();
+
+            return mapper.Map<TeamListingModel>(team);
         }
 
         public async Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams)

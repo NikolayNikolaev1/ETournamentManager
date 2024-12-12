@@ -1,9 +1,9 @@
-import { environment } from 'environments/environment.development';
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
+
+import { TeamManagementComponent } from '../../../dialogs/team-management/team-management.component';
 
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import { DEFAULT_IMG_PATHS } from 'app/configurations/image.config';
@@ -14,10 +14,8 @@ import User, { UserBase } from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
 import { AuthService } from 'app/services/auth.service';
 import { ImageService } from 'app/services/image.service';
-import { SERVER_ROUTES, TOURNAMENT_PARTICIPANT_ROLE } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES, TOURNAMENT_PARTICIPANT_ROLE, USER_ROLES } from 'app/utils/constants';
 import { convertTournamentInfoCard, convertUserInfoCard } from 'app/utils/info-card-converter';
-
-import { TeamManagementComponent } from '../../../dialogs/team-management/team-management.component';
 
 @Component({
   selector: 'app-team-details',
@@ -25,13 +23,14 @@ import { TeamManagementComponent } from '../../../dialogs/team-management/team-m
   styleUrl: './team-details.component.scss',
 })
 export class TeamDetailsComponent implements OnInit {
+  clientRoutes = CLIENT_ROUTES;
   teamId: string = '';
   teamData: Team | null = null;
   teamImageUrl: string = '';
   searchUsers: User[] = [];
   searchUsernames: string[] = [];
   currentUserProfile: UserProfile | null = null;
-  teamMembersData: UserBase[] = [];
+  hasCaptainPermissions: boolean = false;
   teamTournaments: Tournament[] = [];
   activeTournaments: Tournament[] = [];
   finishedTournaments: Tournament[] = [];
@@ -52,12 +51,19 @@ export class TeamDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe((profile) => (this.currentUserProfile = profile));
+    this.authService.currentUser$.subscribe((profile) => {
+      this.currentUserProfile = profile;
+
+      this.hasCaptainPermissions =
+        this.currentUserProfile?.id === this.teamData?.captain.id ||
+        this.currentUserProfile?.roleName === USER_ROLES.ADMIN;
+    });
 
     this.teamId = this.route.snapshot.paramMap.get('id') ?? '';
     this.getTeamDetails();
     this.getTeamTournaments();
   }
+
   getUsersByUsername(username: string) {
     this.apiService
       .request<User[]>({
@@ -78,7 +84,7 @@ export class TeamDetailsComponent implements OnInit {
 
   selectUser(index: number) {
     this.apiService
-      .request<Team, { teamId: string; memberId: string }>({
+      .request<UserBase, { teamId: string; memberId: string }>({
         method: 'patch',
         url: SERVER_ROUTES.TEAM.ADD_MEMBER,
         body: {
@@ -86,7 +92,14 @@ export class TeamDetailsComponent implements OnInit {
           memberId: this.searchUsers[index].id,
         },
       })
-      .subscribe((response) => (this.teamData = response));
+      .subscribe((response) => {
+        const newMember = response;
+
+        this.imageService.getImageUrl(newMember.id, DEFAULT_IMG_PATHS.USER).subscribe((url) => {
+          newMember.imgUrl = url;
+          this.teamData?.members.push(newMember);
+        });
+      });
   }
 
   onRemoveMemberClick(memberId: string) {
@@ -95,7 +108,7 @@ export class TeamDetailsComponent implements OnInit {
         title: 'Are you sure you want to remove this member from the team?',
         event: () => {
           this.apiService
-            .request<null, { memberId: string; teamId: string }>({
+            .request<void, { memberId: string; teamId: string }>({
               url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
               method: 'patch',
               body: {
@@ -103,14 +116,10 @@ export class TeamDetailsComponent implements OnInit {
                 memberId,
               },
             })
-            .subscribe(() => this.getTeamDetails());
+            .subscribe(() => (this.teamData!.members = this.teamData!.members.filter((m) => m.id !== memberId)));
         },
       },
     });
-  }
-
-  onTournamentCardSelect(tournamentId: string) {
-    this.router.navigate(['/tournament', tournamentId]);
   }
 
   onEditClick() {
@@ -122,6 +131,7 @@ export class TeamDetailsComponent implements OnInit {
         name: this.teamData.name,
         tag: this.teamData.tag,
         description: this.teamData.description,
+        onEdit: (data: Team) => (this.teamData = data),
       },
     });
   }
@@ -147,7 +157,7 @@ export class TeamDetailsComponent implements OnInit {
           if (this.currentUserProfile === null || this.currentUserProfile.id === this.teamData?.captain.id) return;
 
           this.apiService
-            .request<null, { teamId: string; memberId: string }>({
+            .request<void, { teamId: string; memberId: string }>({
               url: SERVER_ROUTES.TEAM.REMOVE_MEMBER,
               method: 'patch',
               body: {
@@ -206,6 +216,10 @@ export class TeamDetailsComponent implements OnInit {
       .subscribe((response) => {
         this.teamData = response;
 
+        this.hasCaptainPermissions =
+          this.currentUserProfile?.id === this.teamData.captain.id ||
+          this.currentUserProfile?.roleName === USER_ROLES.ADMIN;
+
         this.imageService
           .getImageUrl(this.teamId, DEFAULT_IMG_PATHS.TEAM)
           .subscribe((url) => (this.teamImageUrl = url));
@@ -217,8 +231,6 @@ export class TeamDetailsComponent implements OnInit {
         this.teamData.members.forEach((t) => {
           this.imageService.getImageUrl(t.id, DEFAULT_IMG_PATHS.USER).subscribe((url) => (t.imgUrl = url));
         });
-
-        this.teamMembersData = [this.teamData.captain, ...this.teamData.members];
 
         this.isMember =
           this.currentUserProfile !== null &&

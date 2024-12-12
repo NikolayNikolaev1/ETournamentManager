@@ -10,7 +10,7 @@
 
         Task Delete(string id);
 
-        Task Edit(string id, TournamentManagementModel model);
+        Task<TournamentListingModel> Edit(string id, TournamentManagementModel model);
 
         Task Finish(string id);
 

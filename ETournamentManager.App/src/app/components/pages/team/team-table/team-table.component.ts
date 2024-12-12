@@ -1,12 +1,13 @@
-import { finalize } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { finalize } from 'rxjs';
+
+import { TeamTableData } from 'app/components/pages/team/team-table/team-table.config';
 import Team from 'app/models/team.model';
 import User from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE, TOURNAMENT_PARTICIPANT_ROLE } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES, TOURNAMENT_PARTICIPANT_ROLE } from 'app/utils/constants';
 
 @Component({
   selector: 'app-team-table',
@@ -14,7 +15,7 @@ import { SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE, TOURNAMENT_PARTICIPANT_ROLE } f
   styleUrl: './team-table.component.scss',
 })
 export class TeamTableComponent implements OnInit {
-  teamsData: any = [];
+  teamsData: TeamTableData[] = [];
   searchUsersResult: { id: string; userName: string }[] = [];
   filteredMembers: { id: string; userName: string }[] = [];
   isLoading: boolean = false;
@@ -74,7 +75,7 @@ export class TeamTableComponent implements OnInit {
   }
 
   onTeamClick(id: string) {
-    this.router.navigate(['/team', id]);
+    this.router.navigate([CLIENT_ROUTES.TEAM_DETAILS(), id]);
   }
 
   private getTeams() {
