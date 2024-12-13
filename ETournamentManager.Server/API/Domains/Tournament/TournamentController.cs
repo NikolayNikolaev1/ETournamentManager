@@ -32,14 +32,14 @@
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
-        [ProducesResponseType(typeof(string), Status200OK)]
+        [ProducesResponseType(typeof(TournamentBaseModel), Status200OK)]
         [ProducesResponseType(Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] TournamentManagementModel model)
             => await tournamentService.Create(model).ReturnOkResult();
 
         [HttpPatch("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{ADMIN}, {TOURNAMENT_CREATOR}")]
-        [ProducesResponseType(typeof(TournamentListingModel), Status200OK)]
+        [ProducesResponseType(typeof(TournamentBaseModel), Status200OK)]
         public async Task<IActionResult> Update(string id, [FromBody] TournamentManagementModel model)
             => await tournamentService.Edit(id, model).ReturnOkResult();
 

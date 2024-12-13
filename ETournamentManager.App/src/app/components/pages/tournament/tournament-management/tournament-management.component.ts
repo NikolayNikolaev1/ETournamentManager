@@ -9,9 +9,9 @@ import {
   TournamentType,
 } from 'app/components/pages/tournament/tournament-management/tournament-management.configuration';
 import Game from 'app/models/game.model';
-import Tournament from 'app/models/tournament.model';
+import { TournamentBase } from 'app/models/tournament.model';
 import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-tournament-management',
@@ -42,7 +42,7 @@ export class TournamentManagementComponent implements OnInit {
       minTeamMembers: number;
       type?: number;
       game: Game;
-      onEdit?: (data: Tournament) => void;
+      onEdit: (data: TournamentBase) => void;
     }>
   ) {}
 
@@ -82,7 +82,7 @@ export class TournamentManagementComponent implements OnInit {
     }
 
     this.apiService
-      .request<Tournament, TOURNAMENT_MANAGEMENT_REQUEST_BODY>({
+      .request<TournamentBase, TOURNAMENT_MANAGEMENT_REQUEST_BODY>({
         url: this.isEdit ? `${SERVER_ROUTES.TOURNAMENT.UPDATE}/${this.tournamentId}` : SERVER_ROUTES.TOURNAMENT.CREATE,
         method: this.isEdit ? 'patch' : 'post',
         body: {
@@ -95,7 +95,11 @@ export class TournamentManagementComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          if (this.ref.data.onEdit !== undefined) this.ref.data.onEdit(response);
+          if (this.isEdit) {
+            this.ref.data.onEdit(response);
+          } else {
+            this.router.navigate([CLIENT_ROUTES.TOURNAMENT_DETAILS(), response.id]);
+          }
 
           this.dialogService.closeAll();
         },

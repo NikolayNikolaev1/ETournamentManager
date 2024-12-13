@@ -65,7 +65,7 @@
             return mapper.Map<UserBaseModel>(user);
         }
 
-        public async Task<string> Create(TeamManagementModel model)
+        public async Task<TeamBaseModel> Create(TeamManagementModel model)
         {
             Team team = new Team
             {
@@ -86,7 +86,7 @@
             await dbContext.AddAsync(team);
             await dbContext.SaveChangesAsync();
 
-            return team.Id.ToString();
+            return mapper.Map<TeamBaseModel>(team);
         }
 
         public async Task Delete(string id)
@@ -137,7 +137,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<TeamListingModel> Edit(string id, TeamManagementModel model)
+        public async Task<TeamBaseModel> Edit(string id, TeamManagementModel model)
         {
             Team? team = await teamDataService.GetById(id);
 
@@ -160,7 +160,7 @@
             dbContext.Teams.Update(team);
             await dbContext.SaveChangesAsync();
 
-            return mapper.Map<TeamListingModel>(team);
+            return mapper.Map<TeamBaseModel>(team);
         }
 
         public async Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams)

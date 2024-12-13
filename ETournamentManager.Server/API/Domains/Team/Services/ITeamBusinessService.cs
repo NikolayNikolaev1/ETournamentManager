@@ -6,11 +6,11 @@
 
     public interface ITeamBusinessService : IService
     {
-        Task<string> Create(TeamManagementModel model);
+        Task<TeamBaseModel> Create(TeamManagementModel model);
 
         Task Delete(string id);
 
-        Task<TeamListingModel> Edit(string id, TeamManagementModel model);
+        Task<TeamBaseModel> Edit(string id, TeamManagementModel model);
 
         Task<ICollection<TeamListingModel>> GetAll(TeamQueryParamsModel queryParams);
 

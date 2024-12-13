@@ -6,11 +6,11 @@
 
     public interface ITournamentBusinessService : IService
     {
-        Task<string> Create(TournamentManagementModel model);
+        Task<TournamentBaseModel> Create(TournamentManagementModel model);
 
         Task Delete(string id);
 
-        Task<TournamentListingModel> Edit(string id, TournamentManagementModel model);
+        Task<TournamentBaseModel> Edit(string id, TournamentManagementModel model);
 
         Task Finish(string id);
 

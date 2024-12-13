@@ -30,7 +30,7 @@
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
 
-        public async Task<string> Create(TournamentManagementModel model)
+        public async Task<TournamentBaseModel> Create(TournamentManagementModel model)
         {
             if (!await gameDataService.ContainsId(model.GameId))
             {
@@ -50,7 +50,7 @@
             await dbContext.Tournaments.AddAsync(tournament);
             await dbContext.SaveChangesAsync();
 
-            return tournament.Id.ToString();
+            return mapper.Map<TournamentBaseModel>(tournament);
         }
 
         public async Task Delete(string id)
@@ -62,7 +62,7 @@
                 throw new BusinessServiceException("Tournament not found.", Status404NotFound);
             }
 
-            if (tournament.CreatorId != Guid.Parse(currentUser.Id) || currentUser.RoleName != ADMIN)
+            if (tournament.CreatorId != Guid.Parse(currentUser.Id) && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("User is not creator of tournament.", Status401Unauthorized);
             }
@@ -76,7 +76,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<TournamentListingModel> Edit(string id, TournamentManagementModel model)
+        public async Task<TournamentBaseModel> Edit(string id, TournamentManagementModel model)
         {
             Tournament? tournament = await tournamentDataService.GetById(id);
 
@@ -107,7 +107,7 @@
             dbContext.Tournaments.Update(tournament);
             await dbContext.SaveChangesAsync();
 
-            return mapper.Map<TournamentListingModel>(tournament);
+            return mapper.Map<TournamentBaseModel>(tournament);
         }
 
         public async Task Finish(string id)

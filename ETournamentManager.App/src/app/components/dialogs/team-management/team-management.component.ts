@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { DialogRef, DialogService } from '@ngneat/dialog';
 
 import { TEAM_MANAGEMENT_FORM_MODEL } from 'app/components/dialogs/team-management/team-management.configuration';
-import Team from 'app/models/team.model';
+import Team, { TeamBase } from 'app/models/team.model';
 import { ApiService } from 'app/services/api.service';
-import { SERVER_ROUTES } from 'app/utils/constants';
+import { CLIENT_ROUTES, SERVER_ROUTES } from 'app/utils/constants';
 
 @Component({
   selector: 'app-team-management',
@@ -30,7 +30,7 @@ export class TeamManagementComponent implements OnInit {
       name: string;
       tag: string;
       description: string;
-      onEdit?: (data: Team) => void;
+      onEdit: (data: TeamBase) => void;
     }>
   ) {}
 
@@ -52,7 +52,7 @@ export class TeamManagementComponent implements OnInit {
 
   onSubmitClick() {
     this.apiService
-      .request<Team, TEAM_MANAGEMENT_FORM_MODEL>({
+      .request<TeamBase, TEAM_MANAGEMENT_FORM_MODEL>({
         url: this.isEdit ? `${SERVER_ROUTES.TEAM.UPDATE}/${this.teamId}` : SERVER_ROUTES.TEAM.CREATE,
         method: this.isEdit ? 'patch' : 'post',
         body: {
@@ -63,7 +63,11 @@ export class TeamManagementComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          if (this.ref.data.onEdit !== undefined) this.ref.data.onEdit(response);
+          if (this.isEdit) {
+            this.ref.data.onEdit(response);
+          } else {
+            this.router.navigate([CLIENT_ROUTES.TEAM_DETAILS(), response.id]);
+          }
 
           this.dialogService.closeAll();
         },

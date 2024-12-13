@@ -143,7 +143,7 @@ export class TeamDetailsComponent implements OnInit {
         event: () => {
           this.apiService
             .request({ url: `${SERVER_ROUTES.TEAM.DELETE}/${this.teamId}`, method: 'delete' })
-            .subscribe(() => this.router.navigate(['/profile']));
+            .subscribe(() => this.router.navigate([CLIENT_ROUTES.PROFILE]));
         },
       },
     });
@@ -165,7 +165,7 @@ export class TeamDetailsComponent implements OnInit {
                 memberId: this.currentUserProfile.id,
               },
             })
-            .subscribe(() => this.router.navigate(['/profile']));
+            .subscribe(() => this.router.navigate([CLIENT_ROUTES.PROFILE]));
         },
       },
     });
