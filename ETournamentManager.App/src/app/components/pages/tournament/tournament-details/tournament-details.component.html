@@ -26,7 +26,7 @@
               (inputChanged)="getTeamByName($event)"
               (searchResultSelected)="selectTeam($event)"
             />
-          } @else {
+          } @else if (!tournamentData.active && !tournamentData.finished) {
             <app-e-button (click)="onStartClick()">Start</app-e-button>
           }
 
@@ -43,12 +43,14 @@
             alt="Edit icon"
             (click)="onEditClick()"
           />
-          <img
-            class="action-icon hover-transition"
-            src="assets/images/delete-icon.svg"
-            alt="Edit icon"
-            (click)="onDeleteClick()"
-          />
+          @if (!tournamentData.finished && !tournamentData.active) {
+            <img
+              class="action-icon hover-transition"
+              src="assets/images/delete-icon.svg"
+              alt="Edit icon"
+              (click)="onDeleteClick()"
+            />
+          }
         </div>
       }
     </div>

@@ -4,6 +4,7 @@ using Core.Extensions.Authentication;
 using Core.Mapper;
 using Data;
 using Data.Models;
+using Data.Seeds;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -65,7 +66,6 @@ builder.Services
 
 //builder.Services
 
-
 builder.Services
     .AddIdentity<User, Role>(options =>
     {
@@ -88,6 +88,7 @@ if (app.Environment.IsDevelopment())
         .UseSwagger()
         .UseSwaggerUI();
 }
+
 
 app
     .UseCustomExceptionHandling()

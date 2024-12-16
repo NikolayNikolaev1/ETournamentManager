@@ -89,7 +89,7 @@ export class TournamentManagementComponent implements OnInit {
           name: this.name,
           description: this.description,
           type: this.type,
-          minTeamMembers: this.minTeamMembers,
+          minTeamMembers: 1,
           gameId: this.selectedGame.id,
         },
       })

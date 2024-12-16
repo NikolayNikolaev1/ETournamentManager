@@ -183,7 +183,10 @@ export class TournamentDetailsComponent {
         event: () => {
           this.apiService
             .request({ url: `${SERVER_ROUTES.TOURNAMENT.FINISH}/${this.tournamentId}`, method: 'patch' })
-            .subscribe(() => this.getRanking());
+            .subscribe(() => {
+              this.getRanking();
+              this.tournamentData!.finished = true;
+            });
         },
       },
     });

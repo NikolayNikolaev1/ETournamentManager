@@ -3,6 +3,7 @@
     using Common.Data.Interfaces;
     using Data;
     using Data.Models;
+    using Data.Seeds;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -94,6 +95,9 @@
                     }
                 })
                 .Wait();
+
+
+            //UserSeeder.Seed(serviceScope.ServiceProvider);
 
             return app;
         }
