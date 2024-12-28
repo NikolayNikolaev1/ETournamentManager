@@ -10,6 +10,7 @@ namespace Data.Configurations
         public void Configure(EntityTypeBuilder<UserRole> userRole)
         {
             userRole
+                .ToTable(name: "UserRoles")
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
 
             userRole

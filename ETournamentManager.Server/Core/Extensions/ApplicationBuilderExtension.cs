@@ -96,8 +96,20 @@
                 })
                 .Wait();
 
+            Task
+                .Run(async () =>
+                {
+                    var usersCount = await dbContext.Users.CountAsync();
 
-            //UserSeeder.Seed(serviceScope.ServiceProvider);
+                    if (usersCount == 1)
+                    {
+                        await UserSeeder.Seed(serviceScope.ServiceProvider);
+                        await GameSeeder.Seed(serviceScope.ServiceProvider);
+                        await TournamentSeeder.Seed(serviceScope.ServiceProvider);
+                    }
+
+                })
+                .Wait();
 
             return app;
         }

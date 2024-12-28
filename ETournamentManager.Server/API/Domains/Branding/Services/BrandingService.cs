@@ -49,6 +49,6 @@
         }
 
         public async Task<BrandingListingModel> Get()
-            => mapper.Map<BrandingListingModel>(await dbContext.Branding.FirstAsync());
+            => mapper.Map<BrandingListingModel>(await dbContext.Branding.FirstOrDefaultAsync());
     }
 }

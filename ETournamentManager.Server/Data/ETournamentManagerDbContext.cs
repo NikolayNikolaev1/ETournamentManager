@@ -30,6 +30,9 @@
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<User>().ToTable(name: "Users");
+            builder.Entity<Role>().ToTable(name: "Roles");
+
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
