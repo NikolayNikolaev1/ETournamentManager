@@ -1,64 +1,89 @@
 <div class="section-container">
   <div class="header-wrapper">
     <div id="section-header">
-      <div class="title">
-        <span class="circle" [ngStyle]="{ opacity: '0.' + opacity }"></span>
-        Active Tournaments
-      </div>
-
-      <div id="arrows-container">
-        <img
-          class="arrow left"
-          [ngClass]="{ disabled: currentTournamnetIndex === 0 }"
-          src="assets/images/arrow.svg"
-          alt="Arrow icon"
-          (click)="changeTournament(false)"
-        />
-        <img
-          class="arrow"
-          [ngClass]="{ disabled: currentTournamnetIndex === startedTournaments.length - 1 }"
-          src="assets/images/arrow.svg"
-          alt="Arrow icon"
-          (click)="changeTournament(true)"
-        />
-      </div>
+      <div class="title">Home Panel</div>
     </div>
     <hr />
   </div>
 
-  <div class="tournament-section">
-    @if (startedTournaments.length === 0) {
-      <div class="loader-wrapper">
-        <span class="loader"></span>
-      </div>
-    } @else {
-      <div
-        id="tournament-title"
-        class="hover-transition"
-        [routerLink]="clientRoutes.TOURNAMENT_DETAILS(startedTournaments[currentTournamnetIndex].id)"
-      >
-        {{ startedTournaments[currentTournamnetIndex].name }}
-      </div>
-      <div id="game-name">Game: {{ startedTournaments[currentTournamnetIndex].game }}</div>
-
-      <div id="teams-section">
-        <div id="team-navigation">
-          <div class="section-header">Teams</div>
-          <div id="teams-container">
-            @for (currentTeam of startedTournaments[currentTournamnetIndex].teams; track $index) {
-              <div class="team hover-transition" [routerLink]="[clientRoutes.TEAM_DETAILS(currentTeam.id)]">
-                {{ currentTeam.name }}
-              </div>
-            }
+  <div id="home-panel-container">
+    @for (panelItem of homePanelConfig; track panelItem) {
+      @if (panelItem.roles.length === 0 || panelItem.roles.includes(currentUser?.roleName || '')) {
+        <div class="panel-item">
+          <p class="sub-title">{{ panelItem.title }}</p>
+          <div class="img-wrapper">
+            <img class="panel-img" [alt]="panelItem.imageUrl.split('/').at(-1)" [src]="panelItem.imageUrl" />
           </div>
+          <app-e-button (click)="onHomePanelClick(panelItem?.route ?? '', panelItem.dialogComponent)">
+            {{ panelItem.buttonText }}
+          </app-e-button>
         </div>
-
-        <app-tournament-bracket
-          [tournamentId]="startedTournaments[currentTournamnetIndex].id"
-          [roundsData]="startedTournaments[currentTournamnetIndex].rounds"
-          [canChooseWinner]="false"
-        />
-      </div>
+      }
     }
   </div>
+
+  @if (tournamentLoading || startedTournaments.length > 0) {
+    <div class="header-wrapper">
+      <div id="section-header">
+        <div class="title">
+          <span class="circle" [ngStyle]="{ opacity: '0.' + opacity }"></span>
+          Active Tournaments
+        </div>
+
+        <div id="arrows-container">
+          <img
+            class="arrow left"
+            [ngClass]="{ disabled: currentTournamnetIndex === 0 }"
+            src="assets/images/arrow.svg"
+            alt="Arrow icon"
+            (click)="changeTournament(false)"
+          />
+          <img
+            class="arrow"
+            [ngClass]="{ disabled: currentTournamnetIndex === startedTournaments.length - 1 }"
+            src="assets/images/arrow.svg"
+            alt="Arrow icon"
+            (click)="changeTournament(true)"
+          />
+        </div>
+      </div>
+      <hr />
+    </div>
+
+    <div class="tournament-section">
+      @if (tournamentLoading) {
+        <div class="loader-wrapper">
+          <span class="loader"></span>
+        </div>
+      } @else {
+        <div
+          id="tournament-title"
+          class="hover-transition"
+          [routerLink]="clientRoutes.TOURNAMENT_DETAILS(startedTournaments[currentTournamnetIndex].id)"
+        >
+          {{ startedTournaments[currentTournamnetIndex].name }}
+        </div>
+        <div id="game-name">Game: {{ startedTournaments[currentTournamnetIndex].game }}</div>
+
+        <div id="teams-section">
+          <div id="team-navigation">
+            <div class="section-header">Teams</div>
+            <div id="teams-container">
+              @for (currentTeam of startedTournaments[currentTournamnetIndex].teams; track $index) {
+                <div class="team hover-transition" [routerLink]="[clientRoutes.TEAM_DETAILS(currentTeam.id)]">
+                  {{ currentTeam.name }}
+                </div>
+              }
+            </div>
+          </div>
+
+          <app-tournament-bracket
+            [tournamentId]="startedTournaments[currentTournamnetIndex].id"
+            [roundsData]="startedTournaments[currentTournamnetIndex].rounds"
+            [canChooseWinner]="false"
+          />
+        </div>
+      }
+    </div>
+  }
 </div>

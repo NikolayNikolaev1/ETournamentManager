@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 import { DialogService } from '@ngneat/dialog';
 
+import { RegisterComponent } from '../register/register.component';
+
 import { AuthService } from 'app/services/auth.service';
 import { TOKEN_KEY_NAME } from 'app/utils/constants';
-
-import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login',

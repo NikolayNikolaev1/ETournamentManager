@@ -4,6 +4,7 @@ export const CLIENT_ROUTES = {
   TEAM_TABLE: '/teams',
   TOURNAMENT_DETAILS: (id: string = '') => `/tournament/${id}`,
   TOURNAMENT_TABLE: '/tournaments',
+  USER_TABLE: '/users',
 };
 
 export const USER_ROLES = {

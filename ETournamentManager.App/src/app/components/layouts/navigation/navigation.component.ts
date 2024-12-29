@@ -53,11 +53,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   onLoginClick() {
-    this.dialog.open(LoginComponent, {
-      data: {
-        title: '',
-      },
-    });
+    this.dialog.open(LoginComponent);
   }
 
   onRegisterClick() {
