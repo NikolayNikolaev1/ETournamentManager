@@ -40,6 +40,7 @@ import { TournamentTableComponent } from 'app/components/pages/tournament/tourna
 import { UserTableComponent } from 'app/components/dialogs/user-table/user-table.component';
 import { TournamentBracketComponent } from 'app/components/tournament-bracket/tournament-bracket.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
+import { NavigationPanelComponent } from './components/core/navigation-panel/navigation-panel.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
     ThemePickerComponent,
     AccessPermissionsComponent,
     PlatformInfoComponent,
+    NavigationPanelComponent,
   ],
   imports: [
     BrowserModule,

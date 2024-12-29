@@ -6,3 +6,12 @@ export type InfoCard = {
   subname?: string;
   imageUrl: string;
 };
+
+export type NavPanelItem = {
+  title: string;
+  buttonText: string;
+  imageUrl: string;
+  roles: string[];
+  route?: string;
+  dialogComponent?: any;
+};

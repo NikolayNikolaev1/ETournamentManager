@@ -6,21 +6,7 @@
     <hr />
   </div>
 
-  <div id="home-panel-container">
-    @for (panelItem of homePanelConfig; track panelItem) {
-      @if (panelItem.roles.length === 0 || panelItem.roles.includes(currentUser?.roleName || '')) {
-        <div class="panel-item">
-          <p class="sub-title">{{ panelItem.title }}</p>
-          <div class="img-wrapper">
-            <img class="panel-img" [alt]="panelItem.imageUrl.split('/').at(-1)" [src]="panelItem.imageUrl" />
-          </div>
-          <app-e-button (click)="onHomePanelClick(panelItem?.route ?? '', panelItem.dialogComponent)">
-            {{ panelItem.buttonText }}
-          </app-e-button>
-        </div>
-      }
-    }
-  </div>
+  <app-navigation-panel [panelItems]="homePanelConfig" />
 
   @if (tournamentLoading || startedTournaments.length > 0) {
     <div class="header-wrapper">

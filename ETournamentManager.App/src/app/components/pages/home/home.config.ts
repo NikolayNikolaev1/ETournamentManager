@@ -1,34 +1,24 @@
-import { Component } from '@angular/core';
-
 import { GameCreateComponent } from 'app/components/dialogs/game-create/game-create.component';
 import { LoginComponent } from 'app/components/dialogs/login/login.component';
 import { RegisterComponent } from 'app/components/dialogs/register/register.component';
 import { TeamManagementComponent } from 'app/components/dialogs/team-management/team-management.component';
 import { TournamentManagementComponent } from 'app/components/pages/tournament/tournament-management/tournament-management.component';
 import { CLIENT_ROUTES, USER_ROLES } from 'app/utils/constants';
+import { NavPanelItem } from 'app/utils/types';
 
-type HomePanelItem = {
-  title: string;
-  buttonText: string;
-  imageUrl: string;
-  roles: string[];
-  route?: string;
-  dialogComponent?: any;
-};
-
-export const HOME_PANEL_CONFIG: HomePanelItem[] = [
+export const HOME_PANEL_CONFIG: NavPanelItem[] = [
   {
     title: 'Log in to your account',
     buttonText: 'Login',
     imageUrl: 'assets/images/home-panel-tournament-table.png',
-    roles: [],
+    roles: [USER_ROLES.GUEST],
     dialogComponent: LoginComponent,
   },
   {
     title: 'Create a new account',
     buttonText: 'Register',
     imageUrl: 'assets/images/home-panel-tournament-table.png',
-    roles: [],
+    roles: [USER_ROLES.GUEST],
     dialogComponent: RegisterComponent,
   },
   {

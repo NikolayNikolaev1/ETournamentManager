@@ -29,22 +29,13 @@
             alt="Config icon"
             (click)="onPasswordChangeClick()"
           />
-
-          @if (currentUserProfile.roleName === userRoles.ADMIN) {
-            <div id="config-container">
-              @for (config of platformConfigs; track $index) {
-                <img
-                  class="edit-icon hover-transition"
-                  src="assets/images/config-icon.svg"
-                  alt="Config icon"
-                  (click)="onPlatformConfigClick(config)"
-                />
-              }
-            </div>
-          }
         </div>
         <hr />
       </div>
+
+      @if (currentUserProfile.roleName === userRoles.ADMIN) {
+        <app-navigation-panel [panelItems]="platformConfigs" />
+      }
 
       @if (isParticipant) {
         <div id="profile-section">

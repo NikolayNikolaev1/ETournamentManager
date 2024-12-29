@@ -1,13 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { DialogService } from '@ngneat/dialog';
 
 import { HOME_PANEL_CONFIG } from 'app/components/pages/home/home.config';
 import { TournamentRounds } from 'app/models/tournament.model';
-import UserProfile from 'app/models/user-profile.model';
 import { ApiService } from 'app/services/api.service';
-import { AuthService } from 'app/services/auth.service';
 import { GLOBAL_CONSTANTS, SERVER_ROUTES } from 'app/utils/constants';
 
 @Component({
@@ -24,18 +19,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   opacityUp: boolean = true;
   liveInterval: NodeJS.Timeout | null = null;
   tournamentLoading: boolean = false;
-  currentUser: UserProfile | null = null;
 
-  constructor(
-    private router: Router,
-    private dialogService: DialogService,
-    private apiServie: ApiService,
-    private authService: AuthService
-  ) {}
+  constructor(private apiServie: ApiService) {}
 
   ngOnInit(): void {
     this.getActiveTournaments();
-    this.authService.currentUser$.subscribe((profile) => (this.currentUser = profile));
   }
 
   ngOnDestroy() {
@@ -53,14 +41,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     forward ? this.currentTournamnetIndex++ : this.currentTournamnetIndex--;
-  }
-
-  onHomePanelClick(route: string, dialogComponent: any) {
-    if (dialogComponent === undefined) {
-      this.router.navigate([route]);
-    } else {
-      this.dialogService.open(dialogComponent);
-    }
   }
 
   private getActiveTournaments() {
