@@ -4,10 +4,10 @@
       <img id="nav-logo" [src]="logoUrl" alt="Trophy Logo" />
       {{ platformName || constants.WEBSITE_NAME }}
     </li>
-    <li class="nav-item hover-transition flex-right" routerLink="/tournaments" routerLinkActive="active">
+    <li class="desktop nav-item hover-transition flex-right" routerLink="/tournaments" routerLinkActive="active">
       Tournaments
     </li>
-    <li class="nav-item hover-transition" routerLink="/teams" routerLinkActive="active">Teams</li>
+    <li class="desktop nav-item hover-transition" routerLink="/teams" routerLinkActive="active">Teams</li>
 
     @if (currentUser !== null) {
       <li
@@ -15,7 +15,8 @@
         (mouseenter)="showDropdownMenu = true"
         (mouseleave)="showDropdownMenu = false"
       >
-        Welcome, {{ currentUser.username | uppercase }}
+        Welcome
+        <div id="username">,&nbsp;{{ currentUser.username | uppercase }}</div>
         <img class="dropdown-arrow" src="assets/images/arrow.svg" alt="Arrow" />
       </li>
       <ul
@@ -24,7 +25,15 @@
         (mouseenter)="showDropdownMenu = true"
         (mouseleave)="showDropdownMenu = false"
       >
-        <li class="dropdown-item hover-transition" routerLink="/profile" routerLinkActive="active">Profile</li>
+        <li class="dropdown-item hover-transition" routerLink="/profile" routerLinkActive="active">
+          Profile
+
+          <div class="mobile-username">&nbsp;-&nbsp;{{ currentUser.username | uppercase }}</div>
+        </li>
+        <li class="mobile dropdown-item hover-transition" routerLink="/tournaments" routerLinkActive="active">
+          Tournaments
+        </li>
+        <li class="mobile dropdown-item hover-transition" routerLink="/teams" routerLinkActive="active">Teams</li>
         @if (currentUser.roleName === constants.ADMIN_ROLE) {
           <li class="dropdown-item hover-transition" routerLink="/users" routerLinkActive="active">All users</li>
         }

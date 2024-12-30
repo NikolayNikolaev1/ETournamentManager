@@ -1,16 +1,25 @@
 @use 'colors';
 @use 'variables';
+@use 'layout-breakpoints' as *;
 
 #footer-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 15px;
+  padding-left: 60px;
   background-color: colors.$primary;
+  align-items: start;
+  gap: 30px;
+
+  @media screen and (min-width: $medium-min) {
+    flex-direction: row;
+    gap: 0;
+  }
 
   #platform-info {
     display: flex;
     gap: 15px;
-    padding-left: 45px;
 
     #footer-logo {
       height: 55px;
@@ -38,19 +47,32 @@
     display: flex;
     flex-direction: column;
     justify-content: end;
-    margin-left: auto;
-    align-items: center;
+
+    @media screen and (min-width: $medium-min) {
+      align-items: center;
+    }
   }
 
   #developer-contacts {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    align-items: end;
     color: colors.$background;
 
+    @media screen and (min-width: $medium-min) {
+      align-items: end;
+    }
+
     .contact-name {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 5px;
       color: colors.$background;
+      align-items: baseline;
+
+      @media screen and (min-width: $medium-min) {
+        flex-direction: row;
+      }
     }
 
     .contact-logo {

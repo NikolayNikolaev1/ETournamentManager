@@ -23,14 +23,14 @@ export const HOME_PANEL_CONFIG: NavPanelItem[] = [
   },
   {
     title: 'Tournaments Table',
-    buttonText: 'Show all tournaments',
+    buttonText: 'Show all',
     imageUrl: 'assets/images/home-panel-tournament-table.png',
     route: CLIENT_ROUTES.TOURNAMENT_TABLE,
     roles: [],
   },
   {
     title: 'Teams Table',
-    buttonText: 'Show all teams',
+    buttonText: 'Show all',
     imageUrl: 'assets/images/home-panel-team-table.png',
     route: CLIENT_ROUTES.TEAM_TABLE,
     roles: [],
