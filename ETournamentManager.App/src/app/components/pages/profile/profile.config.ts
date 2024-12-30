@@ -1,4 +1,5 @@
 import { AccessPermissionsComponent } from 'app/components/dialogs/access-permissions/access-permissions.component';
+import { LogoChangeComponent } from 'app/components/dialogs/logo-change/logo-change.component';
 import { PlatformInfoComponent } from 'app/components/dialogs/platform-info/platform-info.component';
 import { ThemePickerComponent } from 'app/components/dialogs/theme-picker/theme-picker.component';
 import { USER_ROLES } from 'app/utils/constants';
@@ -13,6 +14,13 @@ export type ChangeUsernameRequest = {
 };
 
 export const PLATFORM_CONFIGS: NavPanelItem[] = [
+  {
+    title: 'Logo change',
+    buttonText: 'Config',
+    imageUrl: 'assets/images/home-panel-tournament-table.png',
+    roles: [USER_ROLES.ADMIN],
+    dialogComponent: LogoChangeComponent,
+  },
   {
     title: 'Access Permissions',
     buttonText: 'Config',

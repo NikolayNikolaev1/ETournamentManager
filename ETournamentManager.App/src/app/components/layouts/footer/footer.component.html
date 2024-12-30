@@ -1,17 +1,26 @@
 <div id="footer-container">
+  <div id="platform-info">
+    <img id="footer-logo" [src]="logoUrl" alt="Logo" />
+    <div id="contact-container">
+      <a class="contact-item hover-transition" [href]="contactLink" target="_blank">Website</a>
+      <a class="contact-item hover-transition" [href]="'mailto: ' + contactEmail">Email</a>
+    </div>
+  </div>
   <div id="project-info">
-    <h4>SoftUni Angular 2024</h4>
-    <!-- <h5>Computer Systems Technology - 2024</h5> -->
+    <h4>Technical University Varna</h4>
+    <h5>Computer Systems Technology - 2025</h5>
     <h6>Developed by Nikolay Nikolaev</h6>
   </div>
   <ul id="developer-contacts" class="flex-right">
     <li class="contact-item hover-transition image-text">
-      <a class="contact-name" href="https://github.com/NikolayNikolaev1" target="_blank">GitHub</a>
-      <img class="contact-logo" src="assets/images/github-logo.svg" alt="GitHub Logo" />
+      <a class="contact-name" href="https://github.com/NikolayNikolaev1" target="_blank">
+        GitHub <img class="contact-logo" src="assets/images/github-logo.svg" alt="GitHub Logo" />
+      </a>
     </li>
     <li class="contact-item hover-transition image-text">
-      <a class="contact-name" href="https://www.linkedin.com/in/nnikolaevdev/" target="_blank">LinkedIn</a>
-      <img class="contact-logo" src="assets/images/linkedin-logo.svg" alt="LinkedIn Logo" />
+      <a class="contact-name" href="https://www.linkedin.com/in/nnikolaevdev/" target="_blank">
+        LinkedIn <img class="contact-logo" src="assets/images/linkedin-logo.svg" alt="LinkedIn Logo" />
+      </a>
     </li>
   </ul>
 </div>

@@ -1,32 +1,48 @@
 <div id="nav-container">
-  <ul>
-    <li class="nav-item hover-transition image-text" routerLink="/">
-      <img id="nav-logo" src="assets/images/trophy-logo.svg" alt="Trophy Logo" />
+  <ul id="nav-items-container">
+    <li id="website-title" class="nav-item hover-transition image-text" routerLink="/">
+      <img id="nav-logo" [src]="logoUrl" alt="Trophy Logo" />
       {{ platformName || constants.WEBSITE_NAME }}
     </li>
-    <li class="nav-item hover-transition" routerLink="/tournaments" routerLinkActive="active">Current tournaments</li>
-    <li class="nav-item hover-transition" routerLink="/teams" routerLinkActive="active">All teams</li>
-    @if (currentUser !== null) {
-      @if (currentUser.roleName === constants.ADMIN_ROLE) {
-        <li class="nav-item hover-transition" routerLink="/users" routerLinkActive="active">All users</li>
-      }
-      @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-        <li class="nav-item hover-transition flex-right" (click)="onTeamCreateClick()">Create team</li>
-      } @else {
-        <li class="nav-item hover-transition flex-right" (click)="onTournamentCreateClick()">Create tournament</li>
-      }
+    <li class="nav-item hover-transition flex-right" routerLink="/tournaments" routerLinkActive="active">
+      Tournaments
+    </li>
+    <li class="nav-item hover-transition" routerLink="/teams" routerLinkActive="active">Teams</li>
 
+    @if (currentUser !== null) {
       <li
-        *ngIf="currentUser.roleName === constants.ADMIN_ROLE"
         class="nav-item hover-transition"
-        (click)="onGameCreateClick()"
+        (mouseenter)="showDropdownMenu = true"
+        (mouseleave)="showDropdownMenu = false"
       >
-        Create game
+        Welcome, {{ currentUser.username | uppercase }}
+        <img class="dropdown-arrow" src="assets/images/arrow.svg" alt="Arrow" />
       </li>
-      <li class="nav-item hover-transition" routerLink="/profile" routerLinkActive="active">
-        {{ currentUser.username | uppercase }}
-      </li>
-      <li class="nav-item hover-transition" (click)="onLogout()">Logout</li>
+      <ul
+        id="dropdown-menu"
+        [ngClass]="{ active: showDropdownMenu }"
+        (mouseenter)="showDropdownMenu = true"
+        (mouseleave)="showDropdownMenu = false"
+      >
+        <li class="dropdown-item hover-transition" routerLink="/profile" routerLinkActive="active">Profile</li>
+        @if (currentUser.roleName === constants.ADMIN_ROLE) {
+          <li class="dropdown-item hover-transition" routerLink="/users" routerLinkActive="active">All users</li>
+        }
+        @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
+          <li class="dropdown-item hover-transition" (click)="onTeamCreateClick()">Create team</li>
+        } @else {
+          <li class="dropdown-item hover-transition" (click)="onTournamentCreateClick()">Create tournament</li>
+        }
+
+        <li
+          *ngIf="currentUser.roleName === constants.ADMIN_ROLE"
+          class="dropdown-item hover-transition"
+          (click)="onGameCreateClick()"
+        >
+          Create game
+        </li>
+        <li class="dropdown-item hover-transition" (click)="onLogout()">Logout</li>
+      </ul>
     } @else {
       <li class="nav-item hover-transition flex-right" (click)="onLoginClick()">Login</li>
       <li class="nav-item hover-transition" (click)="onRegisterClick()">Register</li>

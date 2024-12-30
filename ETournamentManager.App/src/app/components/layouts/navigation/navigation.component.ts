@@ -13,6 +13,7 @@ import { TournamentManagementComponent } from 'app/components/pages/tournament/t
 import UserProfile from 'app/models/user-profile.model';
 import { AuthService } from 'app/services/auth.service';
 import { BrandingService } from 'app/services/branding.service';
+import { ImageService } from 'app/services/image.service';
 import * as Constants from 'app/utils/constants';
 
 @Component({
@@ -25,16 +26,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constants = Constants;
   currentUser: UserProfile | null = null;
   platformName: string = '';
+  logoUrl: string = '';
   currentUserSub!: Subscription;
   infoSub!: Subscription;
+  showDropdownMenu: boolean = false;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private brandingService: BrandingService
+    private brandingService: BrandingService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
+    this.imageService.getImageUrl('logo', '').subscribe((url) => (this.logoUrl = url));
     this.brandingService.platformInfo$.subscribe(({ platformName }) => (this.platformName = platformName));
 
     setTimeout(() => {

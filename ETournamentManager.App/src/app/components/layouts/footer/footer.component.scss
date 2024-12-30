@@ -7,6 +7,33 @@
   padding: 15px;
   background-color: colors.$primary;
 
+  #platform-info {
+    display: flex;
+    gap: 15px;
+    padding-left: 45px;
+
+    #footer-logo {
+      height: 55px;
+    }
+
+    #contact-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: start;
+      gap: 5px;
+      font-size: 18px;
+      font-weight: 500;
+
+      .contact-item {
+        &:hover {
+          color: colors.$background;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
   #project-info {
     display: flex;
     flex-direction: column;

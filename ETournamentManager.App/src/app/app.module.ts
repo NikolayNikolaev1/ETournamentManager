@@ -41,6 +41,7 @@ import { UserTableComponent } from 'app/components/dialogs/user-table/user-table
 import { TournamentBracketComponent } from 'app/components/tournament-bracket/tournament-bracket.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
 import { NavigationPanelComponent } from './components/core/navigation-panel/navigation-panel.component';
+import { LogoChangeComponent } from './components/dialogs/logo-change/logo-change.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { NavigationPanelComponent } from './components/core/navigation-panel/nav
     AccessPermissionsComponent,
     PlatformInfoComponent,
     NavigationPanelComponent,
+    LogoChangeComponent,
   ],
   imports: [
     BrowserModule,
