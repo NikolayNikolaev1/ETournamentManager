@@ -1,12 +1,13 @@
 @use 'colors';
 @use 'fonts';
 @use 'variables';
+@use 'layout-breakpoints' as *;
 
 .card-container {
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  width: 392px;
+  width: 250px;
   height: 212px;
   border-radius: 10px;
   font-family: fonts.$global;
@@ -15,6 +16,10 @@
 
   &:hover {
     box-shadow: variables.$box-shadow;
+  }
+
+  @media screen and (min-width: $small-min) {
+    width: 392px;
   }
 
   .card-wrapper {

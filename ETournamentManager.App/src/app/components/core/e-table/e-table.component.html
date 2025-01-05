@@ -51,7 +51,6 @@
                 <img class="action-icon" src="assets/images/action.svg" alt="Arrow icon" />
               </div>
             </div>
-            <!--  -->
           </th>
         }
       </tr>
@@ -60,7 +59,7 @@
       @for (currentData of paginatedData; track $index) {
         <tr class="hover-transition">
           @for (item of header; track $index) {
-            <td (click)="onRowClick(currentData.id)">{{ currentData[item] }}</td>
+            <td class="cell-data" (click)="onRowClick(currentData.id)">{{ currentData[item] }}</td>
           }
 
           @for (currAction of actions; track $index) {

@@ -1,21 +1,6 @@
 <div id="tournament-container">
   @if (tournamentData !== null) {
-    <div id="banner-header">
-      <app-e-image-upload
-        [entityId]="tournamentId"
-        [imgUrl]="tournamentImageUrl"
-        [hideActions]="!hasCreatorPermissions"
-      />
-      <div class="banner-info-wrapper">
-        <h1 class="title">{{ tournamentData.name }}</h1>
-        <h4 class="description">{{ tournamentData.description }}</h4>
-        <p class="contact">
-          For tournament details - Contact:
-          <a class="contact-mail hover-transition" [href]="'mailto:' + tournamentData.creator.email">
-            {{ tournamentData.creator.email }}
-          </a>
-        </p>
-      </div>
+    <ng-template #actions>
       @if (hasCreatorPermissions) {
         <div class="action-wrapper">
           @if (roundsData.length === 0 && tournamentData.teams.length < 8) {
@@ -37,22 +22,67 @@
           <div class="error-message" [ngStyle]="{ 'align-self': 'center' }">
             {{ startTournamentError }}
           </div>
-          <img
-            class="action-icon hover-transition"
-            src="assets/images/edit-icon.svg"
-            alt="Edit icon"
-            (click)="onEditClick()"
-          />
-          @if (!tournamentData.finished && !tournamentData.active) {
+
+          <div class="icons-container">
             <img
               class="action-icon hover-transition"
-              src="assets/images/delete-icon.svg"
+              src="assets/images/edit-icon.svg"
               alt="Edit icon"
-              (click)="onDeleteClick()"
+              (click)="onEditClick()"
             />
-          }
+            @if (!tournamentData.finished && !tournamentData.active) {
+              <img
+                class="action-icon hover-transition"
+                src="assets/images/delete-icon.svg"
+                alt="Edit icon"
+                (click)="onDeleteClick()"
+              />
+            }
+          </div>
         </div>
       }
+    </ng-template>
+
+    <div id="banner-header">
+      <div class="mobile-actions">
+        <ng-template [ngTemplateOutlet]="actions" />
+      </div>
+      <div class="mobile-header">
+        <app-e-image-upload
+          [entityId]="tournamentId"
+          [imgUrl]="tournamentImageUrl"
+          [hideActions]="!hasCreatorPermissions"
+        />
+        <div class="banner-info-wrapper">
+          <div class="header">
+            <div class="header-title">
+              <h1 class="title">{{ tournamentData.name }}</h1>
+              <h3 class="sub-title">Game: {{ tournamentData.game.name }}</h3>
+            </div>
+
+            <div class="desktop-actions">
+              <ng-template [ngTemplateOutlet]="actions" />
+            </div>
+          </div>
+          <h4 class="description">{{ tournamentData.description }}</h4>
+          <p class="contact">
+            For tournament details - Contact:
+            <a class="contact-mail hover-transition" [href]="'mailto:' + tournamentData.creator.email">
+              {{ tournamentData.creator.email }}
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="mobile-footer">
+        <h4 class="description">{{ tournamentData.description }}</h4>
+        <p class="contact">
+          For tournament details - Contact:
+          <a class="contact-mail hover-transition" [href]="'mailto:' + tournamentData.creator.email">
+            {{ tournamentData.creator.email }}
+          </a>
+        </p>
+      </div>
     </div>
 
     @if (tournamentData.teams.length > 0) {

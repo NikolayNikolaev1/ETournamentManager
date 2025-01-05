@@ -85,7 +85,7 @@
                 throw new BusinessServiceException(TOURNAMENT_NOT_FOUND, Status404NotFound);
             }
 
-            if (!tournament.CreatorId.Equals(Guid.Parse(currentUser.Id)))
+            if (currentUser.RoleName != ADMIN && !tournament.CreatorId.Equals(Guid.Parse(currentUser.Id)))
             {
                 throw new BusinessServiceException(USER_NOT_CREATOR, Status401Unauthorized);
             }

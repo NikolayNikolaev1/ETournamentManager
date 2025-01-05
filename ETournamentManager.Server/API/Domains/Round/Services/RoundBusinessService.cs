@@ -114,7 +114,7 @@
                 throw new BusinessServiceException("Tournament not found", Status404NotFound);
             }
 
-            if (tournament.CreatorId != Guid.Parse(currentUser.Id) || currentUser.RoleName == ADMIN)
+            if (tournament.CreatorId != Guid.Parse(currentUser.Id) && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("Only tournament creator can start tournament", Status401Unauthorized);
             }

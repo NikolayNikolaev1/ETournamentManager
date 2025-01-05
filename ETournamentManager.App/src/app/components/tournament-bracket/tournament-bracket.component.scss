@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'layout-breakpoints' as *;
 
 .bracket-container {
   .bracket {
@@ -19,10 +20,14 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        min-width: 240px;
+        min-width: 66px;
         max-width: 240px;
         height: 62px;
         margin: 12px 24px 12px 0;
+
+        @media screen and (min-width: $small-min) {
+          min-width: 240px;
+        }
 
         .match-top {
           border-radius: 2px 2px 0 0;
@@ -56,11 +61,32 @@
           }
 
           span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             padding-left: 8px;
-          }
 
-          span:last-child {
-            padding-right: 8px;
+            &:first-child {
+              @media screen and (max-width: $extra-small) {
+                max-width: 93px;
+              }
+            }
+
+            &:last-child {
+              padding-right: 8px;
+            }
+
+            &.tag {
+              @media screen and (min-width: $small-min) {
+                display: none;
+              }
+            }
+
+            &.name {
+              @media screen and (max-width: $extra-small) {
+                display: none;
+              }
+            }
           }
 
           .score {

@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'variables';
+@use 'layout-breakpoints' as *;
 
 .table-container {
   width: 100%;
@@ -16,6 +17,12 @@
       border: 1px solid colors.$primary;
       padding: 8px;
       cursor: pointer;
+
+      &.cell-data {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     th {
@@ -105,7 +112,12 @@
   .filters-section {
     .main-filter {
       display: flex;
+      flex-direction: column;
       gap: 15px;
+
+      @media screen and (min-width: $small-min) {
+        flex-direction: row;
+      }
 
       .search-holder {
         position: relative;
@@ -127,7 +139,11 @@
           position: absolute;
           height: 20px;
           top: 10px;
-          right: 10px;
+          right: 115px;
+
+          @media screen and (min-width: $small-min) {
+            right: 10px;
+          }
         }
       }
 

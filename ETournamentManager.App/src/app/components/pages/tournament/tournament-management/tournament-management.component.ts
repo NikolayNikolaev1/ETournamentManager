@@ -38,7 +38,7 @@ export class TournamentManagementComponent implements OnInit {
     private ref: DialogRef<{
       tournamentId: string;
       name: string;
-      description: string;
+      description?: string;
       minTeamMembers: number;
       type?: number;
       game: Game;
@@ -51,7 +51,7 @@ export class TournamentManagementComponent implements OnInit {
       this.tournamentId = this.ref.data.tournamentId;
       this.isEdit = true;
       this.name = this.ref.data.name;
-      this.description = this.ref.data.description;
+      this.description = this.ref.data.description ?? '';
       this.minTeamMembers = this.ref.data.minTeamMembers;
 
       if (this.ref.data.type === undefined) {

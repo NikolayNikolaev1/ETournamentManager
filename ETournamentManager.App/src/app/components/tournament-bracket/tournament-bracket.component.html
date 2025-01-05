@@ -12,6 +12,8 @@
             (click)="onTeamClick(currentRound.id, currentRound.teams[0].id)"
           >
             <span class="name">{{ currentRound.teams[0].name }}</span>
+            <span class="tag">{{ currentRound.teams[0].tag }}</span>
+
             @if (currentRound.winnerId !== null) {
               <span class="score" [ngClass]="{ win: currentRound.winnerId === currentRound.teams[0].id }">
                 {{ currentRound.winnerId === currentRound.teams[0].id ? 'W' : 'L' }}
@@ -27,8 +29,9 @@
             (click)="onTeamClick(currentRound.id, currentRound.teams[1].id)"
           >
             <span class="name">{{ currentRound.teams[1].name }}</span>
+            <span class="tag">{{ currentRound.teams[1].tag }}</span>
             @if (currentRound.winnerId !== null) {
-              <span class="score"  [ngClass]="{ win: currentRound.winnerId === currentRound.teams[1].id }">
+              <span class="score" [ngClass]="{ win: currentRound.winnerId === currentRound.teams[1].id }">
                 {{ currentRound.winnerId === currentRound.teams[1].id ? 'W' : 'L' }}
               </span>
             }
@@ -57,6 +60,10 @@
             <span class="name">
               {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].name }}
             </span>
+            
+            <span class="tag">
+              {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].tag }}
+            </span>
             @if (currentRound.winnerId !== null) {
               <span
                 class="score"
@@ -81,6 +88,9 @@
           >
             <span class="name">
               {{ currentRound.teams.length < 2 ? 'TBD' : currentRound.teams[1].name }}
+            </span>
+            <span class="tag">
+              {{ currentRound.teams.length < 2 ? 'TBD' : currentRound.teams[1].tag }}
             </span>
             @if (currentRound.winnerId !== null) {
               <span
@@ -120,6 +130,9 @@
           <span class="name">
             {{ roundsData[6].teams.length < 1 ? 'TBD' : roundsData[6].teams[0].name }}
           </span>
+          <span class="tag">
+            {{ roundsData[6].teams.length < 1 ? 'TBD' : roundsData[6].teams[0].tag }}
+          </span>
           @if (roundsData[6].winnerId !== null) {
             <span
               class="score"
@@ -144,6 +157,9 @@
         >
           <span class="name">
             {{ roundsData[6].teams.length < 2 ? 'TBD' : roundsData[6].teams[1].name }}
+          </span>
+          <span class="tag">
+            {{ roundsData[6].teams.length < 2 ? 'TBD' : roundsData[6].teams[1].tag }}
           </span>
           @if (roundsData[6] !== null && roundsData[6].winnerId !== null) {
             <span
