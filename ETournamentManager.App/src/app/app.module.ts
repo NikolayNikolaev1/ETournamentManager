@@ -42,6 +42,7 @@ import { TournamentBracketComponent } from 'app/components/tournament-bracket/to
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
 import { NavigationPanelComponent } from './components/core/navigation-panel/navigation-panel.component';
 import { LogoChangeComponent } from './components/dialogs/logo-change/logo-change.component';
+import { GameManagementComponent } from './components/dialogs/game-management/game-management.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { LogoChangeComponent } from './components/dialogs/logo-change/logo-chang
     PlatformInfoComponent,
     NavigationPanelComponent,
     LogoChangeComponent,
+    GameManagementComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,10 @@
+@use 'colors';
+
+#games-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid colors.$primary;
+  border-radius: 20px;
+}

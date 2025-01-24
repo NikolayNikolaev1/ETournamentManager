@@ -29,7 +29,7 @@
         public async Task<IActionResult> Create([FromBody] GameManagementModel gameModel)
             => await gameService.Create(gameModel).ReturnOkResult();
 
-        [HttpPatch]
+        [HttpPatch("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = ADMIN)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(string id, [FromBody] GameManagementModel model)

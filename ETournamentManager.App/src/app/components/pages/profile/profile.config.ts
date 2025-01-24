@@ -1,4 +1,5 @@
 import { AccessPermissionsComponent } from 'app/components/dialogs/access-permissions/access-permissions.component';
+import { GameManagementComponent } from 'app/components/dialogs/game-management/game-management.component';
 import { LogoChangeComponent } from 'app/components/dialogs/logo-change/logo-change.component';
 import { PlatformInfoComponent } from 'app/components/dialogs/platform-info/platform-info.component';
 import { ThemePickerComponent } from 'app/components/dialogs/theme-picker/theme-picker.component';
@@ -41,5 +42,12 @@ export const PLATFORM_CONFIGS: NavPanelItem[] = [
     imageUrl: 'assets/images/home-panel-tournament-table.png',
     roles: [USER_ROLES.ADMIN],
     dialogComponent: PlatformInfoComponent,
+  },
+  {
+    title: 'Games Edit',
+    buttonText: 'Config',
+    imageUrl: 'assets/images/home-panel-tournament-table.png',
+    roles: [USER_ROLES.ADMIN],
+    dialogComponent: GameManagementComponent,
   },
 ];
