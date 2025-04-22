@@ -1,18 +1,20 @@
 <div id="access-section">
   <h1 id="title">Change access pages for guest users</h1>
 
-  <app-e-switch label="Team table" [on]="accessTeamTable" (toggled)="accessTeamTable = !accessTeamTable" />
-  <app-e-switch label="Team details" [on]="accessTeamDetails" (toggled)="accessTeamDetails = !accessTeamDetails" />
-  <app-e-switch
-    label="Tournament table"
-    [on]="accessTournamentTable"
-    (toggled)="accessTournamentTable = !accessTournamentTable"
-  />
-  <app-e-switch
-    label="Tournament details"
-    [on]="accessTournamentDetails"
-    (toggled)="accessTournamentDetails = !accessTournamentDetails"
-  />
+  <div id="switch-container">
+    <app-e-switch label="Team table" [on]="accessTeamTable" (toggled)="accessTeamTable = !accessTeamTable" />
+    <app-e-switch label="Team details" [on]="accessTeamDetails" (toggled)="accessTeamDetails = !accessTeamDetails" />
+    <app-e-switch
+      label="Tournament table"
+      [on]="accessTournamentTable"
+      (toggled)="accessTournamentTable = !accessTournamentTable"
+    />
+    <app-e-switch
+      label="Tournament details"
+      [on]="accessTournamentDetails"
+      (toggled)="accessTournamentDetails = !accessTournamentDetails"
+    />
+  </div>
 
   <app-e-button (click)="onSaveClick()">Save</app-e-button>
 </div>

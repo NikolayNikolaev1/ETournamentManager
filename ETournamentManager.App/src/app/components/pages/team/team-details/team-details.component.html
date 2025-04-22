@@ -3,7 +3,7 @@
     <div id="banner-header">
       <app-e-image-upload [entityId]="teamId" [imgUrl]="teamImageUrl" [hideActions]="!hasCaptainPermissions" />
       <div class="banner-info-wrapper">
-        <h1 class="title">{{ teamData.name }}</h1>
+        <h1 class="title">{{ teamData.name }} ({{ teamData.tag }})</h1>
         <h4 class="description">{{ teamData.description }}</h4>
         <p class="contact">
           Team captain contact:
@@ -36,12 +36,7 @@
           />
         }
         @if (isMember) {
-          <img
-            class="action-icon hover-transition"
-            src="assets/images/exit.svg"
-            alt="Exit icon"
-            (click)="onExitClick()"
-          />
+          <app-e-button color="var(--secondary-color)" (click)="onExitClick()">Leave</app-e-button>
         }
       </div>
     </div>

@@ -2,6 +2,10 @@
 @use 'variables';
 
 .section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
   #section-header {
     display: flex;
     gap: 15px;
@@ -26,7 +30,7 @@
 
         &.disabled {
           cursor: default;
-          filter: variables.$secondary-filter;
+          filter: variables.$primary-filter;
         }
       }
     }

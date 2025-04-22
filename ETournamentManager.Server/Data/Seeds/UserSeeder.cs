@@ -69,10 +69,10 @@
                 new User
                 {
                     Id = Guid.NewGuid(),
-                    UserName = "NIKOLAY",
+                    UserName = "nikolay",
                     NormalizedUserName = "NIKOLAY",
-                    Email = "NIKOLAY@test.test",
-                    NormalizedEmail = "NIKOLAY@TEST.TEST",
+                    Email = "nikolay@tu-varna.test",
+                    NormalizedEmail = "NIKOLAY@TU-VARNA.TEST",
                     EmailConfirmed = true,
                     SecurityStamp = Guid.NewGuid().ToString("D"),
                     ConcurrencyStamp = Guid.NewGuid().ToString("D")

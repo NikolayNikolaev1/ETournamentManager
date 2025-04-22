@@ -58,7 +58,7 @@ export class TeamManagementComponent implements OnInit {
         body: {
           name: this.name,
           tag: this.tag,
-          description: 'asdad'
+          description: this.description
         },
       })
       .subscribe({

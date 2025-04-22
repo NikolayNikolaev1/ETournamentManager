@@ -1,6 +1,6 @@
 <div id="dialog-container">
   <div id="games-container">
-    Edit Games
+    <div class="title">Edit Games</div>
     @for (currentGame of games; track $index) {
       <app-e-input label="Game" [value]="currentGame.name" (inputChanged)="onGameEdit(currentGame.id, $event)" />
     }
