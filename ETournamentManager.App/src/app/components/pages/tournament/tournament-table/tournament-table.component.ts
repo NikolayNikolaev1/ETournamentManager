@@ -9,6 +9,7 @@ import Tournament from 'app/models/tournament.model';
 import User from 'app/models/user.model';
 import { ApiService } from 'app/services/api.service';
 import { CLIENT_ROUTES, SERVER_ROUTES, TOURNAMENT_CREATOR_ROLE } from 'app/utils/constants';
+import { TournamentType } from 'app/components/pages/tournament/tournament-management/tournament-management.configuration';
 
 @Component({
   selector: 'app-tournament-table',
@@ -126,6 +127,7 @@ export class TournamentTableComponent implements OnInit {
           id: t.id,
           name: t.name,
           creator: t.creator.userName,
+          type: t.tournamentType === TournamentType.SinglePlayer ? "Single player" : "Team",
           game: t.game.name,
         }));
       });

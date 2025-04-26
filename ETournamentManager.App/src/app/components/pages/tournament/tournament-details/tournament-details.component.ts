@@ -65,6 +65,7 @@ export class TournamentDetailsComponent {
         queryParams: {
           search: name,
           isPrivate: this.tournamentData?.tournamentType === TournamentType.SinglePlayer,
+          withoutMemberIds: this.tournamentData?.teams.map(t => t.memberIds).flat()
         },
       })
       .subscribe((response) => {

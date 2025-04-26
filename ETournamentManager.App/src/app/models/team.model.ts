@@ -14,6 +14,7 @@ export interface TeamBase {
   finished: boolean;
   tournamentsWon: number;
   membersCount: number;
+  memberIds: string[];
 }
 
 export default Team;

@@ -3,4 +3,5 @@ export interface TournamentTableData {
   name: string;
   creator: string;
   game: string;
+  type: string;
 }

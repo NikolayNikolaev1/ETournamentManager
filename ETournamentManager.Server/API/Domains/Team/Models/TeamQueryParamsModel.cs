@@ -9,5 +9,7 @@
         public string? TournamentIds { get; set;}
 
         public bool? IsPrivate { get; set; }
+
+        public string? WithoutMemberIds { get; set; }
     }
 }   

@@ -161,6 +161,7 @@
                 gameIds = queryParams.GameIds.Split(", ").ToList();
             }
 
+
             IQueryable<Tournament> tournaments = dbContext
                 .Tournaments
                 .AsQueryable()
@@ -231,6 +232,11 @@
             if (tournament.CreatorId != Guid.Parse(currentUser.Id) && currentUser.RoleName != ADMIN)
             {
                 throw new BusinessServiceException("User is not creator of tournament.", Status401Unauthorized);
+            }
+
+            if (team.Members.Any(m => tournament.Teams.SelectMany(t => t.Team.Members.Select(tm => tm.MemberId)).Contains(m.MemberId)))
+            {
+                throw new BusinessServiceException("Team member should not be in more than one team.", Status400BadRequest);
             }
 
             TournamentTeam? tournamentTeam = await tournamentDataService

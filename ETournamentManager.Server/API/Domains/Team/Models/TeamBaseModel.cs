@@ -18,10 +18,13 @@
 
         public int TournamentsWon { get; set; }
 
+        public ICollection<string> MemberIds { get; set; } = new List<string>();
+
         public void ConfigureMapping(Profile mapper)
             => mapper
             .CreateMap<Team, TeamBaseModel>()
             .ForMember(t => t.MembersCount, opt => opt.MapFrom(t => t.Members.Count))
-            .ForMember(t => t.TournamentsWon, opt => opt.MapFrom(t => t.Tournaments.Where(tr => tr.IsWinner).ToList().Count));
+            .ForMember(t => t.TournamentsWon, opt => opt.MapFrom(t => t.Tournaments.Where(tr => tr.IsWinner).ToList().Count))
+            .ForMember(t => t.MemberIds, opt => opt.MapFrom(t => t.Members.Select(m => m.MemberId.ToString())));
     }
 }

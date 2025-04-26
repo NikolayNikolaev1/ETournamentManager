@@ -4,7 +4,11 @@
       <app-e-image-upload [entityId]="teamId" [imgUrl]="teamImageUrl" [hideActions]="!hasCaptainPermissions" />
       <div class="banner-info-wrapper">
         <h1 class="title">{{ teamData.name }} ({{ teamData.tag }})</h1>
-        <h4 class="description">{{ teamData.description }}</h4>
+        <h4 class="description">
+          <i>
+            {{ teamData.description }}
+          </i>
+        </h4>
         <p class="contact">
           Team captain contact:
           <a class="contact-mail hover-transition" [href]="'mailto:' + teamData.captain.email">

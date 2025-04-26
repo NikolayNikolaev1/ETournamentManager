@@ -13,6 +13,7 @@
             .Include(t => t.Creator)
             .Include(t => t.Teams)
             .ThenInclude(t => t.Team)
+            .ThenInclude(tm => tm.Members)
             .Include(t => t.Rounds)
             .ThenInclude(r => r.Teams)
             .ThenInclude(t => t.Team)

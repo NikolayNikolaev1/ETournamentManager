@@ -62,7 +62,7 @@
       </div>
     } @else {
       <app-e-table
-        [header]="['name', 'creator', 'game']"
+        [header]="['name', 'creator', 'game', 'type']"
         [data]="tournamentsData"
         (rowClicked)="onTournamentClick($event)"
       />

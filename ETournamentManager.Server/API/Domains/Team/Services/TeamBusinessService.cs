@@ -10,6 +10,7 @@
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using System.Linq;
     using User.Services;
 
     using static Core.Common.Constants.ErrorMessages;
@@ -167,6 +168,7 @@
         {
             ICollection<string> userIds = new HashSet<string>();
             ICollection<string> tournamentIds = new HashSet<string>();
+            ICollection<string> withoutMemberIds = new HashSet<string>();
 
             if (queryParams.UserIds != null)
             {
@@ -176,6 +178,11 @@
             if (queryParams.TournamentIds != null)
             {
                 tournamentIds = queryParams.TournamentIds.Split(", ").ToList();
+            }
+
+            if (queryParams.WithoutMemberIds != null)
+            {
+                withoutMemberIds = queryParams.WithoutMemberIds.Split(", ").ToList();
             }
 
             IQueryable<Team> teams = dbContext.Teams.AsQueryable();
@@ -199,6 +206,11 @@
             if (queryParams.Search != null)
             {
                 teams = teams.Where(t => t.Name.ToLower().Contains(queryParams.Search.ToLower()));
+            }
+
+            if (withoutMemberIds.Any())
+            {
+                teams = teams.Where(t => !t.Members.Select(m => m.MemberId).Any(mId => withoutMemberIds.Contains(mId.ToString())));
             }
 
             return await teams
