@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TranslateService } from '@ngx-translate/core';
+
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { BrandingService } from './services/branding.service';
@@ -12,12 +14,17 @@ import { SERVER_ROUTES } from './utils/constants';
 })
 export class AppComponent implements OnInit {
   constructor(
+    private translate: TranslateService,
     private apiService: ApiService,
     private authService: AuthService,
     private brandingService: BrandingService
   ) {}
 
   ngOnInit() {
+    this.translate.addLangs(['en', 'bg']);
+    this.translate.setDefaultLang('en');
+    this.translate.use(localStorage.getItem('lang') ?? 'en');
+
     this.authService.getUserProfile();
     this.brandingService.getBranding();
     this.updateTheme();

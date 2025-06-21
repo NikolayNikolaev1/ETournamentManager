@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DialogService } from '@ngneat/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ConfirmationComponent } from 'app/components/core/confirmation/confirmation.component';
 import { PasswordChangeComponent } from 'app/components/dialogs/password-change/password-change.component';
@@ -39,8 +40,10 @@ export class ProfileComponent implements OnInit {
   tournamentsData: Tournament[] = [];
   getTeamInfoCard = convertTeamInfoCard;
   getTournamentCard = convertTournamentInfoCard;
+  selectedLang: string = 'en';
 
   constructor(
+    private translate: TranslateService,
     private dialog: DialogService,
     private apiService: ApiService,
     private authService: AuthService,
@@ -48,6 +51,8 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.selectedLang = localStorage.getItem('lang') ?? 'en';
+
     this.authService.currentUser$.subscribe((profile) => {
       if (profile === null) return;
 
@@ -144,6 +149,11 @@ export class ProfileComponent implements OnInit {
         },
       },
     });
+  }
+
+  switchLanguage(isEnglish: boolean) {
+    this.translate.use(isEnglish ? 'en' : 'bg');
+    localStorage.setItem('lang', isEnglish ? 'en' : 'bg');
   }
 
   private getUserTeams(userId: string) {

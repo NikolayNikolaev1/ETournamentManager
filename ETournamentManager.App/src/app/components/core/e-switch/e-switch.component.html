@@ -1,10 +1,10 @@
 <div class="input-label">
-  {{ mainLabel }}
+  {{ mainLabel | translate }}
 </div>
 <div class="switch-container">
   @if (switchLabels !== null) {
     <div class="label off">
-      {{ switchLabels.off }}
+      {{ switchLabels.off | translate }}
     </div>
   }
   <div class="switch" [ngClass]="switchOn ? 'on' : 'off'" (click)="onSwitchClick()">
@@ -12,7 +12,7 @@
   </div>
   @if (switchLabels !== null) {
     <div class="label">
-      {{ switchLabels.on }}
+      {{ switchLabels.on | translate }}
     </div>
   }
 </div>

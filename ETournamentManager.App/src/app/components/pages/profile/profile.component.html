@@ -29,6 +29,13 @@
             alt="Config icon"
             (click)="onPasswordChangeClick()"
           />
+
+          <app-e-switch
+            label="Language"
+            [switchLabels]="{ on: 'Bulgarian', off: 'English' }"
+            (toggled)="switchLanguage($event ?? false)"
+            [ngStyle]="{ 'margin-left': 'auto' }"
+          />
         </div>
         <hr />
       </div>
