@@ -1,14 +1,43 @@
-<google-chart
-  #chart
-  [title]="''"
-  [type]="type"
-  [data]="tableData"
-  [columns]="columnNames"
-  [options]="{
-    alternatingRowStyle: true,
-    showRowNumber: true,
-  }"
-  [width]="500"
-  [height]="400"
->
-</google-chart>
+<div class="chart-filter-container">
+  <div class="filters">
+    <label>
+      {{ 'Games' | translate }}:
+      <select [(ngModel)]="selectedGame" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option *ngFor="let game of uniqueGames" [value]="game">{{ game }}</option>
+      </select>
+    </label>
+
+    <!-- <label>
+      Creator:
+      <select [(ngModel)]="selectedCreator" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option *ngFor="let creator of uniqueCreators" [value]="creator">{{ creator }}</option>
+      </select>
+    </label> -->
+  </div>
+
+  <div id="charts-container">
+    <!-- Filtered Column Chart -->
+    <google-chart
+      [type]="chartType"
+      [data]="chartData"
+      [columns]="chartColumns"
+      [options]="chartOptions"
+      [width]="chartWidth"
+      [height]="chartHeight"
+    >
+    </google-chart>
+
+    <!-- Unfiltered Pie Chart -->
+    <google-chart
+      [type]="pieChartType"
+      [data]="pieChartData"
+      [columns]="pieChartColumns"
+      [options]="pieChartOptions"
+      [width]="pieChartWidth"
+      [height]="pieChartHeight"
+    >
+    </google-chart>
+  </div>
+</div>

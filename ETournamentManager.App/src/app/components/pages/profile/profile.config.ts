@@ -1,3 +1,4 @@
+import { EAdminManagementComponent } from 'app/components/core/e-admin-management/e-admin-management.component';
 import { AccessPermissionsComponent } from 'app/components/dialogs/access-permissions/access-permissions.component';
 import { GameManagementComponent } from 'app/components/dialogs/game-management/game-management.component';
 import { LogoChangeComponent } from 'app/components/dialogs/logo-change/logo-change.component';
@@ -49,5 +50,12 @@ export const PLATFORM_CONFIGS: NavPanelItem[] = [
     imageUrl: 'assets/images/home-panel-create-game.svg',
     roles: [USER_ROLES.ADMIN],
     dialogComponent: GameManagementComponent,
+  },
+  {
+    title: 'Charts',
+    buttonText: 'Config',
+    imageUrl: 'assets/images/home-panel-create-game.svg',
+    roles: [USER_ROLES.ADMIN],
+    dialogComponent: EAdminManagementComponent,
   },
 ];

@@ -151,9 +151,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  switchLanguage(isEnglish: boolean) {
-    this.translate.use(isEnglish ? 'en' : 'bg');
-    localStorage.setItem('lang', isEnglish ? 'en' : 'bg');
+  switchLanguage(isBulgarian: boolean) {
+    this.translate.use(isBulgarian ? 'bg' : 'en');
+    localStorage.setItem('lang', isBulgarian ? 'bg' : 'en');
   }
 
   private getUserTeams(userId: string) {

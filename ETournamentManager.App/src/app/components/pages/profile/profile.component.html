@@ -32,6 +32,7 @@
 
           <app-e-switch
             label="Language"
+            [on]="selectedLang === 'bg'"
             [switchLabels]="{ on: 'Bulgarian', off: 'English' }"
             (toggled)="switchLanguage($event ?? false)"
             [ngStyle]="{ 'margin-left': 'auto' }"
@@ -39,6 +40,8 @@
         </div>
         <hr />
       </div>
+
+      <app-e-admin-management />
 
       @if (currentUserProfile.roleName === userRoles.ADMIN) {
         <app-navigation-panel [panelItems]="platformConfigs" />
@@ -74,7 +77,7 @@
             </div>
           </div>
         } @else {
-          <div class="title">My Tournaments</div>
+          <div class="title">{{ 'My Tournaments' | translate }}</div>
         }
         <hr />
       </div>

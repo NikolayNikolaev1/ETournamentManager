@@ -5,9 +5,11 @@
       {{ platformName || constants.WEBSITE_NAME }}
     </li>
     <li class="desktop nav-item hover-transition flex-right" routerLink="/tournaments" routerLinkActive="active">
-      Tournaments
+      {{ 'Tournaments' | translate }}
     </li>
-    <li class="desktop nav-item hover-transition" routerLink="/teams" routerLinkActive="active">Teams</li>
+    <li class="desktop nav-item hover-transition" routerLink="/teams" routerLinkActive="active">
+      {{ 'Teams' | translate }}
+    </li>
 
     @if (currentUser !== null) {
       <li
@@ -15,7 +17,7 @@
         (mouseenter)="showDropdownMenu = true"
         (mouseleave)="showDropdownMenu = false"
       >
-        Welcome
+        {{ 'Welcome' | translate }}
         <div id="username">&nbsp;{{ currentUser.username | uppercase }}</div>
         <img class="dropdown-arrow" src="assets/images/arrow.svg" alt="Arrow" />
       </li>
