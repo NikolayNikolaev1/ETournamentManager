@@ -12,19 +12,20 @@ import { BrandingService } from 'app/services/branding.service';
 export class EAdminManagementComponent implements OnInit {
   teams = [
     {
-      name: 'КСТ3',
+      name: 'КСТЗ',
       wins: [
         { gameName: 'Програмиране', tournamentDate: '2023-06-01', tournamentCreator: 'tu_varna_programming' },
         { gameName: 'Програмиране', tournamentDate: '2023-05-12', tournamentCreator: 'tu_varna_programming' },
-        { gameName: 'Математика', tournamentDate: '2024-02-22', tournamentCreator: 'tu_varna_programming' },
-      ],
+        { gameName: 'Математика', tournamentDate: '2023-05-12', tournamentCreator: 'tu_varna_programming' },
+        { gameName: 'Математика', tournamentDate: '2023-05-12', tournamentCreator: 'tu_varna_programming' },
+        ],
     },
     {
       name: 'СИТ',
       wins: [
         { gameName: 'Програмиране', tournamentDate: '2023-08-10', tournamentCreator: 'tu_varna_programming' },
-        { gameName: 'Тенис на маса', tournamentDate: '2023-07-15', tournamentCreator: 'tu_varna_sports' },
-      ],
+        { gameName: 'Програмиране', tournamentDate: '2023-08-10', tournamentCreator: 'tu_varna_programming' },
+         ],
     },
     {
       name: 'КСТ',
@@ -39,7 +40,7 @@ export class EAdminManagementComponent implements OnInit {
       wins: [
         { gameName: 'Програмиране', tournamentDate: '2023-10-30', tournamentCreator: 'tu_varna_programming' },
         { gameName: 'Математика', tournamentDate: '2023-10-30', tournamentCreator: 'tu_varna_programming' },
-      ],
+         ],
     },
     // {
     //   name: 'Team E',
@@ -58,11 +59,11 @@ export class EAdminManagementComponent implements OnInit {
 
   chartData: any[] = [];
   chartType = 'ColumnChart' as any;
-  chartColumns = ['Team', 'Wins'];
+  chartColumns = ['Участник', 'Победи'];
   chartOptions = {
-    title: 'Tournament Wins by Team',
-    hAxis: { title: 'Teams' },
-    vAxis: { title: 'Number of Wins' },
+    title: 'Победи в турнири за участник',
+    hAxis: { title: 'Участници' },
+    vAxis: { title: 'Брой победи' },
     colors: ['#3366CC'],
     animation: {
       startup: true,
@@ -76,9 +77,9 @@ export class EAdminManagementComponent implements OnInit {
   // Pie chart
   pieChartData: any[] = [];
   pieChartType = 'PieChart' as any;
-  pieChartColumns = ['Team', 'Total Wins'];
+  pieChartColumns = ['Участник', 'Победи'];
   pieChartOptions = {
-    title: 'Wins Distribution (Filtered)',
+    title: 'Дистрибуция победи',
     pieHole: 0.4,
     colors: ['#1E88E5', '#43A047', '#F4511E', '#FB8C00', '#6D4C41', '#8E24AA'],
     animation: {
@@ -94,7 +95,7 @@ export class EAdminManagementComponent implements OnInit {
   ngOnInit() {
     this.brandingService.theme$.subscribe((t) => {
       this.chartOptions.colors = [t.primaryColor];
-      this.pieChartOptions.colors = [t.primaryColor, t.secondaryColor, t.textColor, '#7a99d3'];
+      this.pieChartOptions.colors = [t.primaryColor, t.textColor, t.secondaryColor, '#7a99d3'];
     });
 
     this.buildFilterOptions();

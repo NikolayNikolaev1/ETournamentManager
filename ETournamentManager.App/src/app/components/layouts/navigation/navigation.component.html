@@ -28,21 +28,27 @@
         (mouseleave)="showDropdownMenu = false"
       >
         <li class="dropdown-item hover-transition" routerLink="/profile" routerLinkActive="active">
-          Profile
+          {{ 'Profile' | translate }}
 
           <div class="mobile-username">&nbsp;-&nbsp;{{ currentUser.username | uppercase }}</div>
         </li>
         <li class="mobile dropdown-item hover-transition" routerLink="/tournaments" routerLinkActive="active">
-          Tournaments
+          {{ 'Tournaments' | translate }}
         </li>
-        <li class="mobile dropdown-item hover-transition" routerLink="/teams" routerLinkActive="active">Teams</li>
+        <li class="mobile dropdown-item hover-transition" routerLink="/teams" routerLinkActive="active">
+          {{ 'Teams' | translate }}
+        </li>
         @if (currentUser.roleName === constants.ADMIN_ROLE) {
-          <li class="dropdown-item hover-transition" routerLink="/users" routerLinkActive="active">All users</li>
+          <li class="dropdown-item hover-transition" routerLink="/users" routerLinkActive="active">
+            {{ 'All users' | translate }}
+          </li>
         }
         @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
-          <li class="dropdown-item hover-transition" (click)="onTeamCreateClick()">Create team</li>
+          <li class="dropdown-item hover-transition" (click)="onTeamCreateClick()">{{ 'Create team' | translate }}</li>
         } @else {
-          <li class="dropdown-item hover-transition" (click)="onTournamentCreateClick()">Create tournament</li>
+          <li class="dropdown-item hover-transition" (click)="onTournamentCreateClick()">
+            {{ 'Create tournament' | translate }}
+          </li>
         }
 
         <li
@@ -50,13 +56,13 @@
           class="dropdown-item hover-transition"
           (click)="onGameCreateClick()"
         >
-          Create game
+          {{ 'Create game' | translate }}
         </li>
-        <li class="dropdown-item hover-transition" (click)="onLogout()">Logout</li>
+        <li class="dropdown-item hover-transition" (click)="onLogout()">{{ 'Logout' | translate }}</li>
       </ul>
     } @else {
-      <li class="nav-item hover-transition" (click)="onLoginClick()">Login</li>
-      <li class="nav-item hover-transition" (click)="onRegisterClick()">Register</li>
+      <li class="nav-item hover-transition" (click)="onLoginClick()">{{ 'Login' | translate }}</li>
+      <li class="nav-item hover-transition" (click)="onRegisterClick()">{{ 'Register' | translate }}</li>
     }
   </ul>
 </div>

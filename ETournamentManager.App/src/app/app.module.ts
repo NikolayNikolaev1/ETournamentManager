@@ -45,6 +45,7 @@ import { TournamentManagementComponent } from 'app/components/pages/tournament/t
 import { TournamentTableComponent } from 'app/components/pages/tournament/tournament-table/tournament-table.component';
 import { TournamentBracketComponent } from 'app/components/tournament-bracket/tournament-bracket.component';
 import { HeadersInterceptor } from 'app/interceptors/headers.interceptor';
+import { MobileWarningComponent } from './components/core/mobile-warning/mobile-warning.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -85,6 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NavigationPanelComponent,
     LogoChangeComponent,
     GameManagementComponent,
+    MobileWarningComponent,
   ],
   imports: [
     BrowserModule,

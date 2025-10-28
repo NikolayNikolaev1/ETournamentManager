@@ -1,0 +1,15 @@
+@use 'layout-breakpoints' as *;
+
+#table-page {
+  display: none !important;
+
+  @media screen and (min-width: $extra-small) {
+    display: block !important;
+  }
+}
+
+.mobile-warrning-wrapper {
+  @media screen and (min-width: $extra-small) {
+    display: none;
+  }
+}

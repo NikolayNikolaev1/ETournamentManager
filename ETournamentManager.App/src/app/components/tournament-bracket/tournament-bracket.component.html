@@ -16,7 +16,7 @@
 
             @if (currentRound.winnerId !== null) {
               <span class="score" [ngClass]="{ win: currentRound.winnerId === currentRound.teams[0].id }">
-                {{ currentRound.winnerId === currentRound.teams[0].id ? 'W' : 'L' }}
+                {{ currentRound.winnerId === currentRound.teams[0].id ? ('W' | translate) : ('L' | translate) }}
               </span>
             }
           </div>
@@ -32,7 +32,7 @@
             <span class="tag">{{ currentRound.teams[1].tag }}</span>
             @if (currentRound.winnerId !== null) {
               <span class="score" [ngClass]="{ win: currentRound.winnerId === currentRound.teams[1].id }">
-                {{ currentRound.winnerId === currentRound.teams[1].id ? 'W' : 'L' }}
+                {{ currentRound.winnerId === currentRound.teams[1].id ? ('W' | translate) : ('L' | translate) }}
               </span>
             }
           </div>
@@ -60,7 +60,7 @@
             <span class="name">
               {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].name }}
             </span>
-            
+
             <span class="tag">
               {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].tag }}
             </span>
@@ -71,7 +71,7 @@
                   win: currentRound.teams.length === 2 && currentRound.winnerId === currentRound.teams[0].id,
                 }"
               >
-                {{ currentRound.winnerId === currentRound.teams[0].id ? 'W' : 'L' }}
+                {{ currentRound.winnerId === currentRound.teams[0].id ? ('W' | translate) : ('L' | translate) }}
               </span>
             }
           </div>
@@ -99,7 +99,7 @@
                   win: currentRound.teams.length === 2 && currentRound.winnerId === currentRound.teams[1].id,
                 }"
               >
-                {{ currentRound.winnerId === currentRound.teams[1].id ? 'W' : 'L' }}
+                {{ currentRound.winnerId === currentRound.teams[1].id ? ('W' | translate) : ('L' | translate) }}
               </span>
             }
           </div>
@@ -140,7 +140,7 @@
                 win: roundsData[6].teams.length === 2 && roundsData[6].winnerId === roundsData[6].teams[0].id,
               }"
             >
-              {{ roundsData[6].winnerId === roundsData[6].teams[0].id ? 'W' : 'L' }}
+              {{ roundsData[6].winnerId === roundsData[6].teams[0].id ? ('W' | translate) : ('L' | translate) }}
             </span>
           }
         </div>
@@ -168,7 +168,7 @@
                 win: roundsData[6].teams.length === 2 && roundsData[6].winnerId === roundsData[6].teams[1].id,
               }"
             >
-              {{ roundsData[6].winnerId === roundsData[6].teams[1].id ? 'W' : 'L' }}
+              {{ roundsData[6].winnerId === roundsData[6].teams[1].id ? ('W' | translate) : ('L' | translate) }}
             </span>
           }
         </div>

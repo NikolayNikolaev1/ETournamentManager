@@ -22,8 +22,8 @@
     (formInputsChanged)="onFormChange($event)"
   >
     <p class="register-link">
-      Don't have an account? Register
-      <a (click)="onRegisterClick()">here</a>
+      {{ "Don't have an account?" | translate }} {{ 'Register' | translate }}
+      <a (click)="onRegisterClick()">{{ 'here' | translate }}</a>
     </p>
   </app-e-form>
 </div>

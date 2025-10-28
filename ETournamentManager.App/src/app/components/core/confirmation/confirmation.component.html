@@ -2,7 +2,9 @@
   <div class="title">{{ title }}</div>
 
   <div class="btn-container">
-    <app-e-button class="action-btn" (click)="onConfirmClick()">Confirm</app-e-button>
-    <app-e-button class="action-btn" color="var(--secondary-color)" (click)="onCancel()">Cancel</app-e-button>
+    <app-e-button class="action-btn" (click)="onConfirmClick()">{{ 'Confirm' | translate }}</app-e-button>
+    <app-e-button class="action-btn" color="var(--secondary-color)" (click)="onCancel()">{{
+      'Cancel' | translate
+    }}</app-e-button>
   </div>
 </div>

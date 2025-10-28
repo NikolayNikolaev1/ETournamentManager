@@ -177,6 +177,7 @@ body {
             @media screen and (min-width: $small-min) {
               font-size: 36px;
               line-height: 30px;
+              font-weight: 1000;
             }
           }
           hr {
@@ -359,7 +360,6 @@ body {
 
         #table-wrapper {
           height: 100%;
-          width: 100%;
           padding: 20px;
           background: variables.$background-gradient;
           border-radius: variables.$border-radius;

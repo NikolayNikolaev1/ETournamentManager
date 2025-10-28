@@ -4,7 +4,7 @@
       [(ngModel)]="value"
       [ngClass]="{ filled: value.length > 0, invalid, search: isSearch }"
       [type]="type"
-      [placeholder]="label"
+      [placeholder]="label | translate"
       (change)="onInputChange()"
       (input)="onInput()"
       (blur)="onInputBlur()"

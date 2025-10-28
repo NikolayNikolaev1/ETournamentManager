@@ -1,5 +1,5 @@
 <div class="form-wrapper" [ngClass]="{ error: errorMessage.length !== 0 }">
-  <div class="title">{{ title }}</div>
+  <div class="title">{{ title | translate }}</div>
   @for (item of inputComponetData; track $index) {
     <app-e-input
       [label]="item.label"
@@ -13,11 +13,11 @@
   <ng-content select="[dynamicInput]" />
 
   <div class="error-message">
-    {{ errorMessage }}
+    {{ errorMessage | translate }}
   </div>
 
   <button class="form-btn hover-transition" [disabled]="isSubmitBtnDisabled()" (click)="onSubmitClick()">
-    {{ btnLabel }}
+    {{ btnLabel | translate }}
   </button>
 
   <ng-content />

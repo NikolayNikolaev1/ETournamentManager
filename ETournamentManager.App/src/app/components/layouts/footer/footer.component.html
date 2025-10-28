@@ -2,16 +2,16 @@
   <div id="platform-info">
     <img id="footer-logo" [src]="logoUrl" alt="Logo" />
     <div id="contact-container">
-      <a class="contact-item hover-transition" [href]="contactLink" target="_blank">Website</a>
-      <a class="contact-item hover-transition" [href]="'mailto: ' + contactEmail">Email</a>
+      <a class="contact-item hover-transition" [href]="contactLink" target="_blank">{{ 'Website' | translate }}</a>
+      <a class="contact-item hover-transition" [href]="'mailto: ' + contactEmail">{{ 'Email' | translate }}</a>
     </div>
   </div>
   <div id="project-info">
-    <h4>Technical University Varna</h4>
-    <h5>Computer Systems Technology - 2025</h5>
-    <h6>Developed by Nikolay Nikolaev</h6>
+    <h4>Технически университет - Варна</h4>
+    <h5>Компютърни Системи и Технологии - 2025</h5>
+    <h6>Разработено от Николай Николаев</h6>
   </div>
-  <ul id="developer-contacts" >
+  <ul id="developer-contacts">
     <li class="contact-item hover-transition image-text">
       <a class="contact-name" href="https://github.com/NikolayNikolaev1" target="_blank">
         GitHub <img class="contact-logo" src="assets/images/github-logo.svg" alt="GitHub Logo" />

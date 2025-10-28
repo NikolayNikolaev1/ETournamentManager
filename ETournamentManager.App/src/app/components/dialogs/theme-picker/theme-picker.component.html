@@ -9,16 +9,16 @@
         (click)="selectedThemeIndex = $index"
       >
         <div class="color" [ngStyle]="{ 'background-color': currentTheme.primary }">
-          <div class="color-name">Primary</div>
+          <div class="color-name">{{ 'Primary' | translate }}</div>
         </div>
         <div class="color" [ngStyle]="{ 'background-color': currentTheme.secondary }">
-          <div class="color-name">Secondary</div>
+          <div class="color-name">{{ 'Secondary' | translate }}</div>
         </div>
         <div class="color" [ngStyle]="{ 'background-color': currentTheme.text }">
-          <div class="color-name">Text</div>
+          <div class="color-name">{{ 'Text' | translate }}</div>
         </div>
         <div class="color" [ngStyle]="{ 'background-color': currentTheme.background }">
-          <div class="color-name">Accent</div>
+          <div class="color-name">{{ 'Accent' | translate }}</div>
         </div>
       </div>
     }

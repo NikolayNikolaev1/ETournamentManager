@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'variables';
+@use 'layout-breakpoints' as *;
 
 .section-container {
   display: flex;
@@ -47,62 +48,88 @@
   justify-content: center;
   align-items: center;
 
-  #tournament-title {
-    margin-top: 20px;
-    font-size: 30px;
-    font-weight: 700;
-
-    &:hover {
-      color: colors.$primary;
-      text-decoration: underline;
+  .mobile-warrning-wrapper {
+    @media screen and (min-width: $extra-small) {
+      display: none;
     }
   }
 
-  #game-name {
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  #teams-section {
-    display: flex;
-    justify-content: space-around;
+  section#tournament {
+    display: none;
     width: 100%;
 
-    #team-navigation {
-      width: 20%;
-      padding: 50px;
-      background-color: colors.$background;
-      border: 1px solid colors.$primary;
-      border-radius: variables.$border-radius;
+    @media screen and (min-width: $extra-small) {
+      display: block;
+    }
 
-      #teams-container {
-        display: flex;
-        flex-direction: column;
+    #tournament-title {
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: 700;
 
-        gap: 15px;
+      &:hover {
+        color: colors.$primary;
+        text-decoration: underline;
+      }
+    }
 
-        .team {
-          padding: 5px 15px;
-          background-color: colors.$secondary;
-          border: 1px solid colors.$primary;
-          border-radius: variables.$border-radius;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          box-shadow: variables.$box-shadow;
+    #game-name {
+      font-size: 20px;
+      font-weight: 700;
+    }
 
-          &:hover {
-            color: colors.$secondary;
-            background-color: colors.$primary;
-          }
-        }
+    #teams-section {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: space-around;
+      padding: 20px;
+
+      @media screen and (min-width: $large-min) {
+        flex-direction: row;
       }
 
-      .section-header {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
-        font-weight: 700;
+      #team-navigation {
+        width: 100%;
+        padding: 15px;
+        background-color: colors.$background;
+        border: 1px solid colors.$primary;
+        border-radius: variables.$border-radius;
+
+        @media screen and (min-width: $large-min) {
+          padding: 50px;
+          width: 20%;
+        }
+
+        #teams-container {
+          display: flex;
+          flex-direction: column;
+
+          gap: 15px;
+
+          .team {
+            padding: 5px 15px;
+            background-color: colors.$secondary;
+            border: 1px solid colors.$primary;
+            border-radius: variables.$border-radius;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            box-shadow: variables.$box-shadow;
+
+            &:hover {
+              color: colors.$secondary;
+              background-color: colors.$primary;
+            }
+          }
+        }
+
+        .section-header {
+          text-align: center;
+          margin-bottom: 20px;
+          font-size: 24px;
+          font-weight: 700;
+        }
       }
     }
   }

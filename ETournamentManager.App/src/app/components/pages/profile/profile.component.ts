@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   currentUserProfile: UserProfile | null = null;
   userImageUrl: string = '';
   isParticipant: boolean = false;
+  isAdmin: boolean = false;
   isLoading: boolean = false;
   showUsernameEdit: boolean = false;
   newUsername: string = '';
@@ -61,6 +62,7 @@ export class ProfileComponent implements OnInit {
       this.newUsername = this.currentUserProfile.username;
 
       this.isParticipant = this.currentUserProfile.roleName === USER_ROLES.TOURNAMENT_PARTICIPANT;
+      this.isAdmin = this.currentUserProfile.roleName === USER_ROLES.ADMIN;
 
       if (this.currentUserProfile.roleName === USER_ROLES.TOURNAMENT_PARTICIPANT) {
         this.imageService

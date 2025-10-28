@@ -51,11 +51,4 @@ export const PLATFORM_CONFIGS: NavPanelItem[] = [
     roles: [USER_ROLES.ADMIN],
     dialogComponent: GameManagementComponent,
   },
-  {
-    title: 'Charts',
-    buttonText: 'Config',
-    imageUrl: 'assets/images/home-panel-create-game.svg',
-    roles: [USER_ROLES.ADMIN],
-    dialogComponent: EAdminManagementComponent,
-  },
 ];

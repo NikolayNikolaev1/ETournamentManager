@@ -3,10 +3,11 @@
     <label>
       {{ 'Games' | translate }}:
       <select [(ngModel)]="selectedGame" (change)="onFilterChange()">
-        <option value="">All</option>
+        <option value="">Всички дисциплини</option>
         <option *ngFor="let game of uniqueGames" [value]="game">{{ game }}</option>
       </select>
     </label>
+    <app-e-switch [switchLabels]="{ on: 'Teams', off: 'Players' }" />
 
     <!-- <label>
       Creator:
