@@ -12,9 +12,13 @@
     gap: 15px;
 
     #arrows-container {
-      display: flex;
+      display: none;
       justify-content: center;
       gap: 20px;
+
+      @media screen and (min-width: $extra-small) {
+        display: flex;
+      }
 
       .arrow {
         height: 25px;

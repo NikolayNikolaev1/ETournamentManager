@@ -151,11 +151,16 @@
               </div>
             }
 
-            <app-tournament-bracket
-              [roundsData]="roundsData"
-              [tournamentId]="tournamentId"
-              [canChooseWinner]="hasCreatorPermissions"
-            />
+            <div class="mobile-warrning-wrapper">
+              <app-mobile-warning />
+            </div>
+            <div class="tour-bracket-wrapper" style="width: 100%">
+              <app-tournament-bracket
+                [roundsData]="roundsData"
+                [tournamentId]="tournamentId"
+                [canChooseWinner]="hasCreatorPermissions"
+              />
+            </div>
           </div>
         }
       </div>

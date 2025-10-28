@@ -12,13 +12,27 @@
     background: variables.$background-gradient;
     border-radius: variables.$border-radius;
 
+    .mobile-warrning-wrapper {
+      @media screen and (min-width: $extra-small) {
+        display: none;
+      }
+    }
+
+    .tour-bracket-wrapper {
+      display: none;
+
+      @media screen and (min-width: $extra-small) {
+        display: block;
+      }
+    }
+
     .bracket-wrapper {
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       justify-content: center;
       border-radius: 20px;
 
-      @media screen and (min-width: $small-min) {
+      @media screen and (min-width: $large-min) {
         flex-direction: row;
       }
 
@@ -33,7 +47,7 @@
         border: 2px solid colors.$primary;
         border-radius: variables.$border-radius;
 
-        @media screen and (min-width: $small-min) {
+        @media screen and (min-width: $large-min) {
           width: 20%;
         }
 
