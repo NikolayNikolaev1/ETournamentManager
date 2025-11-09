@@ -51,7 +51,7 @@ Before starting, make sure you have the following installed:
 
 ---
 
-## 🧭 Environment Configuration
+## Environment Configuration
 
 ### 1. Backend (`API/appsettings.json`)
 Make sure your API project has a valid connection string:
@@ -134,7 +134,7 @@ http://localhost:4200
 
 ---
 
-## 🧪 Common Issues
+## Common Issues
 
 | Issue                         | Possible Fix                                                                       |
 | ----------------------------- | ---------------------------------------------------------------------------------- |
@@ -145,7 +145,55 @@ http://localhost:4200
 
 ---
 
-## 👥 Contributors
+## Features
+
+### Tournament Manager
+
+* Create, edit, and delete your own tournaments.
+* Add or remove participants in tournaments that haven’t started yet.
+* Start a tournament and automatically generate rounds.
+* Select and edit winners for each round and the entire tournament.
+* Search and filter tournaments by name, type, or game, with access to detailed information.
+* Search and filter teams by their players, with access to detailed information.
+* Edit and manage your personal profile.
+
+---
+
+### Participant (Player)
+
+* Create, edit, and delete your own teams.
+* Add or remove players within a team.
+* Join and leave tournaments.
+* Leave a team at any time.
+* Search and filter tournaments by name, type, or game, with access to detailed information.
+* Search and filter teams by players, with access to detailed information.
+* Edit and manage your personal profile.
+
+---
+
+### Administrator
+
+* Activate or deactivate user accounts.
+* Create and edit available games for tournaments.
+* Create, edit, delete, and start both personal and other users’ tournaments.
+* Manage participants in tournaments and define winners at each stage.
+* Edit teams and manage their participants.
+* Search and filter tournaments by name, type, or game, with access to their details.
+* Search and filter teams by players, with access to detailed information.
+* Search and filter users across the platform.
+* Manage the platform’s name and contact details.
+* Manage the platform’s logo images.
+* Customize the color theme of the platform.
+* Control page access to prevent unauthorized users from viewing restricted content.
+* Analyze results and statistics of teams and players from tournaments.
+
+---
+
+Would you like me to integrate this **Features section** directly into the **previous README.md** I wrote — placed right after the "Tech Stack" section, formatted for GitHub Markdown consistency?
+That would give you one complete, ready-to-commit `README.md` file.
+
+
+## Contributors
 
 * **Nikolay Nikolaev** – Developer
 * **Technical University Varna**
