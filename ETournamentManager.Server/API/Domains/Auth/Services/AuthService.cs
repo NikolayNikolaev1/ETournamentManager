@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Auth.Services
 {
+    using API.Domains.Email.Services;
     using AutoMapper;
     using Core.Common.Data;
     using Core.Exceptions;
@@ -21,6 +22,7 @@
 
     using Team = Data.Models.Team;
     public class AuthService(
+        IEmailService emailService,
         UserManager<User> userManager,
         ETournamentManagerDbContext dbContext,
         ClaimsPrincipal claimsPrincipal,
@@ -125,6 +127,9 @@
                 });
                 await dbContext.SaveChangesAsync();
             }
+
+
+            await emailService.SendEmail(model.Email, "Tournament Manager Registration", $"A new profile has been registered with your email. {(model.RoleName == TOURNAMENT_CREATOR ? "Wait for an Administrator to unlock you manager account." : "")}");
 
             return new AuthResponseModel
             {

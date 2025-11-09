@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Team.Services
 {
+    using API.Domains.Email.Services;
     using API.Domains.User.Models;
     using Auth.Models;
     using Auth.Services;
@@ -25,7 +26,8 @@
         IAuthService authService,
         IMapper mapper,
         ITeamDataService teamDataService,
-        IUserDataService userDataService) : ITeamBusinessService
+        IUserDataService userDataService,
+        IEmailService emailService) : ITeamBusinessService
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
 
@@ -46,7 +48,7 @@
 
             TeamMember? teamCaptain = await teamDataService.GetTeamMember(model.TeamId, currentUser.Id);
 
-            if (teamCaptain == null || !teamCaptain.IsCaptain && currentUser.RoleName != ADMIN)
+            if (currentUser.RoleName != ADMIN && teamCaptain == null && !teamCaptain.IsCaptain)
             {
                 throw new BusinessServiceException("Only team captain can add new members.");
             }
@@ -62,6 +64,8 @@
                 MemberId = Guid.Parse(model.MemberId)
             });
             await dbContext.SaveChangesAsync();
+
+            await emailService.SendEmail(user.Email, "Tournament Manager - Added to team", $"You have been added to team {team.Name}.");
 
             return mapper.Map<UserBaseModel>(user);
         }
@@ -254,6 +258,9 @@
 
             dbContext.Remove(teamMember);
             await dbContext.SaveChangesAsync();
+
+            var email = team.Members.FirstOrDefault(u => u.MemberId.ToString() == model.MemberId)?.Member.Email;
+            await emailService.SendEmail(email, "Tournament Manager - Removed from team", $"You have been removed from team {team.Name}.");
 
             return mapper.Map<TeamListingModel>(team);
         }

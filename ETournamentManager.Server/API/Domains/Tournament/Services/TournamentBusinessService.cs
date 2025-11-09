@@ -1,5 +1,6 @@
 ﻿namespace API.Domains.Tournament.Services
 {
+    using API.Domains.Email.Services;
     using API.Domains.Team.Models;
     using API.Domains.Team.Services;
     using Auth.Models;
@@ -26,7 +27,8 @@
         IAuthService authService,
         ITournamentDataService tournamentDataService,
         ITeamDataService teamDataService,
-        IGameDataService gameDataService) : ITournamentBusinessService
+        IGameDataService gameDataService,
+        IEmailService emailService) : ITournamentBusinessService
     {
         private readonly CurrentUserModel currentUser = authService.GetCurrentUser();
 
@@ -253,6 +255,11 @@
                 TeamId = Guid.Parse(model.TeamId)
             });
             await dbContext.SaveChangesAsync();
+
+            foreach (var member in team.Members)
+            {
+                await emailService.SendEmail(member.Member.Email, "Tournament Manager - Joined new tournament", $"You have joined a new tournament - {tournament.Name}");
+            }
 
             return mapper.Map<TeamBaseModel>(team);
         }
