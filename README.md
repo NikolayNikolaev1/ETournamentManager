@@ -189,10 +189,6 @@ http://localhost:4200
 
 ---
 
-Would you like me to integrate this **Features section** directly into the **previous README.md** I wrote — placed right after the "Tech Stack" section, formatted for GitHub Markdown consistency?
-That would give you one complete, ready-to-commit `README.md` file.
-
-
 ## Contributors
 
 * **Nikolay Nikolaev** – Developer
