@@ -1,0 +1,71 @@
+@use 'colors';
+@use 'fonts';
+@use 'variables';
+@use 'layout-breakpoints' as *;
+
+.card-container {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 212px;
+  border-radius: 10px;
+  font-family: fonts.$global;
+  color: colors.$background;
+  opacity: 0.9;
+
+  &:hover {
+    box-shadow: variables.$box-shadow;
+  }
+
+  @media screen and (min-width: $small-min) {
+    width: 392px;
+  }
+
+  .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px;
+
+    .header-icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .card-icon {
+        filter: variables.$bg-filter;
+        height: 15px;
+      }
+    }
+
+    .information-holder {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .subtitle-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .subtitle {
+          font-size: 12px;
+          font-weight: 400;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

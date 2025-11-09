@@ -1,0 +1,42 @@
+<div id="dialog-container">
+  <app-e-form
+    title="Create tournament"
+    [inputFields]="[
+      {
+        name: 'name',
+        value: name,
+        label: 'Name',
+        required: true,
+      },
+      {
+        name: 'description',
+        value: description,
+        label: 'Description',
+      },
+    ]"
+    [error]="errorMessage"
+    (submitted)="onSubmitClick()"
+    (formInputsChanged)="onFormChanged($event)"
+  >
+    <div dynamicInput>
+      <app-e-input
+        label="Game"
+        [isSearch]="true"
+        [searchResult]="searchGames"
+        (inputChanged)="getAllGamesByName($event)"
+        [value]="selectedGame ? selectedGame.name : ''"
+        (searchResultSelected)="selectGame($event)"
+      />
+
+      @if (!hideType) {
+        <app-e-switch
+          label="Type"
+          [on]="type === 0"
+          [switchLabels]="{ on: 'Single Player', off: 'Team' }"
+          [colors]="{ on: 'blue', off: 'red' }"
+          (toggled)="onTypeChange()"
+        />
+      }
+    </div>
+  </app-e-form>
+</div>

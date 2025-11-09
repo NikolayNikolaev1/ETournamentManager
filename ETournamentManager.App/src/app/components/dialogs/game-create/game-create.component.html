@@ -1,0 +1,16 @@
+<div id="dialog-container">
+  <app-e-form
+    title="Create game"
+    [inputFields]="[
+      {
+        name: 'name',
+        value: name,
+        label: 'Name',
+        required: true,
+      },
+    ]"
+    [error]="errorMessage"
+    (submitted)="onCreateClick()"
+    (formInputsChanged)="onFormChanged($event)"
+  />
+</div>

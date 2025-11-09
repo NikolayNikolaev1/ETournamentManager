@@ -1,0 +1,29 @@
+<div id="dialog-container">
+  <app-e-form
+    title="Login"
+    [inputFields]="[
+      {
+        name: 'username',
+        value: username,
+        label: 'Username',
+        required: true,
+      },
+      {
+        name: 'password',
+        value: password,
+        label: 'Password',
+        type: 'password',
+        required: true,
+      },
+    ]"
+    [error]="errorMessage"
+    buttonLabel="Login"
+    (submitted)="onLogin()"
+    (formInputsChanged)="onFormChange($event)"
+  >
+    <p class="register-link">
+      {{ "Don't have an account?" | translate }} {{ 'Register' | translate }}
+      <a (click)="onRegisterClick()">{{ 'here' | translate }}</a>
+    </p>
+  </app-e-form>
+</div>

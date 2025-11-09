@@ -1,0 +1,75 @@
+
+<div class="mobile-warrning-wrapper">
+  <app-mobile-warning />
+</div>
+<div id="table-page">
+  <div id="table-wrapper" class="section-container">
+    <div class="header-wrapper">
+      <div class="title">{{ 'Tournaments Table' | translate }}</div>
+      <hr />
+    </div>
+    <div id="filter-section">
+      <div class="filter-holder">
+        <div class="filters-container">
+          <div class="search-wrapper">
+            <app-e-input
+              label="Creator"
+              [isSearch]="true"
+              [searchResult]="getUserNames()"
+              (inputChanged)="getUsersByUsername($event)"
+              (searchResultSelected)="selectFilter('creator', $event)"
+            />
+          </div>
+          @for (currentFilter of filteredCreators; track $index) {
+            <div class="filter">
+              {{ currentFilter.userName }}
+              <img
+                class="close-img"
+                src="assets/images/close-icon.svg"
+                alt="Close icon"
+                (click)="onFilterRemove('creator', currentFilter.id)"
+              />
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="filter-holder">
+        <div class="filters-container">
+          <div class="search-wrapper">
+            <app-e-input
+              class="search-input"
+              label="Games"
+              [isSearch]="true"
+              [searchResult]="getGameNames()"
+              (inputChanged)="getGameByName($event)"
+              (searchResultSelected)="selectFilter('game', $event)"
+            />
+          </div>
+          @for (currentFilter of filteredGames; track $index) {
+            <div class="filter">
+              {{ currentFilter.name }}
+              <img
+                class="close-img"
+                src="assets/images/close-icon.svg"
+                alt="Close icon"
+                (click)="onFilterRemove('game', currentFilter.id)"
+              />
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    @if (isLoading) {
+      <div class="loader-wrapper">
+        <span class="loader"></span>
+      </div>
+    } @else {
+      <app-e-table
+        [header]="['name', 'creator', 'game', 'type']"
+        [data]="tournamentsData"
+        (rowClicked)="onTournamentClick($event)"
+      />
+    }
+  </div>
+</div>

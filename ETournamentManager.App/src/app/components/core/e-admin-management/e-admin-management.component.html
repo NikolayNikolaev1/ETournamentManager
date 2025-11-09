@@ -1,0 +1,47 @@
+<div class="mobile-warrning-wrapper">
+  <app-mobile-warning />
+</div>
+<div class="chart-filter-container">
+  <div class="filters">
+    <label>
+      {{ 'Games' | translate }}:
+      <select [(ngModel)]="selectedGame" (change)="onFilterChange()">
+        <option value="">Всички дисциплини</option>
+        <option *ngFor="let game of uniqueGames" [value]="game">{{ game }}</option>
+      </select>
+    </label>
+    <app-e-switch [switchLabels]="{ on: 'Teams', off: 'Players' }" />
+
+    <!-- <label>
+      Creator:
+      <select [(ngModel)]="selectedCreator" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option *ngFor="let creator of uniqueCreators" [value]="creator">{{ creator }}</option>
+      </select>
+    </label> -->
+  </div>
+
+  <div id="charts-container">
+    <!-- Filtered Column Chart -->
+    <google-chart
+      [type]="chartType"
+      [data]="chartData"
+      [columns]="chartColumns"
+      [options]="chartOptions"
+      [width]="chartWidth"
+      [height]="chartHeight"
+    >
+    </google-chart>
+
+    <!-- Unfiltered Pie Chart -->
+    <google-chart
+      [type]="pieChartType"
+      [data]="pieChartData"
+      [columns]="pieChartColumns"
+      [options]="pieChartOptions"
+      [width]="pieChartWidth"
+      [height]="pieChartHeight"
+    >
+    </google-chart>
+  </div>
+</div>

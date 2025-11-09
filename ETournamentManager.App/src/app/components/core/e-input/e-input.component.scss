@@ -1,0 +1,76 @@
+@use 'colors';
+@use 'variables';
+
+.input-container {
+  display: flex;
+
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .search {
+      border-radius: 20px;
+      padding: 10px;
+      padding-right: 30px;
+    }
+
+    .search-list {
+      position: absolute;
+      z-index: 1;
+      top: 40px;
+      width: 100%;
+      max-height: 200px;
+      overflow: scroll;
+      overflow-x: hidden;
+      border-radius: 20px;
+
+      .search-result {
+        cursor: pointer;
+        text-align: center;
+        padding: 10px;
+        background-color: colors.$secondary;
+        border: 1px solid colors.$primary;
+      }
+
+      .search-result:hover {
+        background-color: lightblue;
+      }
+    }
+  }
+
+  input {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: colors.$background;
+    text-align: center;
+    box-shadow: variables.$box-shadow;
+
+    &:focus {
+      background-color: lightblue;
+    }
+
+    &.filled {
+      background-color: colors.$secondary;
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+
+  .search-img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .invalid {
+    border: 2px solid colors.$danger;
+
+    &::placeholder {
+      color: colors.$danger;
+    }
+  }
+}

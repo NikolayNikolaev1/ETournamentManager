@@ -1,0 +1,140 @@
+@use 'colors';
+@use 'variables';
+@use 'layout-breakpoints' as *;
+
+.section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  #section-header {
+    display: flex;
+    gap: 15px;
+
+    #arrows-container {
+      display: none;
+      justify-content: center;
+      gap: 20px;
+
+      @media screen and (min-width: $extra-small) {
+        display: flex;
+      }
+
+      .arrow {
+        height: 25px;
+        filter: variables.$text-filter;
+
+        &:hover {
+          cursor: pointer;
+          filter: variables.$primary-filter;
+        }
+
+        &.left {
+          transform: rotate(180deg);
+        }
+
+        &.disabled {
+          cursor: default;
+          filter: variables.$primary-filter;
+        }
+      }
+    }
+
+    .circle {
+      background-color: colors.$danger;
+    }
+  }
+}
+
+.tournament-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .mobile-warrning-wrapper {
+    @media screen and (min-width: $extra-small) {
+      display: none;
+    }
+  }
+
+  section#tournament {
+    display: none;
+    width: 100%;
+
+    @media screen and (min-width: $extra-small) {
+      display: block;
+    }
+
+    #tournament-title {
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: 700;
+
+      &:hover {
+        color: colors.$primary;
+        text-decoration: underline;
+      }
+    }
+
+    #game-name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    #teams-section {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: space-around;
+      padding: 20px;
+
+      @media screen and (min-width: $large-min) {
+        flex-direction: row;
+      }
+
+      #team-navigation {
+        width: 100%;
+        padding: 15px;
+        background-color: colors.$background;
+        border: 1px solid colors.$primary;
+        border-radius: variables.$border-radius;
+
+        @media screen and (min-width: $large-min) {
+          padding: 50px;
+          width: 20%;
+        }
+
+        #teams-container {
+          display: flex;
+          flex-direction: column;
+
+          gap: 15px;
+
+          .team {
+            padding: 5px 15px;
+            background-color: colors.$secondary;
+            border: 1px solid colors.$primary;
+            border-radius: variables.$border-radius;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            box-shadow: variables.$box-shadow;
+
+            &:hover {
+              color: colors.$secondary;
+              background-color: colors.$primary;
+            }
+          }
+        }
+
+        .section-header {
+          text-align: center;
+          margin-bottom: 20px;
+          font-size: 24px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

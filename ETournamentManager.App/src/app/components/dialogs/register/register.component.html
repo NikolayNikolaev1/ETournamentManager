@@ -1,0 +1,46 @@
+<div id="dialog-container">
+  <app-e-form
+    title="Register"
+    [inputFields]="[
+      {
+        name: 'username',
+        value: username,
+        label: 'Username',
+        required: true,
+      },
+      {
+        name: 'email',
+        value: email,
+        label: 'Email',
+        type: 'email',
+        required: true,
+      },
+      {
+        name: 'password',
+        value: password,
+        label: 'Password',
+        type: 'password',
+        required: true,
+      },
+      {
+        name: 'repeatPassword',
+        value: repeatPassword,
+        label: 'Repeat Password',
+        type: 'password',
+        required: true,
+      },
+    ]"
+    buttonLabel="Register"
+    [error]="errorMessage"
+    (submitted)="onRegisterClick()"
+    (formInputsChanged)="onFormChanged($event)"
+  >
+    <app-e-switch
+      dynamicInput
+      label="Account Role"
+      [on]="true"
+      [switchLabels]="{ on: 'Participant', off: 'Creator' }"
+      (toggled)="onRoleChange()"
+    />
+  </app-e-form>
+</div>

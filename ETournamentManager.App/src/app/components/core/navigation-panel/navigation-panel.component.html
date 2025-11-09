@@ -1,0 +1,15 @@
+<div id="home-panel-container">
+  @for (panelItem of panelItems; track panelItem) {
+    @if (panelItem.roles.length === 0 || panelItem.roles.includes(userRole)) {
+      <div class="panel-item">
+        <p class="sub-title">{{ panelItem.title | translate }}</p>
+        <div class="img-wrapper">
+          <img class="panel-img" [alt]="panelItem.imageUrl.split('/').at(-1)" [src]="panelItem.imageUrl" />
+        </div>
+        <app-e-button (click)="onPanelItemClick(panelItem?.route ?? '', panelItem.dialogComponent)">
+          {{ panelItem.buttonText | translate}}
+        </app-e-button>
+      </div>
+    }
+  }
+</div>

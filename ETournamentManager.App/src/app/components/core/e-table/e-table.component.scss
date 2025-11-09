@@ -1,0 +1,175 @@
+@use 'colors';
+@use 'variables';
+@use 'layout-breakpoints' as *;
+
+.table-container {
+  width: 100%;
+  border-radius: variables.$border-radius;
+
+  table {
+    width: 100%;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    th,
+    td {
+      border: 1px solid colors.$primary;
+      padding: 8px;
+      cursor: pointer;
+
+      &.cell-data {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    th {
+      background-color: colors.$secondary;
+
+      &:hover {
+        color: colors.$background;
+        background-color: colors.$text;
+
+        .arrow-icon,
+        .action-icon {
+          filter: variables.$bg-filter;
+        }
+      }
+
+      .header-holder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+
+        .name {
+          margin: 0 auto;
+        }
+
+        .sorting-arrows {
+          display: flex;
+          flex-direction: column;
+
+          .arrow-icon {
+            height: 10px;
+
+            &.up {
+              transform: rotate(270deg);
+            }
+
+            &.down {
+              transform: rotate(90deg);
+            }
+          }
+
+          .action-icon {
+            height: 20px;
+          }
+        }
+      }
+    }
+
+    tr {
+      &:hover td {
+        background-color: colors.$secondary;
+      }
+
+      td {
+        background-color: colors.$background;
+
+        &.btn-cell {
+          padding: 0;
+
+          .action-btn {
+            margin: 0;
+            width: 100%;
+            height: 35px;
+            border: none;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+
+            &:hover {
+              cursor: pointer;
+              background-color: colors.$primary;
+            }
+
+            &.active:hover {
+              background-color: colors.$success;
+            }
+
+            &.inactive:hover {
+              background-color: colors.$danger;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .filters-section {
+    .main-filter {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      @media screen and (min-width: $small-min) {
+        flex-direction: row;
+      }
+
+      .search-holder {
+        position: relative;
+
+        .search-input {
+          width: 200px;
+          padding: 10px;
+          padding-right: 30px;
+          margin-bottom: 5px;
+          border-radius: 20px;
+          background-color: colors.$background;
+          border-color: colors.$primary;
+          box-shadow: variables.$box-shadow;
+          text-align: center;
+        }
+
+        .search-icon {
+          filter: variables.$text-filter;
+          position: absolute;
+          height: 20px;
+          top: 10px;
+          right: 115px;
+
+          @media screen and (min-width: $small-min) {
+            right: 10px;
+          }
+        }
+      }
+
+      .pagination {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .arrow {
+          filter: variables.$primary-filter;
+          height: 20px;
+
+          &:hover {
+            filter: variables.$text-filter;
+          }
+
+          &.left {
+            transform: rotate(180deg);
+          }
+
+          &.disabled {
+            cursor: default;
+            filter: variables.$secondary-filter;
+          }
+        }
+      }
+    }
+  }
+}

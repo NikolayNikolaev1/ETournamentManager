@@ -1,0 +1,14 @@
+@use 'layout-breakpoints' as *;
+@use 'colors';
+
+section.mobile-warning {
+  padding: 20px;
+  background-color: colors.$primary;
+  border: 2px solid colors.$text;
+  border-radius: 20px;
+
+  h1.warning-message {
+    font-size: 26px;
+    text-align: center;
+  }
+}

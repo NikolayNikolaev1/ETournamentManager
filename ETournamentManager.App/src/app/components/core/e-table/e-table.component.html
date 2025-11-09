@@ -1,0 +1,87 @@
+<div class="table-container">
+  <div class="filters-section">
+    <div class="main-filter">
+      <div class="search-holder">
+        <input
+          class="search-input"
+          [(ngModel)]="filterText"
+          (input)="applyFilter()"
+          [placeholder]="'Search...' | translate"
+        />
+        <img class="search-icon" src="assets/images/search-icon.svg" alt="Search icon" />
+      </div>
+
+      <div class="pagination">
+        <img
+          class="arrow left hover-transition"
+          [ngClass]="{ disabled: currentPage === 1 }"
+          src="assets/images/arrow.svg"
+          alt="Arrow icon"
+          (click)="prevPage()"
+        />
+        <span>{{ 'Page' | translate }} {{ currentPage }} {{ 'of' | translate }} {{ totalPages }}</span>
+        <img
+          class="arrow hover-transition"
+          [ngClass]="{ disabled: currentPage === totalPages }"
+          src="assets/images/arrow.svg"
+          alt="Arrow icon"
+          (click)="nextPage()"
+        />
+      </div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        @for (item of header; track $index) {
+          <th class="hover-transition" (click)="sortData(item)">
+            <div class="header-holder">
+              <div class="name">
+                {{ item | translate }}
+              </div>
+              <div class="sorting-arrows">
+                <img class="arrow-icon up" src="assets/images/arrow.svg" alt="Arrow icon" />
+                <img class="arrow-icon down" src="assets/images/arrow.svg" alt="Arrow icon" />
+              </div>
+            </div>
+          </th>
+        }
+        @for (currAction of actions; track $index) {
+          <th class="hover-transition">
+            <div class="header-holder">
+              <div class="name">
+                {{ currAction | translate }}
+              </div>
+              <div class="sorting-arrows">
+                <img class="action-icon" src="assets/images/action.svg" alt="Arrow icon" />
+              </div>
+            </div>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (currentData of paginatedData; track $index) {
+        <tr class="hover-transition">
+          @for (item of header; track $index) {
+            <td class="cell-data" (click)="onRowClick(currentData.id)">{{ currentData[item] | translate }}</td>
+          }
+
+          @for (currAction of actions; track $index) {
+            <td class="btn-cell" (click)="onActionClick(currentData.id, currAction)">
+              <button class="action-btn hover-transition" [ngClass]="!currentData[currAction] ? 'active' : 'inactive'">
+                {{
+                  currentData[currAction] === undefined
+                    ? 'change'
+                    : currentData[currAction]
+                      ? ('Deactivate' | translate)
+                      : ('Activate' | translate)
+                }}
+              </button>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

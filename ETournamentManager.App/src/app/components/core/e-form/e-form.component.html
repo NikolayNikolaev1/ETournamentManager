@@ -1,0 +1,24 @@
+<div class="form-wrapper" [ngClass]="{ error: errorMessage.length !== 0 }">
+  <div class="title">{{ title | translate }}</div>
+  @for (item of inputComponetData; track $index) {
+    <app-e-input
+      [label]="item.label"
+      [value]="item.value"
+      [type]="item.type ?? 'text'"
+      [required]="item.required ?? false"
+      (inputChanged)="onInputChanged($index, $event)"
+    />
+  }
+
+  <ng-content select="[dynamicInput]" />
+
+  <div class="error-message">
+    {{ errorMessage | translate }}
+  </div>
+
+  <button class="form-btn hover-transition" [disabled]="isSubmitBtnDisabled()" (click)="onSubmitClick()">
+    {{ btnLabel | translate }}
+  </button>
+
+  <ng-content />
+</div>

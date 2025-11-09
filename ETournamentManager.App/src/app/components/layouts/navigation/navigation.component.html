@@ -1,0 +1,68 @@
+<div id="nav-container">
+  <ul id="nav-items-container">
+    <li id="website-title" class="nav-item hover-transition image-text" routerLink="/">
+      <img id="nav-logo" [src]="logoUrl" alt="Trophy Logo" />
+      {{ platformName || constants.WEBSITE_NAME }}
+    </li>
+    <li class="desktop nav-item hover-transition flex-right" routerLink="/tournaments" routerLinkActive="active">
+      {{ 'Tournaments' | translate }}
+    </li>
+    <li class="desktop nav-item hover-transition" routerLink="/teams" routerLinkActive="active">
+      {{ 'Teams' | translate }}
+    </li>
+
+    @if (currentUser !== null) {
+      <li
+        class="nav-item hover-transition"
+        (mouseenter)="showDropdownMenu = true"
+        (mouseleave)="showDropdownMenu = false"
+      >
+        {{ 'Welcome' | translate }}
+        <div id="username">&nbsp;{{ currentUser.username | uppercase }}</div>
+        <img class="dropdown-arrow" src="assets/images/arrow.svg" alt="Arrow" />
+      </li>
+      <ul
+        id="dropdown-menu"
+        [ngClass]="{ active: showDropdownMenu }"
+        (mouseenter)="showDropdownMenu = true"
+        (mouseleave)="showDropdownMenu = false"
+      >
+        <li class="dropdown-item hover-transition" routerLink="/profile" routerLinkActive="active">
+          {{ 'Profile' | translate }}
+
+          <div class="mobile-username">&nbsp;-&nbsp;{{ currentUser.username | uppercase }}</div>
+        </li>
+        <li class="mobile dropdown-item hover-transition" routerLink="/tournaments" routerLinkActive="active">
+          {{ 'Tournaments' | translate }}
+        </li>
+        <li class="mobile dropdown-item hover-transition" routerLink="/teams" routerLinkActive="active">
+          {{ 'Teams' | translate }}
+        </li>
+        @if (currentUser.roleName === constants.ADMIN_ROLE) {
+          <li class="dropdown-item hover-transition" routerLink="/users" routerLinkActive="active">
+            {{ 'All users' | translate }}
+          </li>
+        }
+        @if (currentUser.roleName === constants.TOURNAMENT_PARTICIPANT_ROLE) {
+          <li class="dropdown-item hover-transition" (click)="onTeamCreateClick()">{{ 'Create team' | translate }}</li>
+        } @else {
+          <li class="dropdown-item hover-transition" (click)="onTournamentCreateClick()">
+            {{ 'Create tournament' | translate }}
+          </li>
+        }
+
+        <li
+          *ngIf="currentUser.roleName === constants.ADMIN_ROLE"
+          class="dropdown-item hover-transition"
+          (click)="onGameCreateClick()"
+        >
+          {{ 'Create game' | translate }}
+        </li>
+        <li class="dropdown-item hover-transition" (click)="onLogout()">{{ 'Logout' | translate }}</li>
+      </ul>
+    } @else {
+      <li class="nav-item hover-transition" (click)="onLoginClick()">{{ 'Login' | translate }}</li>
+      <li class="nav-item hover-transition" (click)="onRegisterClick()">{{ 'Register' | translate }}</li>
+    }
+  </ul>
+</div>

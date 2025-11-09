@@ -1,0 +1,41 @@
+@use 'variables';
+@use 'layout-breakpoints' as *;
+
+#profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  #profile-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+
+  #username-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+
+    @media screen and (min-width: $extra-small) {
+      flex-direction: row;
+    }
+
+    .edit-icon {
+      height: 25px;
+      filter: variables.$bg-filter;
+
+      &:hover {
+        cursor: pointer;
+        filter: variables.$text-filter;
+      }
+    }
+
+    #config-container {
+      display: flex;
+      gap: 15px;
+      margin-left: auto;
+    }
+  }
+}

@@ -1,0 +1,181 @@
+<div class="bracket-container">
+  <div class="bracket">
+    <div class="round-type">
+      @for (currentRound of roundsData.slice(0, 4); track $index) {
+        <div class="match">
+          <div
+            class="match-top team hover-transition"
+            [ngClass]="{
+              winner: currentRound.winnerId === currentRound.teams[0].id,
+              looser: currentRound.winnerId !== null && currentRound.winnerId !== currentRound.teams[0].id,
+            }"
+            (click)="onTeamClick(currentRound.id, currentRound.teams[0].id)"
+          >
+            <span class="name">{{ currentRound.teams[0].name }}</span>
+            <span class="tag">{{ currentRound.teams[0].tag }}</span>
+
+            @if (currentRound.winnerId !== null) {
+              <span class="score" [ngClass]="{ win: currentRound.winnerId === currentRound.teams[0].id }">
+                {{ currentRound.winnerId === currentRound.teams[0].id ? ('W' | translate) : ('L' | translate) }}
+              </span>
+            }
+          </div>
+          <div
+            class="match-bottom team hover-transition"
+            [ngClass]="{
+              winner: currentRound.winnerId === currentRound.teams[1].id,
+              looser: currentRound.winnerId !== null && currentRound.winnerId !== currentRound.teams[1].id,
+            }"
+            (click)="onTeamClick(currentRound.id, currentRound.teams[1].id)"
+          >
+            <span class="name">{{ currentRound.teams[1].name }}</span>
+            <span class="tag">{{ currentRound.teams[1].tag }}</span>
+            @if (currentRound.winnerId !== null) {
+              <span class="score" [ngClass]="{ win: currentRound.winnerId === currentRound.teams[1].id }">
+                {{ currentRound.winnerId === currentRound.teams[1].id ? ('W' | translate) : ('L' | translate) }}
+              </span>
+            }
+          </div>
+          <div class="match-lines" [ngClass]="{ progress: currentRound.winnerId !== null }">
+            <div class="line one"></div>
+            <div class="line two"></div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="round-type">
+      @for (currentRound of roundsData.slice(4, 6); track $index) {
+        <div class="match">
+          <div
+            class="match-top team hover-transition"
+            [ngClass]="{
+              winner: currentRound.teams.length === 2 && currentRound.winnerId === currentRound.teams[0].id,
+              looser:
+                currentRound.teams.length === 2 &&
+                currentRound.winnerId !== null &&
+                currentRound.winnerId !== currentRound.teams[0].id,
+            }"
+            (click)="currentRound.teams.length === 2 && onTeamClick(currentRound.id, currentRound.teams[0].id)"
+          >
+            <span class="name">
+              {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].name }}
+            </span>
+
+            <span class="tag">
+              {{ currentRound.teams.length < 1 ? 'TBD' : currentRound.teams[0].tag }}
+            </span>
+            @if (currentRound.winnerId !== null) {
+              <span
+                class="score"
+                [ngClass]="{
+                  win: currentRound.teams.length === 2 && currentRound.winnerId === currentRound.teams[0].id,
+                }"
+              >
+                {{ currentRound.winnerId === currentRound.teams[0].id ? ('W' | translate) : ('L' | translate) }}
+              </span>
+            }
+          </div>
+          <div
+            class="match-bottom team hover-transition"
+            [ngClass]="{
+              winner: currentRound.teams.length === 2 && currentRound.winnerId === currentRound.teams[1].id,
+              looser:
+                currentRound.teams.length === 2 &&
+                currentRound.winnerId !== null &&
+                currentRound.winnerId !== currentRound.teams[1].id,
+            }"
+            (click)="currentRound.teams.length === 2 && onTeamClick(currentRound.id, currentRound.teams[1].id)"
+          >
+            <span class="name">
+              {{ currentRound.teams.length < 2 ? 'TBD' : currentRound.teams[1].name }}
+            </span>
+            <span class="tag">
+              {{ currentRound.teams.length < 2 ? 'TBD' : currentRound.teams[1].tag }}
+            </span>
+            @if (currentRound.winnerId !== null) {
+              <span
+                class="score"
+                [ngClass]="{
+                  win: currentRound.teams.length === 2 && currentRound.winnerId === currentRound.teams[1].id,
+                }"
+              >
+                {{ currentRound.winnerId === currentRound.teams[1].id ? ('W' | translate) : ('L' | translate) }}
+              </span>
+            }
+          </div>
+          <div class="match-lines" [ngClass]="{ progress: currentRound.winnerId !== null }">
+            <div class="line one"></div>
+            <div class="line two"></div>
+          </div>
+          <div class="match-lines alt" [ngClass]="{ progress: currentRound.teams.length !== 0 }">
+            <div class="line one"></div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="round-type">
+      <div class="match">
+        <div
+          class="match-top team hover-transition"
+          [ngClass]="{
+            winner: roundsData[6].teams.length === 2 && roundsData[6].winnerId === roundsData[6].teams[0].id,
+            looser:
+              roundsData[6].teams.length === 2 &&
+              roundsData[6].winnerId !== null &&
+              roundsData[6].winnerId !== roundsData[6].teams[0].id,
+          }"
+          (click)="roundsData[6].teams.length === 2 && onTeamClick(roundsData[6].id, roundsData[6].teams[0].id)"
+        >
+          <span class="name">
+            {{ roundsData[6].teams.length < 1 ? 'TBD' : roundsData[6].teams[0].name }}
+          </span>
+          <span class="tag">
+            {{ roundsData[6].teams.length < 1 ? 'TBD' : roundsData[6].teams[0].tag }}
+          </span>
+          @if (roundsData[6].winnerId !== null) {
+            <span
+              class="score"
+              [ngClass]="{
+                win: roundsData[6].teams.length === 2 && roundsData[6].winnerId === roundsData[6].teams[0].id,
+              }"
+            >
+              {{ roundsData[6].winnerId === roundsData[6].teams[0].id ? ('W' | translate) : ('L' | translate) }}
+            </span>
+          }
+        </div>
+        <div
+          class="match-bottom team hover-transition"
+          [ngClass]="{
+            winner: roundsData[6].teams.length === 2 && roundsData[6].winnerId === roundsData[6].teams[1].id,
+            looser:
+              roundsData[6].teams.length === 2 &&
+              roundsData[6].winnerId !== null &&
+              roundsData[6].winnerId !== roundsData[6].teams[1].id,
+          }"
+          (click)="roundsData[6].teams.length === 2 && onTeamClick(roundsData[6].id, roundsData[6].teams[1].id)"
+        >
+          <span class="name">
+            {{ roundsData[6].teams.length < 2 ? 'TBD' : roundsData[6].teams[1].name }}
+          </span>
+          <span class="tag">
+            {{ roundsData[6].teams.length < 2 ? 'TBD' : roundsData[6].teams[1].tag }}
+          </span>
+          @if (roundsData[6] !== null && roundsData[6].winnerId !== null) {
+            <span
+              class="score"
+              [ngClass]="{
+                win: roundsData[6].teams.length === 2 && roundsData[6].winnerId === roundsData[6].teams[1].id,
+              }"
+            >
+              {{ roundsData[6].winnerId === roundsData[6].teams[1].id ? ('W' | translate) : ('L' | translate) }}
+            </span>
+          }
+        </div>
+        <div class="match-lines alt" [ngClass]="{ progress: roundsData[6].teams.length !== 0 }">
+          <div class="line one"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

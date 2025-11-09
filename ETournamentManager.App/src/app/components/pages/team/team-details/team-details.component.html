@@ -1,0 +1,130 @@
+<div id="team-container">
+  @if (teamData !== null) {
+    <div id="banner-header">
+      <app-e-image-upload [entityId]="teamId" [imgUrl]="teamImageUrl" [hideActions]="!hasCaptainPermissions" />
+      <div class="banner-info-wrapper">
+        <h1 class="title">{{ teamData.name }} ({{ teamData.tag }})</h1>
+        <h4 class="description">
+          <i>
+            {{ teamData.description }}
+          </i>
+        </h4>
+        <p class="contact">
+          {{ 'Team captain contact' | translate }}:
+          <a class="contact-mail hover-transition" [href]="'mailto:' + teamData.captain.email">
+            {{ teamData.captain.email }}
+          </a>
+        </p>
+      </div>
+
+      <div class="action-wrapper">
+        @if (hasCaptainPermissions) {
+          <app-e-input
+            label="Add user to team"
+            [isSearch]="true"
+            [searchResult]="searchUsernames"
+            (inputChanged)="getUsersByUsername($event)"
+            (searchResultSelected)="selectUser($event)"
+          />
+          <img
+            class="action-icon hover-transition"
+            src="assets/images/edit-icon.svg"
+            alt="Edit icon"
+            (click)="onEditClick()"
+          />
+          <img
+            class="action-icon hover-transition"
+            src="assets/images/delete-icon.svg"
+            alt="Delete icon"
+            (click)="onDeleteClick()"
+          />
+        }
+        @if (isMember) {
+          <app-e-button color="var(--secondary-color)" (click)="onExitClick()">Leave</app-e-button>
+        }
+      </div>
+    </div>
+
+    <div class="section-container">
+      <div class="header-wrapper">
+        <div class="title">{{ 'Members' | translate }}</div>
+        <hr />
+      </div>
+
+      <div class="info-cards-container">
+        @for (currentMember of [teamData.captain].concat(teamData.members); track $index) {
+          <app-e-info-card [cardData]="getUserInfoCard(currentMember)">
+            @if (hasCaptainPermissions && currentMember.id !== teamData.captain.id) {
+              <div actions class="actions" (click)="$event.stopPropagation(); onRemoveMemberClick(currentMember.id)">
+                <img src="assets/images/close-icon.svg" alt="Close icon" />
+              </div>
+            }
+
+            @if (currentMember.id === this.teamData.captain.id) {
+              <div statsIcons class="stats-info">
+                <img src="assets/images/crown-icon.svg" alt="Captain icon" />
+                <div class="subtitle">{{ 'captain' | translate }}</div>
+              </div>
+            }
+          </app-e-info-card>
+        }
+      </div>
+    </div>
+
+    @if (teamTournaments.length > 0) {
+      <div class="section-container">
+        <div class="header-wrapper">
+          <div id="section-nav">
+            <div class="title">{{ 'Tournaments' | translate }} - {{ selectedTournamentFilter | translate }}</div>
+            <div id="tabs-container">
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTournamentFilter === 'past' }"
+                [disabled]="finishedTournaments.length === 0"
+                (click)="onTournamentNavSelect('past')"
+              >
+                {{ 'past' | translate }}
+              </button>
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTournamentFilter === 'active' }"
+                [disabled]="activeTournaments.length === 0"
+                (click)="onTournamentNavSelect('active')"
+              >
+                {{ 'active' | translate }}
+              </button>
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTournamentFilter === 'future' }"
+                [disabled]="futureTournaments.length === 0"
+                (click)="onTournamentNavSelect('future')"
+              >
+                {{ 'future' | translate }}
+              </button>
+            </div>
+          </div>
+          <hr />
+        </div>
+
+        <div class="info-cards-container">
+          @for (currentTournament of filteredTournaments; track $index) {
+            <app-e-info-card
+              [cardData]="getTournamentInfoCard(currentTournament)"
+              [routerLink]="clientRoutes.TOURNAMENT_DETAILS(currentTournament.id)"
+            >
+              @if (selectedTournamentFilter === 'future' && hasCaptainPermissions) {
+                <div
+                  actions
+                  class="actions"
+                  (click)="$event.stopPropagation(); onLeaveTournamentClick(currentTournament.id)"
+                >
+                  <img src="assets/images/close-icon.svg" alt="Close icon" />
+                </div>
+              }
+            </app-e-info-card>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

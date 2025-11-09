@@ -1,0 +1,27 @@
+<div id="dialog-container">
+  <app-e-form
+    title="Create new team"
+    [inputFields]="[
+      {
+        name: 'name',
+        value: name,
+        label: 'Name',
+        required: true,
+      },
+      {
+        name: 'tag',
+        value: tag,
+        label: 'Tag',
+        required: true,
+      },
+      {
+        name: 'description',
+        value: description,
+        label: 'Description',
+      },
+    ]"
+    [error]="errorMessage"
+    (submitted)="onSubmitClick()"
+    (formInputsChanged)="onFormChanged($event)"
+  />
+</div>

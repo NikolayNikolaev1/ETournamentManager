@@ -1,0 +1,65 @@
+@use 'colors';
+@use 'variables';
+
+#not-found-page {
+  background-color: colors.$primary;
+  height: 600px;
+  width: 100%;
+  position: relative;
+
+  .error {
+    color: colors.$background;
+    font-size: 200px;
+    position: absolute;
+    left: 32%;
+    top: 8%;
+
+    &.right {
+      left: 56%;
+    }
+  }
+
+  #img-wrapper {
+    position: absolute;
+    font-size: 8.5rem;
+    left: 42%;
+    top: 15%;
+    color: colors.$background;
+    max-width: 150px;
+
+    #medal-icon {
+      filter: variables.$bg-filter;
+      width: 100%;
+      animation: rotate-infinite 5s linear infinite;
+      transform-origin: center;
+      display: block;
+      margin: auto;
+    }
+    @keyframes rotate-infinite {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  #msg {
+    text-align: center;
+    font-size: 26px;
+    position: absolute;
+    left: 16%;
+    top: 45%;
+    width: 75%;
+  }
+
+  a {
+    text-decoration: none;
+    color: colors.$background;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

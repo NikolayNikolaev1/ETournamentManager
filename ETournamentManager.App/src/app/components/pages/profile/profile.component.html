@@ -1,0 +1,141 @@
+<div id="profile-container">
+  @if (currentUserProfile !== null) {
+    <div class="section-container">
+      <div class="header-wrapper">
+        <div id="username-wrapper">
+          @if (showUsernameEdit) {
+            <img class="edit-icon" src="assets/images/save-icon.svg" alt="Edit icon" (click)="onUserNameSaveClick()" />
+            <app-e-input
+              [label]="usernameErrorMsg || 'Change username'"
+              [value]="newUsername"
+              [invalid]="usernameErrorMsg.length !== 0"
+              [required]="true"
+              (inputChanged)="newUsername = $event"
+            />
+          } @else {
+            <img
+              class="edit-icon"
+              src="assets/images/edit-icon.svg"
+              alt="Edit icon"
+              (click)="showUsernameEdit = true"
+            />
+            <div class="title">{{ currentUserProfile.username }}</div>
+          }
+
+          <img
+            id="config-icon"
+            class="edit-icon hover-transition"
+            src="assets/images/config-icon.svg"
+            alt="Config icon"
+            (click)="onPasswordChangeClick()"
+          />
+
+          <app-e-switch
+            label="Language"
+            [on]="selectedLang === 'bg'"
+            [switchLabels]="{ on: 'Bulgarian', off: 'English' }"
+            (toggled)="switchLanguage($event ?? false)"
+            [ngStyle]="{ 'margin-left': 'auto' }"
+          />
+        </div>
+        <hr />
+      </div>
+
+      @if (currentUserProfile.roleName === userRoles.ADMIN) {
+        <app-navigation-panel [panelItems]="platformConfigs" />
+      }
+
+      @if (isParticipant) {
+        <div id="profile-section">
+          <app-e-image-upload [entityId]="currentUserProfile.id" [imgUrl]="userImageUrl" />
+        </div>
+      }
+
+      <div class="header-wrapper">
+        @if (isParticipant) {
+          <div id="section-nav">
+            <div class="title">{{ 'My Teams' | translate }} - {{ selectedTeamFilter | translate }}</div>
+            <div id="tabs-container">
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTeamFilter === 'captain' }"
+                [disabled]="ownedTeams.length === 0"
+                (click)="onTeamNavSelect('captain')"
+              >
+                {{ 'captain' | translate }}
+              </button>
+              <button
+                class="tab-item hover-transition"
+                [ngClass]="{ active: selectedTeamFilter === 'member' }"
+                [disabled]="joinedTeams.length === 0"
+                (click)="onTeamNavSelect('member')"
+              >
+                {{ 'Member' | translate }}
+              </button>
+            </div>
+          </div>
+        } @else {
+          <div class="title">{{ 'My Tournaments' | translate }}</div>
+        }
+        <hr />
+      </div>
+
+      <div class="info-cards-container">
+        @if (isLoading) {
+          <div class="loader-wrapper">
+            <span class="loader"></span>
+          </div>
+        } @else {
+          @if (isParticipant) {
+            @for (currentTeam of filteredTeams; track $index) {
+              <app-e-info-card
+                [cardData]="getTeamInfoCard(currentTeam)"
+                [routerLink]="clientRoutes.TEAM_DETAILS(currentTeam.id)"
+              >
+                @if (selectedTeamFilter === 'member') {
+                  <div actions class="actions" (click)="$event.stopPropagation(); onExitClick(currentTeam.id)">
+                    <img src="assets/images/exit.svg" alt="Exit icon" />
+                  </div>
+                }
+                <div statsIcons class="stats-info">
+                  <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+                  <div class="subtitle">
+                    {{ currentTeam.tournamentsWon }}
+                  </div>
+
+                  <img src="assets/images/people-icon.svg" alt="People Icon" />
+                  <div class="subtitle">
+                    {{ currentTeam.members.length }}
+                  </div>
+                </div>
+              </app-e-info-card>
+            }
+          } @else {
+            @for (currentTournament of tournamentsData; track $index) {
+              <app-e-info-card
+                [cardData]="getTournamentCard(currentTournament)"
+                [routerLink]="[clientRoutes.TOURNAMENT_DETAILS(currentTournament.id)]"
+              >
+                <div statsIcons class="stats-info">
+                  <img src="assets/images/people-icon.svg" alt="People Icon" />
+                  <div class="subtitle">
+                    {{ currentTournament.teams.length }}
+                  </div>
+                </div>
+              </app-e-info-card>
+            }
+          }
+        }
+      </div>
+
+      @if (isAdmin) {
+        <div class="header-wrapper">
+          <div class="title">{{ 'Team Statistics' | translate }}</div>
+          <hr />
+
+          <app-e-admin-management />
+        </div>
+      }
+    </div>
+  }
+</div>

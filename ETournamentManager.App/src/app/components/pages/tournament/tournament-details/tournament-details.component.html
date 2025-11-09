@@ -1,0 +1,169 @@
+<div id="tournament-container">
+  @if (tournamentData !== null) {
+    <ng-template #actions>
+      @if (hasCreatorPermissions) {
+        <div class="action-wrapper">
+          @if (roundsData.length === 0 && tournamentData.teams.length < 8) {
+            <app-e-input
+              label="Add Participant"
+              [isSearch]="true"
+              [searchResult]="searchTeamNames"
+              (inputChanged)="getTeamByName($event)"
+              (searchResultSelected)="selectTeam($event)"
+            />
+          } @else if (!tournamentData.active && !tournamentData.finished) {
+            <app-e-button (click)="onStartClick()">Start</app-e-button>
+          }
+
+          @if (showEndButton()) {
+            <app-e-button (click)="onEndClick()">{{ 'End' | translate }}</app-e-button>
+          }
+
+          <div class="error-message" [ngStyle]="{ 'align-self': 'center' }">
+            {{ startTournamentError }}
+          </div>
+
+          <div class="icons-container">
+            <img
+              class="action-icon hover-transition"
+              src="assets/images/edit-icon.svg"
+              alt="Edit icon"
+              (click)="onEditClick()"
+            />
+            @if (!tournamentData.finished && !tournamentData.active) {
+              <img
+                class="action-icon hover-transition"
+                src="assets/images/delete-icon.svg"
+                alt="Edit icon"
+                (click)="onDeleteClick()"
+              />
+            }
+          </div>
+        </div>
+      }
+    </ng-template>
+
+    <div id="banner-header">
+      <div class="mobile-actions">
+        <ng-template [ngTemplateOutlet]="actions" />
+      </div>
+      <div class="mobile-header">
+        <app-e-image-upload
+          [entityId]="tournamentId"
+          [imgUrl]="tournamentImageUrl"
+          [hideActions]="!hasCreatorPermissions"
+        />
+        <div class="banner-info-wrapper">
+          <div class="header">
+            <div class="header-title">
+              <h1 class="title">{{ tournamentData.name }}</h1>
+              <h3 class="sub-title">{{ 'Game' | translate }}: {{ tournamentData.game.name }}</h3>
+            </div>
+
+            <div class="desktop-actions">
+              <ng-template [ngTemplateOutlet]="actions" />
+            </div>
+          </div>
+          <h4 class="description">
+            <i>{{ tournamentData.description }}</i>
+          </h4>
+          <p class="contact">
+            {{ 'For tournament details' | translate }}:
+            <a class="contact-mail hover-transition" [href]="'mailto:' + tournamentData.creator.email">
+              {{ tournamentData.creator.email }}
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="mobile-footer">
+        <h4 class="description">{{ tournamentData.description }}</h4>
+        <p class="contact">
+          {{ 'For tournament details' | translate }}:
+          <a class="contact-mail hover-transition" [href]="'mailto:' + tournamentData.creator.email">
+            {{ tournamentData.creator.email }}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    @if (tournamentData.teams.length > 0) {
+      <div class="section-container">
+        <div class="header-wrapper">
+          <div class="title">{{ 'Participent Teams' | translate }}</div>
+          <hr />
+        </div>
+
+        <div class="info-cards-container">
+          @for (currentTeam of tournamentData.teams; track $index) {
+            <app-e-info-card [cardData]="getTeamInfoCard(currentTeam)" (cardClicked)="onCardSelect($event)">
+              @if (!tournamentData.active && !tournamentData.finished && hasCreatorPermissions) {
+                <div actions class="actions" (click)="$event.stopPropagation(); onRemoveTeamClick(currentTeam.id)">
+                  <img src="assets/images/close-icon.svg" alt="Close icon" />
+                </div>
+              }
+
+              <div statsIcons class="stats-info">
+                <img src="assets/images/first-place-medal.svg" alt="First Place Medal" />
+                <div class="subtitle">
+                  {{ currentTeam.tournamentsWon }}
+                </div>
+
+                <img src="assets/images/people-icon.svg" alt="People Icon" />
+                <div class="subtitle">
+                  {{ currentTeam.membersCount }}
+                </div>
+              </div>
+            </app-e-info-card>
+          }
+        </div>
+      </div>
+    }
+
+    @if (roundsData.length > 0) {
+      <div id="results-section" class="section-container">
+        <div class="header-wrapper">
+          <div class="title">{{ 'Bracket' | translate }}</div>
+          <hr />
+        </div>
+        @if (roundsData.length > 0) {
+          <div class="bracket-wrapper">
+            @if (ranking.length !== 0) {
+              <div id="tournament-ranking-wrapper">
+                @for (currentPlace of ranking; track $index) {
+                  <div
+                    class="ranking-row hover-transition"
+                    [ngClass]="{
+                      first: $index === 7,
+                      second: $index === 6,
+                      third: [5, 4].includes($index),
+                      fifth: [0, 1, 2, 3].includes($index),
+                    }"
+                  >
+                    <div class="name">
+                      {{ currentPlace.name }}
+                    </div>
+                    <div class="place">
+                      {{ currentPlace.place }}
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <div class="mobile-warrning-wrapper">
+              <app-mobile-warning />
+            </div>
+            <div class="tour-bracket-wrapper" style="width: 100%">
+              <app-tournament-bracket
+                [roundsData]="roundsData"
+                [tournamentId]="tournamentId"
+                [canChooseWinner]="hasCreatorPermissions"
+              />
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

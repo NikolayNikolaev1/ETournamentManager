@@ -1,0 +1,100 @@
+@use 'colors';
+@use 'variables';
+
+.image-upload-wrapper {
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 210px;
+  height: 140px;
+  border: 1px solid colors.$primary;
+  border-radius: 5px;
+  background-color: colors.$background;
+  box-shadow: variables.$box-shadow;
+
+  &.invalid {
+    color: colors.$danger;
+    border: 1px solid colors.$danger;
+  }
+
+  input {
+    display: none;
+  }
+
+  .upload-container {
+    height: 100%;
+    text-align: center;
+    padding: 25px;
+
+    .img-upload-icon {
+      filter: variables.$text-filter;
+
+      &.invalid {
+        filter: variables.$danger-filter;
+      }
+    }
+
+    .label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+
+      h3 {
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      h6 {
+        font-style: italic;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .image-container {
+    position: relative;
+    height: inherit;
+
+    .uploaded-image {
+      height: inherit;
+      border-radius: 5px;
+    }
+
+    .actions {
+      cursor: default;
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      justify-content: end;
+      gap: 5px;
+      width: 90%;
+      padding: 10px 5%;
+      background-color: colors.$background;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+
+      .action-img {
+        filter: variables.$text-filter;
+
+        &:hover {
+          cursor: pointer;
+          filter: variables.$primary-filter;
+        }
+      }
+    }
+  }
+}
+
+.image-selected {
+  cursor: default;
+  background-color: colors.$background;
+}
+
+.upload-error {
+  font-size: 12px;
+  font-weight: 700;
+  color: colors.$danger;
+  text-align: center;
+  margin-top: 5px;
+}
