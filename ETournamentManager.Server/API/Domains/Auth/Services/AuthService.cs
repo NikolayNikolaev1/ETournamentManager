@@ -6,6 +6,8 @@
     using Core.Exceptions;
     using Data;
     using Data.Models;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Google;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
@@ -13,6 +15,7 @@
     using Models;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
+    using System.Security.Policy;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -27,6 +30,7 @@
         ETournamentManagerDbContext dbContext,
         ClaimsPrincipal claimsPrincipal,
         IMapper mapper,
+        SignInManager<User> signInManager,
         IOptions<JwtOptions> options) : IAuthService
     {
         private CurrentUserModel currentUser = null!;
@@ -130,6 +134,42 @@
 
 
             await emailService.SendEmail(model.Email, "Tournament Manager Registration", $"A new profile has been registered with your email. {(model.RoleName == TOURNAMENT_CREATOR ? "Wait for an Administrator to unlock you manager account." : "")}");
+
+            return new AuthResponseModel
+            {
+                Token = await GenerateJwtToken(user),
+            };
+        }
+
+        public AuthenticationProperties test(string redirectUrl)
+        {
+
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(GoogleDefaults.AuthenticationScheme, redirectUrl);
+
+            return properties;
+        }
+
+        public async Task<AuthResponseModel> LoginWithGoogle()
+        {
+
+            var info = await signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                throw new BusinessServiceException("External login info not found.");
+            }
+
+            var user = await userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+            if (user == null)
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                user = new User { UserName = email, Email = email };
+                await userManager.CreateAsync(user);
+                await userManager.AddToRoleAsync(user, TOURNAMENT_PARTICIPANT);
+                await userManager.AddLoginAsync(user, info);
+
+            }
 
             return new AuthResponseModel
             {

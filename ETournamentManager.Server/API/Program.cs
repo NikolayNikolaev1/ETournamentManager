@@ -4,7 +4,6 @@ using Core.Extensions.Authentication;
 using Core.Mapper;
 using Data;
 using Data.Models;
-using Data.Seeds;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -22,31 +21,16 @@ builder.Services
     .AddDomainService()
     .AddHttpContextService()
     .AddAutoMapper(typeof(AutoMapperProfile))
-    //.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"))
     .ConfigureOptions<JwtOptionsExtensions>().ConfigureOptions<JwtBearerOptionsExtensions>()
     .AddAuthorization()
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        googleOptions.CallbackPath = "/signin-google";
+    })
     .AddJwtBearer();
-//.AddJwtBearer(jwt =>
-//{
-//    byte[] key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value ?? "");
-//    jwt.SaveToken = true;
-//    jwt.TokenValidationParameters = new TokenValidationParameters()
-//    {
-//        ValidateIssuer = true,
-//        IssuerSigningKey = new SymmetricSecurityKey(key),
-//        ValidateIssuerSigningKey = true,
-//        ValidateAudience = false,
-//        RequireExpirationTime = false,
-//        ValidateLifetime = false,
-//    };
-//});
-//.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-//builder.Services.AddHttpContextAccessor()
-//                .AddTransient(s =>
-//                    s.GetRequiredService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
 
 builder.Services
     .AddCors(options => options.AddPolicy("Client",
@@ -64,8 +48,6 @@ builder.Services
         .AllowAnyMethod()
         .AllowAnyHeader()));
 
-//builder.Services
-
 builder.Services
     .AddIdentity<User, Role>(options =>
     {
@@ -76,7 +58,6 @@ builder.Services
         options.SignIn.RequireConfirmedAccount = false;
     })
     .AddRoles<Role>()
-    //.AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ETournamentManagerDbContext>();
 
 var app = builder.Build();

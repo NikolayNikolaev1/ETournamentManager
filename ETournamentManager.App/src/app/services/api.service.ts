@@ -17,6 +17,7 @@ type QueryParams = {
   gameIds?: string[];
   isPrivate?: boolean;
   withoutMemberIds?: string[];
+  returnUrl?: string;
 };
 
 interface ApiRequestData<TBody> {

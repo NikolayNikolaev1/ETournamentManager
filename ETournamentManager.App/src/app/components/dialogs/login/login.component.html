@@ -25,5 +25,7 @@
       {{ "Don't have an account?" | translate }} {{ 'Register' | translate }}
       <a (click)="onRegisterClick()">{{ 'here' | translate }}</a>
     </p>
+
+    <app-e-button img="assets/images/logo-google.png" (click)="loginWithGoogle()">Log in with </app-e-button>
   </app-e-form>
 </div>

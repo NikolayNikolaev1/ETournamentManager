@@ -7,7 +7,6 @@
     using Models;
     using Services;
 
-
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController(IAuthService authService) : ControllerBase
@@ -27,5 +26,25 @@
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> PasswordChange([FromBody] PasswordChangeModel model)
             => await authService.PasswordChange(model).ReturnOkResult();
+
+        [HttpGet()]
+        [AllowAnonymous]
+        public IActionResult GoogleLogin(string returnUrl)
+        {
+            var callbackUrl = Url.Action(nameof(GoogleCallback), "Auth", values: null, protocol: Request.Scheme);
+            var redirectUrl = $"{callbackUrl}?returnUrl={Uri.EscapeDataString(returnUrl)}";
+            return Challenge(authService.test(redirectUrl), "Google");
+        }
+
+        [HttpGet()]
+        [AllowAnonymous]
+        public async Task<IActionResult> GoogleCallback(string returnUrl)
+        { 
+            
+            var response = await authService.LoginWithGoogle();
+
+            return Redirect($"http://localhost:4200/auth-callback?token={response.Token}");
+        }
+
     }
 }

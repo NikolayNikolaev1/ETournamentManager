@@ -1,3 +1,7 @@
 <button class="btn hover-transition" [ngStyle]="{ 'background-color': color }">
   <ng-content />
+
+  @if (img !== null) {
+    <img [src]="img" width="25" />
+  }
 </button>

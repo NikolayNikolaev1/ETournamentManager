@@ -31,8 +31,9 @@ export class LoginComponent {
     this.errorMessage = '';
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        localStorage.setItem(TOKEN_KEY_NAME, response.token);
-        this.authService.getUserProfile();
+        // localStorage.setItem(TOKEN_KEY_NAME, response.token);
+        // this.authService.getUserProfile();
+        this.authService.saveToken(response.token);
         this.dialogService.closeAll();
       },
       error: (error) => (this.errorMessage = error),
@@ -42,5 +43,9 @@ export class LoginComponent {
   onRegisterClick() {
     this.dialogService.closeAll();
     this.dialogService.open(RegisterComponent);
+  }
+
+  loginWithGoogle(): void {
+    this.authService.google();
   }
 }

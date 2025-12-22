@@ -9,3 +9,9 @@
     text-decoration: underline;
   }
 }
+
+::ng-deep app-e-button:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

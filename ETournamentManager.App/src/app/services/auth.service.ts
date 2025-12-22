@@ -1,12 +1,12 @@
-import { BehaviorSubject } from 'rxjs';
-
 import { Injectable } from '@angular/core';
-
-import UserProfile from 'app/models/user-profile.model';
-import { TOKEN_KEY_NAME } from 'app/utils/constants';
 
 import { ADMIN_ROLE } from '../utils/constants';
 import { ApiService } from './api.service';
+import { environment } from 'environments/environment.development';
+import { BehaviorSubject } from 'rxjs';
+
+import UserProfile from 'app/models/user-profile.model';
+import { TOKEN_KEY_NAME } from 'app/utils/constants';
 
 const LOGIN_ROUTE: string = 'Auth/Login';
 
@@ -34,6 +34,22 @@ export class AuthService {
     }
   }
 
+  google() {
+    let requestUrl = `${environment.apiUrl}/api/Auth/GoogleLogin`;
+    const returnUrl = encodeURIComponent(`${window.location.origin}/auth-callback`);
+    window.location.href = `${requestUrl}?returnUrl=${encodeURIComponent(returnUrl)}`;
+
+    // this.apiService
+    //   .request({
+    //     url: 'Auth/GoogleLogin',
+    //     method: 'get',
+    //     queryParams: {
+    //       returnUrl,
+    //     },
+    //   })
+    //   .subscribe();
+  }
+
   login(username: string, password: string) {
     return this.apiService.request<LOGIN_RESPONSE_TYPE, LOGIN_REQUEST_BODY>({
       url: LOGIN_ROUTE,
@@ -51,5 +67,10 @@ export class AuthService {
     this.userSubject.next(user);
     this.isAuthenticated = user !== null;
     this.isAdmin = user?.roleName === ADMIN_ROLE;
+  }
+
+  saveToken(token: string) {
+    localStorage.setItem(TOKEN_KEY_NAME, token);
+    this.getUserProfile();
   }
 }
