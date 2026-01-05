@@ -6,5 +6,7 @@
     public interface IUserDataService : IService
     {
         Task<User?> GetById(string id);
+
+        Task<ICollection<User>> GetAllByRoleName(string roleName);
     }
 }

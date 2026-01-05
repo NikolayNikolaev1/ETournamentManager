@@ -57,6 +57,7 @@ export class TeamDetailsComponent implements OnInit {
       this.hasCaptainPermissions =
         this.currentUserProfile?.id === this.teamData?.captain.id ||
         this.currentUserProfile?.roleName === USER_ROLES.ADMIN;
+        console.log(this.currentUserProfile)
     });
 
     this.teamId = this.route.snapshot.paramMap.get('id') ?? '';

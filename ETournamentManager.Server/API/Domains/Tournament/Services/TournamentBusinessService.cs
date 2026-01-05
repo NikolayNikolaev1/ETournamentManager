@@ -1,8 +1,9 @@
 ﻿namespace API.Domains.Tournament.Services
 {
-    using API.Domains.Email.Services;
-    using API.Domains.Team.Models;
-    using API.Domains.Team.Services;
+    using Email.Services;
+    using Team.Models;
+    using Team.Services;
+    using User.Services;
     using Auth.Models;
     using Auth.Services;
     using AutoMapper;
@@ -14,17 +15,20 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Collections.Generic;
+    using static Core.Common.Constants.ErrorMessages;
     using static Core.Common.Constants.ErrorMessages.Game;
     using static Core.Common.Constants.ErrorMessages.Tournament;
     using static Core.Common.Constants.Roles;
     using static Data.Models.Tournament;
     using static Microsoft.AspNetCore.Http.StatusCodes;
     using Tournament = Data.Models.Tournament;
+    using Team = Data.Models.Team;
 
     public class TournamentBusinessService(
         ETournamentManagerDbContext dbContext,
         IMapper mapper,
         IAuthService authService,
+        IUserDataService userService,
         ITournamentDataService tournamentDataService,
         ITeamDataService teamDataService,
         IGameDataService gameDataService,
@@ -51,6 +55,14 @@
 
             await dbContext.Tournaments.AddAsync(tournament);
             await dbContext.SaveChangesAsync();
+
+            var players = await userService.GetAllByRoleName(TOURNAMENT_PARTICIPANT);
+
+            foreach (var p in players)
+            {
+                await emailService.SendEmail(p.Email, "Tournament Manager - New tournament available", $"New tournament create - join now: {tournament.Name}");
+
+            }
 
             return mapper.Map<TournamentBaseModel>(tournament);
         }
