@@ -33,7 +33,7 @@
         {
             var callbackUrl = Url.Action(nameof(GoogleCallback), "Auth", values: null, protocol: Request.Scheme);
             var redirectUrl = $"{callbackUrl}?returnUrl={Uri.EscapeDataString(returnUrl)}";
-            return Challenge(authService.test(redirectUrl), "Google");
+            return Challenge(authService.GoogleCallback(redirectUrl), "Google");
         }
 
         [HttpGet()]

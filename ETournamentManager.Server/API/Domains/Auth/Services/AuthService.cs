@@ -141,7 +141,7 @@
             };
         }
 
-        public AuthenticationProperties test(string redirectUrl)
+        public AuthenticationProperties GoogleCallback(string redirectUrl)
         {
 
             var properties = signInManager.ConfigureExternalAuthenticationProperties(GoogleDefaults.AuthenticationScheme, redirectUrl);

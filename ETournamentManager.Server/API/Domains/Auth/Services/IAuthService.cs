@@ -16,6 +16,6 @@
 
         Task<AuthResponseModel> LoginWithGoogle();
 
-        AuthenticationProperties test(string returnUrl);
+        AuthenticationProperties GoogleCallback(string returnUrl);
     }
 }
